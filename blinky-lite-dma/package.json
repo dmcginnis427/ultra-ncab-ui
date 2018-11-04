@@ -21,7 +21,9 @@
   "homepage": "",
   "dependencies": {
     "node-red": "^0.19.4",
-    "node-red-dashboard": "^2.9.8",
-    "node-red-node-serialport": "~0.6.8"
+    "node-red-contrib-socketio": "^1.0.6",
+    "node-red-dashboard": "^2.10.1",
+    "node-red-node-serialport": "~0.6.8",
+    "socket.io": "^2.1.1"
   }
 }

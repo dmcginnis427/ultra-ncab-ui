@@ -20,7 +20,7 @@
 
 module.exports = {
     // the tcp port that the Node-RED web server is listening on
-    uiPort: process.env.PORT || 11880,
+    uiPort: process.env.PORT || 1880,
 
     // By default, the Node-RED UI accepts connections on all IPv4 interfaces.
     // The following property can be used to listen on a specific interface. For
@@ -85,7 +85,7 @@ module.exports = {
     // By default, the Node-RED UI is available at http://localhost:1880/
     // The following property can be used to specify a different root path.
     // If set to false, this is disabled.
-    //httpAdminRoot: '/admin',
+    httpAdminRoot: '/admin',
 
     // Some nodes, such as HTTP In, can be used to listen for incoming http requests.
     // By default, these are served relative to '/'. The following property
@@ -100,7 +100,7 @@ module.exports = {
     // When httpAdminRoot is used to move the UI to a different root path, the
     // following property can be used to identify a directory of static content
     // that should be served at http://localhost:1880/.
-    //httpStatic: '/home/nol/node-red-static/',
+    httpStatic: '/home/pi/blinky-lite/blinky-lite-dma/html-static/',
 
     // The maximum size of HTTP request that will be accepted by the runtime api.
     // Default: 5mb
@@ -127,8 +127,8 @@ module.exports = {
     // the static content (httpStatic), the following properties can be used.
     // The pass field is a bcrypt hash of the password.
     // See http://nodered.org/docs/security.html#generating-the-password-hash
-    httpNodeAuth: {user:"user",pass:"$2a$08$tATQSwsGccaGlXrH65fW..PQupyHRRCY64h1E9RwVje/PaWpqeTRO"},
-    httpStaticAuth: {user:"user",pass:"$2a$08$tATQSwsGccaGlXrH65fW..PQupyHRRCY64h1E9RwVje/PaWpqeTRO"},
+    //httpNodeAuth: {user:"user",pass:"$2a$08$tATQSwsGccaGlXrH65fW..PQupyHRRCY64h1E9RwVje/PaWpqeTRO"},
+    //httpStaticAuth: {user:"user",pass:"$2a$08$tATQSwsGccaGlXrH65fW..PQupyHRRCY64h1E9RwVje/PaWpqeTRO"},
 
     // The following property can be used to enable HTTPS
     // See http://nodejs.org/api/https.html#https_https_createserver_options_requestlistener
