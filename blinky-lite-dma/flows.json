@@ -96,13 +96,6 @@
         }
     },
     {
-        "id": "5c27d05d.e787b",
-        "type": "ui_tab",
-        "z": "",
-        "name": "Blinky-Lite-Tutorial",
-        "icon": "dashboard"
-    },
-    {
         "id": "373e7d51.903ea2",
         "type": "serial-port",
         "z": "",
@@ -116,6 +109,13 @@
         "out": "char",
         "addchar": true,
         "responsetimeout": "10000"
+    },
+    {
+        "id": "9feed7f8.962788",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/websocket",
+        "wholemsg": "true"
     },
     {
         "id": "65e743b1.3be17c",
@@ -141,7 +141,7 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 890,
+        "x": 950,
         "y": 80,
         "wires": []
     },
@@ -150,7 +150,7 @@
         "type": "function",
         "z": "a7b9d689.b8a5e8",
         "name": "Fill Data Array",
-        "func": "var timeStamp = context.get('timeStamp') || new Date().getTime();\nvar timeData = context.get('timeData') || {'arrayPointer':-1, 'dataArray':[], 'nmax':256, 'nsamples':-1};\nif (timeData.arrayPointer < 0)\n{\n    timeData.arrayPointer = 0;\n    for (var ii = 0; ii < timeData.nmax; ++ii)\n    {\n        timeData.dataArray[ii] = [];\n        for (var ij = 0; ij < 2; ++ij)\n        {\n            timeData.dataArray[ii][ij] = 0.0;\n        }\n    }\n    context.set('timeData', timeData);\n}\nvar inputDataString = msg.payload.split('\\n')[0].split(',');\nif (inputDataString[0] == '*')\n{\n    timeData.arrayPointer = -1;  \n    timeData.nsamples = Number(inputDataString[1]);\n    context.set('timeData', timeData);\n    return null;\n}\nfor (var ii = 0; ii < 2; ++ii)\n{\n    timeData.dataArray[timeData.arrayPointer][ii] = Number(inputDataString[ii]);\n}\nvar newMsg1 = null;\nvar newMsg2 = null;\n++timeData.arrayPointer;\nif (timeData.arrayPointer == timeData.nmax)\n{\n    var now = new Date().getTime();\n    var real = [];\n    var imag = [];\n    for (var ii = 0; ii < timeData.nmax; ++ii)\n    {\n        real[ii] = timeData.dataArray[ii][0];\n        imag[ii] = timeData.dataArray[ii][1];\n    }\n    newMsg1 = \n    {\n        'topic':'timeData', \n        'payload':\n        {\n            'real':real,\n            'imag':imag\n        }\n    };\n    newMsg2 = \n    {\n        'topic':'extraInfo', \n        'payload':\n        {\n            'deltaT': now - timeStamp,\n            'nsamples': timeData.nsamples\n        }\n    };\n    timeData.arrayPointer = 0;\n    context.set('timeStamp',now);\n    \n}\ncontext.set('timeData', timeData);\nreturn [newMsg1,newMsg2];",
+        "func": "var timeStamp = context.get('timeStamp') || new Date().getTime();\nvar timeData = context.get('timeData') || {'arrayPointer':-1, 'dataArray':[], 'nmax':512, 'nsamples':-1};\nif (timeData.arrayPointer < 0)\n{\n    timeData.arrayPointer = 0;\n    for (var ii = 0; ii < timeData.nmax; ++ii)\n    {\n        timeData.dataArray[ii] = [];\n        for (var ij = 0; ij < 2; ++ij)\n        {\n            timeData.dataArray[ii][ij] = 0.0;\n        }\n    }\n    context.set('timeData', timeData);\n}\nvar inputDataString = msg.payload.split('\\n')[0].split(',');\nif (inputDataString[0] == '*')\n{\n    timeData.arrayPointer = -1;  \n    timeData.deltaTSample = Number(inputDataString[1]);\n    context.set('timeData', timeData);\n    return null;\n}\nfor (var ii = 0; ii < 2; ++ii)\n{\n    timeData.dataArray[timeData.arrayPointer][ii] = Number(inputDataString[ii]);\n}\nvar newMsg1 = null;\nvar newMsg2 = null;\n++timeData.arrayPointer;\nif (timeData.arrayPointer == timeData.nmax)\n{\n    var now = new Date().getTime();\n    var real = [];\n    var imag = [];\n    for (var ii = 0; ii < timeData.nmax; ++ii)\n    {\n        real[ii] = timeData.dataArray[ii][0];\n        imag[ii] = timeData.dataArray[ii][1];\n    }\n    newMsg1 = \n    {\n        'topic':'timeData', \n        'payload':\n        {\n            'real':real,\n            'imag':imag\n        }\n    };\n    newMsg2 = \n    {\n        'topic':'extraInfo', \n        'payload':\n        {\n            'deltaT': now - timeStamp,\n            'deltaTSample': timeData.deltaTSample\n        }\n    };\n    timeData.arrayPointer = 0;\n    context.set('timeStamp',now);\n    \n}\ncontext.set('timeData', timeData);\nreturn [newMsg1,newMsg2];",
         "outputs": 2,
         "noerr": 0,
         "x": 430,
@@ -197,13 +197,15 @@
         "type": "function",
         "z": "a7b9d689.b8a5e8",
         "name": "FFT MAG",
-        "func": "var mag = [];\nfor (var ii = 0; ii < msg.payload.real.length / 2; ++ii)\n{\n    mag[ii] = Math.sqrt(msg.payload.real[ii] * msg.payload.real[ii] + msg.payload.imag[ii] * msg.payload.imag[ii]);\n    mag[ii] = mag[ii] / (msg.payload.real.length / 2);\n}\nreturn {'topic':msg.topic, 'payload':mag};",
+        "func": "var modeM = [];\nfor (var ii = 0; ii < msg.payload.real.length / 2; ++ii)\n{\n    modeM[ii] = Math.sqrt(msg.payload.real[ii] * msg.payload.real[ii] + msg.payload.imag[ii] * msg.payload.imag[ii]);\n    modeM[ii] = modeM[ii] / (msg.payload.real.length / 2);\n}\nreturn {'topic':'fftData', 'payload':{'frequency':null,'modeM':modeM}};",
         "outputs": 1,
         "noerr": 0,
         "x": 740,
         "y": 80,
         "wires": [
-            []
+            [
+                "ebe54e71.d9f81"
+            ]
         ]
     },
     {
@@ -317,7 +319,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "var socket;\nvar graph3d = null;\nvar itimeSlice = 0;\nvar modeMax = 88;\nvar timeMax = 150;\nvar oodataArray = [];\nvar timeStamp = [];\nvar deltaT = 0;\nvar freeze = false;\nvar audioAlarm = new Audio('/audio/alarm.ogg');\nvar alarmOn = false;\nvar alarmThreshold = 20.0;\n\n$( document ).ready(function()\n{\n  $(\"#freezeButton\").text('Running');\n  $(\"#alarmButton\").text('Alarm OFF');\n  $(\"#alarmThreshold\").val(alarmThreshold.toString());\n  drawSpectrogram();\n  socket = io.connect(window.location.href);\n  socket.on('connect', function(data) {socket.emit('join', 'Socket Connection from index page established.');});\n  socket.on('ooDataArrays', function(data) {if (!freeze) addOoDataArrays(data);});\n  socket.on('ooDataGlobal', function(data) {if (!freeze) addOoGlobalData(data);});\n  socket.on('ooSetProcessing', function(data) {if (!freeze) addOoSetProcessing(data);});\n  $(\"#alarmThreshold\").change(function(){alarmThreshold = Number($(\"#alarmThreshold\").val());});\n\n});\n\nfunction initializeDataArray()\n{\n  for (var imode = 0; imode < modeMax; ++imode)\n  {\n    var value = 0.0;\n    oodataArray[imode] =\n    {\n      'x': imode,\n      'y': 0,\n      'z': value,\n      'style': value\n    };\n  }\n}\n\nfunction drawSpectrogram()\n{\n\n  // specify options\n  var options = {\n    width:  '100%',\n    height: '1000px',\n    style: 'surface',\n    showPerspective: false,\n    showGrid: true,\n    showShadow: false,\n    keepAspectRatio: false,\n    verticalRatio: 1.0,\n    showZAxis: true,\n    yCenter: '50%',\n    xLabel: 'Mode',\n    yLabel: 'Time (sec)',\n    zLabel: 'Phase (psec)',\n    tooltip: true,\n    axisColor: '#ffffff'\n  };\n\n  // create a graph3d\n  var container = document.getElementById('spectrogram');\n  initializeDataArray();\n\n  graph3d = new vis.Graph3d(container, oodataArray, options);\n  var horzAngle = 315.0 * 3.1415927 / 180.0;\n  var vertAngle = 45.0 * 3.1415927 / 180.0;\n  graph3d.setCameraPosition({'horizontal': horzAngle, 'vertical': vertAngle, 'distance': 2.0});\n  $(\"#startTime\").text(new Date().toLocaleString());\n  $(\"#stopTime\").text(new Date().toLocaleString());\n}\n\nfunction addOoDataArrays(ooDataArrays)\n{\n  if (itimeSlice < timeMax)\n  {\n    timeStamp[itimeSlice] = new Date().getTime();3\n    deltaT = (timeStamp[itimeSlice] - timeStamp[0]) / 1000;\n    for (var imode = 0; imode < modeMax; ++imode)\n    {\n      var value = Math.round(100.0 * Number(ooDataArrays.modeM[imode])) / 100.0;\n      oodataArray[itimeSlice * modeMax + imode] =\n      {\n        'x': imode,\n        'y': deltaT,\n        'z': value,\n        'style': value\n      };\n    }\n    ++itimeSlice;\n  }\n  else\n  {\n    for (var itime = 0; itime < (timeMax - 1); ++itime)\n    {\n      timeStamp[itime] = timeStamp[itime + 1];\n      deltaT = (timeStamp[itime] - timeStamp[0]) / 1000;\n      for (var imode = 0; imode < modeMax; ++imode)\n      {\n        oodataArray[itime * modeMax + imode] =\n        {\n          'x': oodataArray[(itime + 1) * modeMax + imode].x,\n          'y': deltaT,\n          'z': oodataArray[(itime + 1) * modeMax + imode].z,\n          'style': oodataArray[(itime + 1) * modeMax + imode].style\n        };\n      }\n    }\n    timeStamp[timeMax - 1] = new Date().getTime();\n    deltaT = (timeStamp[timeMax - 1] - timeStamp[0]) / 1000;\n    for (var imode = 0; imode < modeMax; ++imode)\n    {\n      var value = Math.round(100.0 * Number(ooDataArrays.modeM[imode])) / 100.0;\n      oodataArray[(timeMax - 1) * modeMax + imode] =\n      {\n        'x': imode,\n        'y': deltaT,\n        'z': value,\n        'style': value\n      };\n    }\n  }\n  $(\"#startTime\").text(new Date(timeStamp[0]).toLocaleString());\n  $(\"#stopTime\").text(new Date(timeStamp[itimeSlice - 1]).toLocaleString());\n  //calculateBeamCurrent(oodata);\n  //calculateAvgPhase(oodata);\n  graph3d.setData(oodataArray);\n}\nfunction addOoGlobalData(ooDataGlobal)\n{\n  $(\"#beamCurrent\").text(ooDataGlobal.beamCurrent.toString() + ' mA');\n  $(\"#avgPhase\").text(ooDataGlobal.avgPhase.toString() + ' pS');\n  $(\"#rmsPhase\").text(ooDataGlobal.rmsModeAmp.toString() + ' pS');\n  $(\"#maxMode\").text(ooDataGlobal.maxDipoleMode);\n  $(\"#maxModeAmplitude\").text(ooDataGlobal.maxDipoleModeAmp + ' pS');\n  if (alarmOn)\n  {\n    if (Number(ooDataGlobal.maxDipoleModeAmp) > alarmThreshold)\n    {\n      audioAlarm.play();\n      $(\"#spectrogram\").css('background','#ff0000');\n    }\n    else\n    {\n      $(\"#spectrogram\").css('background','#7a7a7a');\n    }\n  }\n}\nfunction addOoSetProcessing(ooSetProcessing)\n{\n  var avgType = 'Linear';\n  if (!ooSetProcessing.linearWeight) avgType = 'Quadratic';\n  $(\"#avgType\").text(avgType);\n  $(\"#numAvgs\").text(ooSetProcessing.numberOfSamples.toString());\n}\nfunction calculateAvgPhase(oodata)\n{\n  var avgPhase = 0.0;\n  for (var ii = 0; ii < 176; ++ii)\n  {\n    avgPhase = avgPhase + Number(oodata[9].payload[ii]);\n  }\n  avgPhase = Math.round(100.0 * avgPhase / 176.0) / 100.0;\n  $(\"#avgPhase\").text(avgPhase.toString() + ' pS');\n}\nfunction freezeRun()\n{\n  freeze = !freeze;\n  if (freeze)\n  {\n    $(\"#freezeButton\").text('Frozen');\n  }\n  else\n  {\n    $(\"#freezeButton\").text('Running');\n  }\n\n}\nfunction toggleAlarm()\n{\n  alarmOn = !alarmOn;\n  if (alarmOn)\n  {\n    $(\"#alarmButton\").text('Alarm ON');\n  }\n  else\n  {\n    $(\"#alarmButton\").text('Alarm OFF');\n    $(\"#spectrogram\").css('background','#7a7a7a');\n  }\n\n}",
+        "template": "var socket;\nvar graph3d = null;\nvar itimeSlice = 0;\nvar modeMax = 256;\nvar timeMax = 50;\nvar oodataArray = [];\nvar timeStamp = [];\nvar deltaT = 0;\nvar freeze = false;\nvar audioAlarm = new Audio('/audio/alarm.ogg');\nvar alarmOn = false;\nvar alarmThreshold = 20.0;\nvar mostExcitedMode = 0;\nvar mostExcitedModeAmp = 0;\nvar dcLevel = 0;\n\nvar wsUriC = \"ws://blinky-lite-16.local:1880/websocket\";\nvar ws;\nvar retries = 0;\nfunction wsConnectC() \n{\n    console.log(\"connect\",wsUriC);\n    ws = new WebSocket(wsUriC);\n    ws.onmessage = function(msg) \n    {\n        var msgData = JSON.parse(msg.data);\n    } ;\n    ws.onopen = function() \n    {   \n        console.log(\"Websocket connected\");\n        ws.send('Socket Connection from index page established.');\n        ws.onmessage = function (event) \n        {\n            msg = JSON.parse(event.data);\n//            console.log(event.data);\n            if (msg.topic == 'fftData' && !freeze) addOoDataArrays(msg.payload);\n            \n        };\n    };\n    ws.onclose = function() \n    {\n//        setTimeout(wsConnectC,1000);\n//        retryOpeningWebSocket();\n    };\n}\nfunction retryOpeningWebSocket()\n{\n    if (retries < 2) \n    {            \n        setTimeout(openWebSocket, 1000);            \n        retries++;\n    }\n}\n\n$( document ).ready(function()\n{\n  $(\"#freezeButton\").text('Running');\n  $(\"#alarmButton\").text('Alarm OFF');\n  $(\"#alarmThreshold\").val(alarmThreshold.toString());\n  drawSpectrogram();\n  \n//  socket.on('ooDataArrays', function(data) {if (!freeze) addOoDataArrays(data);});\n  wsConnectC();\n  $(\"#alarmThreshold\").change(function(){alarmThreshold = Number($(\"#alarmThreshold\").val());});\n  \n});\n\nfunction initializeDataArray()\n{\n  for (var imode = 0; imode < modeMax; ++imode)\n  {\n    var value = 0.0;\n    oodataArray[imode] =\n    {\n      'x': imode / 2,\n      'y': 0,\n      'z': value,\n      'style': value\n    };\n  }\n}\n\nfunction drawSpectrogram()\n{\n\n  // specify options\n  var options = {\n    width:  '100%',\n    height: '700px',\n    style: 'surface',\n    showPerspective: false,\n    showGrid: true,\n    showShadow: false,\n    keepAspectRatio: false,\n    verticalRatio: 1.0,\n    showZAxis: true,\n    yCenter: '45%',\n    xLabel: 'Hz',\n    yLabel: 'Time (sec)',\n    zLabel: 'Amplitude',\n    tooltip: true,\n    axisColor: '#ffffff'\n  };\n\n  // create a graph3d\n  var container = document.getElementById('spectrogram');\n  initializeDataArray();\n\n  graph3d = new vis.Graph3d(container, oodataArray, options);\n  var horzAngle = 315.0 * 3.1415927 / 180.0;\n  var vertAngle = 45.0 * 3.1415927 / 180.0;\n  graph3d.setCameraPosition({'horizontal': horzAngle, 'vertical': vertAngle, 'distance': 2.0});\n  $(\"#startTime\").text(new Date().toLocaleString());\n  $(\"#stopTime\").text(new Date().toLocaleString());\n}\n\nfunction addOoDataArrays(ooDataArrays)\n{\n  dcLevel = ooDataArrays.modeM[0];\n  ooDataArrays.modeM[0] = 0.0;\n  mostExcitedModeAmp = 0;\n  mostExcitedMode = 0;\n  for (var imode = 1; imode < modeMax; ++imode)\n  {\n      if (mostExcitedModeAmp < ooDataArrays.modeM[imode])\n      {\n         mostExcitedModeAmp = ooDataArrays.modeM[imode];\n         mostExcitedMode = imode  / 2.0;\n      }\n  }\n  $(\"#maxMode\").text(mostExcitedMode);\n  $(\"#maxModeAmplitude\").text(Math.round(100 * mostExcitedModeAmp) / 100);\n  $(\"#dcLevel\").text(Math.round(100 * dcLevel) / 100);  \n  if (alarmOn)\n  {\n    if (mostExcitedModeAmp > alarmThreshold)\n    {\n      audioAlarm.play();\n      $(\"#spectrogram\").css('background','#ff0000');\n    }\n    else\n    {\n      $(\"#spectrogram\").css('background','#9e988e');\n    }\n  }\n\n  if (itimeSlice < timeMax)\n  {\n    timeStamp[itimeSlice] = new Date().getTime();\n    deltaT = (timeStamp[itimeSlice] - timeStamp[0]) / 1000;\n    for (var imode = 0; imode < modeMax; ++imode)\n    {\n      var value = Math.round(100.0 * Number(ooDataArrays.modeM[imode])) / 100.0;\n      oodataArray[itimeSlice * modeMax + imode] =\n      {\n        'x': imode / 2,\n        'y': deltaT,\n        'z': value,\n        'style': value\n      };\n    }\n    ++itimeSlice;\n  }\n  else\n  {\n    for (var itime = 0; itime < (timeMax - 1); ++itime)\n    {\n      timeStamp[itime] = timeStamp[itime + 1];\n      deltaT = (timeStamp[itime] - timeStamp[0]) / 1000;\n      for (var imode = 0; imode < modeMax; ++imode)\n      {\n        oodataArray[itime * modeMax + imode] =\n        {\n          'x': oodataArray[(itime + 1) * modeMax + imode].x,\n          'y': deltaT,\n          'z': oodataArray[(itime + 1) * modeMax + imode].z,\n          'style': oodataArray[(itime + 1) * modeMax + imode].style\n        };\n      }\n    }\n    timeStamp[timeMax - 1] = new Date().getTime();\n    deltaT = (timeStamp[timeMax - 1] - timeStamp[0]) / 1000;\n    for (var imode = 0; imode < modeMax; ++imode)\n    {\n      var value = Math.round(100.0 * Number(ooDataArrays.modeM[imode])) / 100.0;\n      oodataArray[(timeMax - 1) * modeMax + imode] =\n      {\n        'x': imode / 2,\n        'y': deltaT,\n        'z': value,\n        'style': value\n      };\n    }\n  }\n  $(\"#startTime\").text(new Date(timeStamp[0]).toLocaleString());\n  $(\"#stopTime\").text(new Date(timeStamp[itimeSlice - 1]).toLocaleString());\n  graph3d.setData(oodataArray);\n}\nfunction addOoGlobalData(ooDataGlobal)\n{\n  $(\"#beamCurrent\").text(ooDataGlobal.beamCurrent.toString() + ' mA');\n  $(\"#avgPhase\").text(ooDataGlobal.avgPhase.toString() + ' pS');\n  $(\"#rmsPhase\").text(ooDataGlobal.rmsModeAmp.toString() + ' pS');\n}\nfunction freezeRun()\n{\n  freeze = !freeze;\n  if (freeze)\n  {\n    $(\"#freezeButton\").text('Frozen');\n  }\n  else\n  {\n    $(\"#freezeButton\").text('Running');\n  }\n\n}\nfunction toggleAlarm()\n{\n  alarmOn = !alarmOn;\n  if (alarmOn)\n  {\n    $(\"#alarmButton\").text('Alarm ON');\n  }\n  else\n  {\n    $(\"#alarmButton\").text('Alarm OFF');\n    $(\"#spectrogram\").css('background','#9e988e');\n  }\n\n}",
         "output": "str",
         "x": 390,
         "y": 460,
@@ -355,7 +357,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<div width=\"100%\">\n  <div class=\"row\"> \n    <div class=\"col-md-1\">\n      <button class=\"btn jumbotron-button\" id=\"freezeButton\" type=\"button\" onclick=\"freezeRun()\"></button>\n    </div>\n    <div class=\"col-md-4\">\n      <div class=\"row\"> \n        <div class=\"col-md-4\"><span class=\"date\">Start time </span></div>\n        <div class=\"col-md-8\"><span class=\"date\" id=\"startTime\"> </span></div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-4\"><span class=\"date\">Stop time</span></div>\n        <div class=\"col-md-8\"><span class=\"date\" id=\"stopTime\"> </span></div>\n      </div>\n    </div>\n    <div class=\"col-md-4\">\n      <div class=\"row\"> \n        <div class=\"col-md-3\"><span class=\"date\">Max Mode </span></div>\n        <div class=\"col-md-9\"><span class=\"date\" id=\"maxMode\"></span></div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-3\"><span class=\"date\">Amplitude</span></div>\n        <div class=\"col-md-9\"><span class=\"date\" id=\"maxModeAmplitude\"></span></div>\n      </div>\n    </div>\n    <div class=\"col-md-3\">\n      <div class=\"row\"> \n        <div class=\"col-md-6\"><span class=\"date\">Beam Current </span></div>\n        <div class=\"col-md-6\"><span class=\"date\" id=\"beamCurrent\"></span></div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-6\"><span class=\"date\">Avg. Phase</span></div>\n        <div class=\"col-md-6\"><span class=\"date\" id=\"avgPhase\"></span></div>\n      </div>\n    </div>\n  </div>\n  <div class=\"row bot-pad\">\n    <div class=\"col-md-1\">\n      <button class=\"btn jumbotron-button\" id=\"alarmButton\" type=\"button\" onclick=\"toggleAlarm()\"></button>\n    </div>\n    <div class=\"col-md-4\">\n      <div class=\"row\">\n        <div class=\"col-md-4\" style=\"padding-top: 7px\"><span class=\"date\">Alarm Level</span></div>\n        <div class=\"col-md-4\">\n          <input class=\"form-control center-justify\" id=\"alarmThreshold\" type=\"text\" value=\"0\"/>\n        </div>\n        <div class=\"col-md-4\" style=\"padding-top: 7px\"><span class=\"date\">pS</span></div>\n      </div>\n    </div>\n    <div class=\"col-md-4\">\n      <div class=\"row\"> \n        <div class=\"col-md-3\"><span class=\"date\">Average Type </span></div>\n        <div class=\"col-md-9\"><span class=\"date\" id=\"avgType\"></span></div>\n      </div>\n      <div class=\"row\"> \n        <div class=\"col-md-3\"><span class=\"date\">No. Avgs </span></div>\n        <div class=\"col-md-9\"><span class=\"date\" id=\"numAvgs\"></span></div>\n      </div>\n    </div>\n    <div class=\"col-md-3\">\n      <div class=\"row\"> \n        <div class=\"col-md-6\"><span class=\"date\">RMS Phase </span></div>\n        <div class=\"col-md-6\"><span class=\"date\" id=\"rmsPhase\"></span></div>\n      </div>\n    </div>\n  </div>\n</div>\n",
+        "template": "<div width=\"100%\">\n    <div class=\"row\"> \n        <div class=\"col-md-2\">\n            <button class=\"btn jumbotron-button\" id=\"freezeButton\" type=\"button\" onclick=\"freezeRun()\"></button>\n        </div>\n        <div class=\"col-md-6\">\n            <div class=\"col-md-4\"><span class=\"date\">Start time </span></div>\n            <div class=\"col-md-8\"><span class=\"date\" id=\"startTime\"> </span></div>\n        </div>\n        <div class=\"col-md-4\">\n            <div class=\"col-md-4\"><span class=\"date\">MaxMode </span></div>\n            <div class=\"col-md-4\"><span class=\"date\" id=\"maxMode\"></span></div>\n        </div>\n    </div>\n    <div class=\"row\"> \n        <div class=\"col-md-2\">\n\n        </div>\n        <div class=\"col-md-6\">\n            <div class=\"col-md-4\"><span class=\"date\">Stop time</span></div>\n            <div class=\"col-md-8\"><span class=\"date\" id=\"stopTime\"> </span></div>\n        </div>\n        <div class=\"col-md-4\">\n            <div class=\"col-md-4\"><span class=\"date\">Amplitude</span></div>\n            <div class=\"col-md-4\"><span class=\"date\" id=\"maxModeAmplitude\"></span></div>\n        </div>\n    </div>\n    <div class=\"row\"> \n        <div class=\"col-md-2\">\n            <button class=\"btn jumbotron-button\" id=\"alarmButton\" type=\"button\" onclick=\"toggleAlarm()\"></button>\n        </div>\n        <div class=\"col-md-6\">\n            <div class=\"col-md-4\" style=\"padding-top: 7px\"><span class=\"date\">AlarmLevel</span></div>\n            <div class=\"col-md-4\">\n                <input class=\"form-control center-justify\" id=\"alarmThreshold\" type=\"text\" value=\"0\"/>\n            </div>\n        </div>\n        <div class=\"col-md-4\">\n            <div class=\"col-md-4\"><span class=\"date\">DCLevel</span></div>\n            <div class=\"col-md-4\"><span class=\"date\" id=\"dcLevel\"></span></div>\n        </div>\n    </div>\n</div>\n",
         "output": "str",
         "x": 680,
         "y": 460,
@@ -364,5 +366,45 @@
                 "bb0d6c04.0770f"
             ]
         ]
+    },
+    {
+        "id": "ebe54e71.d9f81",
+        "type": "websocket out",
+        "z": "a7b9d689.b8a5e8",
+        "name": "",
+        "server": "9feed7f8.962788",
+        "client": "",
+        "x": 940,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "109a1fc.c9fb4e",
+        "type": "websocket in",
+        "z": "a7b9d689.b8a5e8",
+        "name": "",
+        "server": "9feed7f8.962788",
+        "client": "",
+        "x": 160,
+        "y": 620,
+        "wires": [
+            [
+                "2fda917.ab1086e"
+            ]
+        ]
+    },
+    {
+        "id": "2fda917.ab1086e",
+        "type": "debug",
+        "z": "a7b9d689.b8a5e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 400,
+        "y": 620,
+        "wires": []
     }
 ]
