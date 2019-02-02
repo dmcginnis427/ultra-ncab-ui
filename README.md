@@ -1,1 +1,1 @@
-# teensy-pi-device-message-adapter
+# vibration-spectrum-detector device-message-adapter
