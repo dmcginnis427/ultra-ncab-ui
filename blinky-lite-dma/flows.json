@@ -248,7 +248,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<div class=\"alert alert-success banner\" width=\"100%\">\n  <div class=\"row\">\n    <div class=\"col-md-2\"></div>\n    <div class=\"col-md-8\" style=\"text-align: center\">\n      <h1 class=\"display-5 jumbotron-title\">Vibration Spectrum Detector</h1>\n    </div>\n    <div class=\"col-md-2\" style=\"text-align: right\"><img src=\"/img/BlinkyLogo.gif\" height=\"50px\"/></div>\n  </div>\n</div>\n",
+        "template": "<div class=\"alert alert-success banner\" width=\"100%\">\n  <div class=\"row\">\n    <div class=\"col-md-2\"></div>\n    <div class=\"col-md-8\" style=\"text-align: center\">\n      <h1 class=\"display-5 jumbotron-title\">Chill Detector</h1>\n    </div>\n    <div class=\"col-md-2\" style=\"text-align: right\"><img src=\"/img/BlinkyLogo.gif\" height=\"50px\"/></div>\n  </div>\n</div>\n",
         "output": "str",
         "x": 560,
         "y": 440,
@@ -378,8 +378,8 @@
         "console": false,
         "tostatus": false,
         "complete": "true",
-        "x": 770,
-        "y": 300,
+        "x": 750,
+        "y": 320,
         "wires": []
     },
     {

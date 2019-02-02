@@ -1,1 +1,1 @@
-# vibration-spectrum-detector device-message-adapter
+# chill-detector device-message-adapter
