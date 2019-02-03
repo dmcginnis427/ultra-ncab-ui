@@ -180,7 +180,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n    <link rel=\"icon\" href=\"/img/favicon.ico?v=3\" type=\"image/x-icon\">\n    <title>Vibration Spectrum Detector</title>\n    <link rel=\"stylesheet\" href=\"/css/bootstrap.css\">\n    <link rel=\"stylesheet\" href=\"/css/fontAwesome.css\">\n    <script src=\"/scripts/jquery.js\"></script>\n    <script src=\"/scripts/socketio.js\"></script>\n    <script type=\"text/javascript\" src=\"/scripts/visDist/vis.js\"></script>\n    <style>{{{payload.style}}}</style>\n    <script>{{{payload.script}}}</script>\n  </head>\n  <body>\n    {{{payload.navbar}}}\n    <div class=\"container spectrogram\" id=\"spectrogram\"></div>\n    {{{payload.infobar}}}\n    <script src=\"/scripts/popper.js\"></script>\n    <script src=\"/scripts/bootstrap.js\"></script>\n  </body>\n</html>",
+        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n    <link rel=\"icon\" href=\"/img/favicon.ico?v=3\" type=\"image/x-icon\">\n    <title>Chill Detector</title>\n    <link rel=\"stylesheet\" href=\"/css/bootstrap.css\">\n    <link rel=\"stylesheet\" href=\"/css/fontAwesome.css\">\n    <script src=\"/scripts/jquery.js\"></script>\n    <script src=\"/scripts/socketio.js\"></script>\n    <script type=\"text/javascript\" src=\"/scripts/visDist/vis.js\"></script>\n    <style>{{{payload.style}}}</style>\n    <script>{{{payload.script}}}</script>\n  </head>\n  <body>\n    {{{payload.navbar}}}\n    <div class=\"container spectrogram\" id=\"spectrogram\"></div>\n    {{{payload.infobar}}}\n    <script src=\"/scripts/popper.js\"></script>\n    <script src=\"/scripts/bootstrap.js\"></script>\n  </body>\n</html>",
         "output": "str",
         "x": 830,
         "y": 440,
@@ -379,7 +379,7 @@
         "tostatus": false,
         "complete": "true",
         "x": 750,
-        "y": 320,
+        "y": 280,
         "wires": []
     },
     {
