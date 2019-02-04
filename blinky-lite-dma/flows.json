@@ -146,7 +146,7 @@
         "func": "var digAvg = 312.5; \nvar deltaDig = 287.5;\nvar npts = msg.payload.real.length;\nfor (ii = 0; ii < npts; ++ii)\n{\n    msg.payload.real[ii] = (msg.payload.real[ii] - digAvg) / deltaDig;\n    msg.payload.imag[ii] = (msg.payload.imag[ii] - digAvg) / deltaDig;\n}\n\ntransformRadix2(msg.payload.real,msg.payload.imag);\nfor (ii = 0; ii < npts; ++ii)\n{\n    msg.payload.real[ii] = msg.payload.real[ii] / npts;\n    msg.payload.imag[ii] = msg.payload.imag[ii] / npts;\n}\nreturn {'topic':'fft', 'payload':msg.payload};\n/* https://www.nayuki.io/res/free-small-fft-in-multiple-languages/fft.js\n * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.\n * The vector's length must be a power of 2. Uses the Cooley-Tukey decimation-in-time radix-2 algorithm.\n */\nfunction transformRadix2(real, imag) {\n\t// Length variables\n\tvar n = real.length;\n\tif (n != imag.length)\n\t\tthrow \"Mismatched lengths\";\n\tif (n == 1)  // Trivial transform\n\t\treturn;\n\tvar levels = -1;\n\tfor (var i = 0; i < 32; i++) {\n\t\tif (1 << i == n)\n\t\t\tlevels = i;  // Equal to log2(n)\n\t}\n\tif (levels == -1)\n\t\tthrow \"Length is not a power of 2\";\n\t\n\t// Trigonometric tables\n\tvar cosTable = new Array(n / 2);\n\tvar sinTable = new Array(n / 2);\n\tfor (var i = 0; i < n / 2; i++) {\n\t\tcosTable[i] = Math.cos(2 * Math.PI * i / n);\n\t\tsinTable[i] = Math.sin(2 * Math.PI * i / n);\n\t}\n\t\n\t// Bit-reversed addressing permutation\n\tfor (var i = 0; i < n; i++) {\n\t\tvar j = reverseBits(i, levels);\n\t\tif (j > i) {\n\t\t\tvar temp = real[i];\n\t\t\treal[i] = real[j];\n\t\t\treal[j] = temp;\n\t\t\ttemp = imag[i];\n\t\t\timag[i] = imag[j];\n\t\t\timag[j] = temp;\n\t\t}\n\t}\n\t\n\t// Cooley-Tukey decimation-in-time radix-2 FFT\n\tfor (var size = 2; size <= n; size *= 2) {\n\t\tvar halfsize = size / 2;\n\t\tvar tablestep = n / size;\n\t\tfor (var i = 0; i < n; i += size) {\n\t\t\tfor (var j = i, k = 0; j < i + halfsize; j++, k += tablestep) {\n\t\t\t\tvar l = j + halfsize;\n\t\t\t\tvar tpre =  real[l] * cosTable[k] + imag[l] * sinTable[k];\n\t\t\t\tvar tpim = -real[l] * sinTable[k] + imag[l] * cosTable[k];\n\t\t\t\treal[l] = real[j] - tpre;\n\t\t\t\timag[l] = imag[j] - tpim;\n\t\t\t\treal[j] += tpre;\n\t\t\t\timag[j] += tpim;\n\t\t\t}\n\t\t}\n\t}\n\t\n\t// Returns the integer whose value is the reverse of the lowest 'bits' bits of the integer 'x'.\n\tfunction reverseBits(x, bits) {\n\t\tvar y = 0;\n\t\tfor (var i = 0; i < bits; i++) {\n\t\t\ty = (y << 1) | (x & 1);\n\t\t\tx >>>= 1;\n\t\t}\n\t\treturn y;\n\t}\n}\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 830,
+        "x": 770,
         "y": 220,
         "wires": [
             [
@@ -284,7 +284,7 @@
         "name": "",
         "server": "9feed7f8.962788",
         "client": "",
-        "x": 1260,
+        "x": 1200,
         "y": 220,
         "wires": []
     },
@@ -360,7 +360,7 @@
         "func": "var npts = msg.payload.real.length\nvar npts2 = npts / 2;\nvar fftmag = [];\nfor (ii = 0; ii < npts2; ++ii)\n{\n    var fftMagPlus = 0.0;\n    var fftMagMinus = 0.0;\n    fftMagMinus = fftMagMinus + msg.payload.real[npts - 1 - ii] * msg.payload.real[npts - 1 - ii];\n    fftMagMinus = fftMagMinus + msg.payload.imag[npts - 1 - ii] * msg.payload.imag[npts - 1 - ii];\n    fftMagMinus = 1000.0 * Math.sqrt(fftMagMinus);\n    fftMagPlus = fftMagPlus + msg.payload.real[ii] * msg.payload.real[ii];\n    fftMagPlus = fftMagPlus + msg.payload.imag[ii] * msg.payload.imag[ii];\n    fftMagPlus = 1000.0 * Math.sqrt(fftMagPlus);\n    fftmag[ii] = (fftMagMinus + fftMagPlus) / 2;\n}\nreturn {'topic':'fftData','payload':{'modeM':fftmag}};",
         "outputs": 1,
         "noerr": 0,
-        "x": 1020,
+        "x": 960,
         "y": 220,
         "wires": [
             [
@@ -378,7 +378,7 @@
         "console": false,
         "tostatus": false,
         "complete": "true",
-        "x": 750,
+        "x": 770,
         "y": 280,
         "wires": []
     },
@@ -415,11 +415,11 @@
         "id": "e8d0cc13.f226",
         "type": "function",
         "z": "a7b9d689.b8a5e8",
-        "name": "Concatenate Time Data",
+        "name": "BoxCar Time Data",
         "func": "if (msg.topic != 'timeData')\n{\n    context.set(msg.topic, msg.payload);\n    context.set('bufferPointer', -1);\n    return null;\n}\nvar numOfBuffers = context.get('numOfBuffers');\nif (numOfBuffers == undefined) return null;\nvar ptsPerBuffer = context.get('ptsPerBuffer');\nif (ptsPerBuffer == undefined) return null;\nvar bufferPointer = context.get('bufferPointer');\nif (bufferPointer < 0)\n{\n    bufferPointer = 0;\n    var  bufferData = [];\n    for (var ibuf = 0; ibuf < numOfBuffers; ++ibuf)\n    {\n        var real = [];\n        var imag = [];\n        for (var ipt = 0; ipt < ptsPerBuffer; ++ipt)\n        {\n            real[ipt] = 0;\n            imag[ipt] = 0;\n        }\n        bufferData[ibuf] = {'real':real, 'imag':imag};\n    }\n    context.set('bufferData', bufferData);\n}\nvar bufferData = context.get('bufferData');\nfor (var ipt = 0; ipt < ptsPerBuffer; ++ipt)\n{\n    bufferData[bufferPointer].real[ipt] = msg.payload.real[ipt];\n    bufferData[bufferPointer].imag[ipt] = msg.payload.imag[ipt];\n}\n++bufferPointer;\nif (bufferPointer == numOfBuffers) bufferPointer = 0;\ncontext.set('bufferPointer', bufferPointer);\ncontext.set('bufferData', bufferData);\n\nvar real = [];\nvar imag = [];\nfor (var ibuf = 0; ibuf < numOfBuffers; ++ibuf)\n{\n    for (var ipt = 0; ipt < ptsPerBuffer; ++ipt)\n    {\n        real[ibuf * ptsPerBuffer + ipt] = bufferData[bufferPointer].real[ipt];\n        imag[ibuf * ptsPerBuffer + ipt] = bufferData[bufferPointer].imag[ipt];\n    }\n    ++bufferPointer;\n    if (bufferPointer == numOfBuffers) bufferPointer = 0;\n}\n\nreturn {topic:msg.topic, payload:{'real':real,'imag':imag}};\n\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 610,
+        "x": 590,
         "y": 220,
         "wires": [
             [
@@ -439,8 +439,8 @@
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
-        "x": 360,
-        "y": 80,
+        "x": 340,
+        "y": 120,
         "wires": [
             [
                 "e8d0cc13.f226"
@@ -460,7 +460,7 @@
         "once": true,
         "onceDelay": 0.1,
         "x": 350,
-        "y": 120,
+        "y": 160,
         "wires": [
             [
                 "e8d0cc13.f226"
