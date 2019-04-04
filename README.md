@@ -1,9 +1,9 @@
-# blinky-lite-demo user-interface
+# chilldetector user-interface
 ## need to add .env file with the following
 MONGODBIP=127.0.0.1<br/>
-MQTTCLIENTID=blinky-lite-core<br/>
+MQTTCLIENTID=chilldetector-ui<br/>
 MQTTSERVERIP=127.0.0.1<br/>
-MQTTUSERNAME=blinky-lite-controlbox-01<br/>
+MQTTUSERNAME=blinky-lite-controlbox-02<br/>
 MQTTPASSWORD=blinky-lite<br/>
 APPPORT=1880<br>
 COREPORT=11880<br>
