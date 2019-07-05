@@ -586,7 +586,7 @@
         "type": "function",
         "z": "a7b9d689.b8a5e8",
         "name": "putDevArchive",
-        "func": "//if (msg.payload.length < 1) return null;\n//if (msg.payload[0].type != 'scalar') return null;\n\nvar data = [];\nvar npts = msg.payload.length;\nvar step = 1;\nfor (var ii = 0; ii < npts; ++ii)\n{\n    var ipt = Math.round(ii * step);\n    data[ii] = \n    {\n        value   : msg.payload[ipt].value, \n        time    : msg.payload[ipt].time\n    }\n}\nreturn {\n    topic:'putDevArchive',\n    payload:{\n        topic           : 'putDevArchive',\n        payload         : data,\n        userID          : msg.userID,\n        plotDevice      : msg.plotDevice\n\n    }\n};\n",
+        "func": "//if (msg.payload.length < 1) return null;\n//if (msg.payload[0].type != 'scalar') return null;\nfunction sortByKey(array, key) \n{\n    return array.sort(\n        function(a, b) \n        {\n            var x = a[key]; var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        });\n}\nsortByKey(msg.payload, 'time');\n\nvar data = [];\nvar npts = msg.payload.length;\nvar step = 1;\nfor (var ii = 0; ii < npts; ++ii)\n{\n    var ipt = Math.round(ii * step);\n    data[ii] = \n    {\n        value   : msg.payload[ipt].value, \n        time    : msg.payload[ipt].time\n    }\n}\nreturn {\n    topic:'putDevArchive',\n    payload:{\n        topic           : 'putDevArchive',\n        payload         : data,\n        userID          : msg.userID,\n        plotDevice      : msg.plotDevice\n\n    }\n};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 1160,
@@ -1428,7 +1428,7 @@
         "type": "function",
         "z": "3e89bdec.f16662",
         "name": "putDevArchive",
-        "func": "var data = [];\nvar npts = msg.payload.length;\nvar step = 1;\nfor (var ii = 0; ii < npts; ++ii)\n{\n    var ipt = Math.round(ii * step);\n    data[ii] = \n    {\n        value   : msg.payload[ipt].value, \n        time    : msg.payload[ipt].time\n    }\n}\nreturn {\n    topic:'putDevArchive',\n    payload:{\n        topic           : 'putDevArchive',\n        payload         : data,\n        userID          : msg.userID,\n        plotDevice      : msg.plotDevice\n\n    }\n};\n",
+        "func": "function sortByKey(array, key) \n{\n    return array.sort(\n        function(a, b) \n        {\n            var x = a[key]; var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        });\n}\nsortByKey(msg.payload, 'time');\nvar data = [];\nvar npts = msg.payload.length;\nvar step = 1;\nfor (var ii = 0; ii < npts; ++ii)\n{\n    var ipt = Math.round(ii * step);\n    data[ii] = \n    {\n        value   : msg.payload[ipt].value, \n        time    : msg.payload[ipt].time\n    }\n}\nreturn {\n    topic:'putDevArchive',\n    payload:{\n        topic           : 'putDevArchive',\n        payload         : data,\n        userID          : msg.userID,\n        plotDevice      : msg.plotDevice\n\n    }\n};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 1180,
@@ -1970,7 +1970,7 @@
         "name": "Find in device db",
         "collection": "devices",
         "operation": "find",
-        "x": 570,
+        "x": 510,
         "y": 80,
         "wires": [
             [
@@ -1986,7 +1986,7 @@
         "func": "msg.payload = {};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 380,
+        "x": 320,
         "y": 80,
         "wires": [
             [
@@ -2004,7 +2004,7 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 750,
+        "x": 690,
         "y": 80,
         "wires": []
     },
@@ -3431,8 +3431,8 @@
         "func": "var newMsg = \n{\n    'topic'           : 'addNewFieldToAllDevices',\n    'query'           : {},\n    'payload'         : \n    {\n        '$set'  :\n        { \n            'lastArchive'  :   0\n        }\n    }\n};\nreturn newMsg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 400,
-        "y": 180,
+        "x": 360,
+        "y": 160,
         "wires": [
             [
                 "4ca98264.cfe27c"
@@ -3451,8 +3451,8 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "x": 180,
-        "y": 180,
+        "x": 160,
+        "y": 160,
         "wires": [
             [
                 "82512660.676e48"
@@ -3470,8 +3470,8 @@
         "upsert": false,
         "multi": true,
         "operation": "update",
-        "x": 650,
-        "y": 180,
+        "x": 590,
+        "y": 160,
         "wires": []
     },
     {
@@ -4293,5 +4293,188 @@
                 "15c2beef.0c49d1"
             ]
         ]
+    },
+    {
+        "id": "20e66b9a.05b124",
+        "type": "inject",
+        "z": "372efc91.0669c4",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 240,
+        "wires": [
+            [
+                "9359c21a.0ed8b"
+            ]
+        ]
+    },
+    {
+        "id": "9359c21a.0ed8b",
+        "type": "function",
+        "z": "372efc91.0669c4",
+        "name": "Last 2 Weeks",
+        "func": "var stopTime = new Date().getTime();\nvar startTime = stopTime - 2 * 168 * 3600000\nvar newMsg = \n{\n    payload         : \n    {\n        time    :   {'$gt': startTime, '$lt': stopTime},\n    },\n};\n\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "f74d183.4979ee8"
+            ]
+        ]
+    },
+    {
+        "id": "a2200423.9dc8a8",
+        "type": "inject",
+        "z": "372efc91.0669c4",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "4ab058f8.485c58"
+            ]
+        ]
+    },
+    {
+        "id": "4ab058f8.485c58",
+        "type": "function",
+        "z": "372efc91.0669c4",
+        "name": "Before last 2 weeks",
+        "func": "var stopTime = new Date().getTime();\nvar startTime = stopTime - 2 * 168 * 3600000\nvar newMsg = \n{\n    payload         : \n    {\n        time    :   {'$lt': startTime},\n    },\n};\n\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "e5840451.1de9f8"
+            ]
+        ]
+    },
+    {
+        "id": "e28bb214.54a98",
+        "type": "inject",
+        "z": "372efc91.0669c4",
+        "name": "Every 24 hours",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "86400",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "100",
+        "x": 180,
+        "y": 400,
+        "wires": [
+            [
+                "5087e5f2.282e7c"
+            ]
+        ]
+    },
+    {
+        "id": "5087e5f2.282e7c",
+        "type": "function",
+        "z": "372efc91.0669c4",
+        "name": "2 Weeks Past",
+        "func": "var stopTime = new Date().getTime();\nvar startTime = stopTime - 2 * 168 * 3600000;\nvar newMsg = \n{\n    payload         : \n    {\n        time    :   {'$lt': startTime},\n    },\n};\n\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 400,
+        "wires": [
+            [
+                "dd5b6238.7594c"
+            ]
+        ]
+    },
+    {
+        "id": "ad4e4e3e.d7334",
+        "type": "debug",
+        "z": "372efc91.0669c4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 690,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "6981c729.26a288",
+        "type": "debug",
+        "z": "372efc91.0669c4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 690,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "f74d183.4979ee8",
+        "type": "mongodb in",
+        "z": "372efc91.0669c4",
+        "mongodb": "a77ab212.bfa86",
+        "name": "Count records",
+        "collection": "archiver",
+        "operation": "count",
+        "x": 520,
+        "y": 240,
+        "wires": [
+            [
+                "6981c729.26a288"
+            ]
+        ]
+    },
+    {
+        "id": "e5840451.1de9f8",
+        "type": "mongodb in",
+        "z": "372efc91.0669c4",
+        "mongodb": "a77ab212.bfa86",
+        "name": "Count records",
+        "collection": "archiver",
+        "operation": "count",
+        "x": 520,
+        "y": 320,
+        "wires": [
+            [
+                "ad4e4e3e.d7334"
+            ]
+        ]
+    },
+    {
+        "id": "dd5b6238.7594c",
+        "type": "mongodb out",
+        "z": "372efc91.0669c4",
+        "mongodb": "a77ab212.bfa86",
+        "name": "Remove old records",
+        "collection": "archiver",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "delete",
+        "x": 560,
+        "y": 400,
+        "wires": []
     }
 ]
