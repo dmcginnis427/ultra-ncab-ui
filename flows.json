@@ -3493,7 +3493,7 @@
             },
             {
                 "t": "eq",
-                "v": "chillDetector/dma01/reading",
+                "v": "chillDetector/dma02/reading",
                 "vt": "str"
             }
         ],
