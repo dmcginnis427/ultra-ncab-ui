@@ -2836,15 +2836,15 @@
         "id": "66191cda.ec66b4",
         "type": "inject",
         "z": "e17f7487.2a78e8",
-        "name": "Prune at 1am",
+        "name": "Prune every 2 hours",
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "",
-        "crontab": "00 01 * * *",
-        "once": false,
+        "repeat": "7200",
+        "crontab": "",
+        "once": true,
         "onceDelay": "10",
-        "x": 140,
+        "x": 160,
         "y": 480,
         "wires": [
             [
@@ -2861,7 +2861,7 @@
         "name": "",
         "collection": "archiver",
         "operation": "stats",
-        "x": 350,
+        "x": 390,
         "y": 480,
         "wires": [
             [
@@ -2878,7 +2878,7 @@
         "name": "",
         "collection": "archiver",
         "operation": "find.toArray",
-        "x": 890,
+        "x": 930,
         "y": 480,
         "wires": [
             [
@@ -2909,11 +2909,12 @@
         "func": "var maxDbSize = global.get('maxDbSize');\nif (maxDbSize == undefined) return null;\nif (msg.payload.size < maxDbSize) return null;\nvar cutRecords = Math.round( (msg.payload.size - 0.9 * maxDbSize) / msg.payload.avgObjSize);\nvar newMsg = \n{\n    topic           : 'test',\n    payload         : [{},{projection:{timeStamp:1, _id:0}}],\n    cutRecords      : cutRecords\n};\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 610,
+        "x": 650,
         "y": 480,
         "wires": [
             [
-                "b21dfdef.d025b"
+                "b21dfdef.d025b",
+                "7e50c6f8.b2b708"
             ]
         ]
     },
@@ -2925,7 +2926,7 @@
         "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\nvar numDevices = objectLength(msg.payload);\nvar timeStampList = [];\n\nfor (var idevice = 0; idevice < numDevices; ++idevice)\n{\n    timeStampList[idevice] = msg.payload[idevice].timeStamp;\n}\ntimeStampList.sort();\n\n\nvar newMsg = \n{\n    topic           : 'test',\n    payload         : [{timeStamp: {\"$lte\": timeStampList[msg.cutRecords]}},{projection:{timeStamp:1, _id:0}}],\n};\nreturn newMsg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 860,
+        "x": 900,
         "y": 540,
         "wires": [
             [
@@ -2942,7 +2943,7 @@
         "name": "",
         "collection": "archiver",
         "operation": "removeMany",
-        "x": 890,
+        "x": 930,
         "y": 600,
         "wires": [
             []
@@ -3256,7 +3257,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "                <div class='card'>\n                    <p class='card-title'>Spectrogram</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div class=\"container-fluid spectrogram\" align=\"center\" id=\"spectrogram\"></div>\n                                <div width=\"100%\">\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"freezeButton\" type=\"button\" onclick=\"freezeRun()\"></button>\n                                        </div>\n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"birdsEyeButton\" type=\"button\" onclick=\"birdsEyeView()\">Birds Eye</button>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"sliceViewButton\" type=\"button\" onclick=\"sliceView()\">Slice View</button>\n                                        </div>\n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"sliceViewButton\" type=\"button\" onclick=\"topView()\">Top View</button>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-3\"  align=\"left\">\n                                            <span class=\"big-text\">Time</span>\n                                        </div>\n                                        <div class=\"col-md-9\">\n                                            <span class=\"big-text\" id=\"stopTime\"></span>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-4\" align=\"left\" >\n                                            <span class=\"big-text\">Shivering Freq.</span>\n                                        </div>\n                                        <div class=\"col-md-8\">\n                                            <span class=\"big-text\" id=\"maxMode\"></span>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                         <div class=\"col-md-4\" align=\"left\" >\n                                            <span class=\"big-text\">Shivering Amp.</span>\n                                        </div>\n                                        <div class=\"col-md-8\">\n                                            <span class=\"big-text\" id=\"maxModeAmplitude\"></span>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
+        "template": "                <div class='card'>\n                    <p class='card-title'>Spectrogram</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div class=\"container-fluid spectrogram\" align=\"center\" id=\"spectrogram\"></div>\n                                <div width=\"100%\">\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"freezeButton\" type=\"button\" onclick=\"freezeRun()\"></button>\n                                        </div>\n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"birdsEyeButton\" type=\"button\" onclick=\"birdsEyeView()\">Birds Eye</button>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"sliceViewButton\" type=\"button\" onclick=\"sliceView()\">Slice View</button>\n                                        </div>\n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"sliceViewButton\" type=\"button\" onclick=\"topView()\">Top View</button>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-3\"  align=\"left\">\n                                            <span class=\"big-text\">Time</span>\n                                        </div>\n                                        <div class=\"col-md-9\">\n                                            <span class=\"big-text\" id=\"stopTime\"></span>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-8\" align=\"left\" >\n                                            <span class=\"big-text\">Shivering Freq.</span>\n                                        </div>\n                                        <div class=\"col-md-4\">\n                                            <span class=\"big-text\" id=\"maxMode\"></span>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                         <div class=\"col-md-8\" align=\"left\" >\n                                            <span class=\"big-text\">Shivering Amp.</span>\n                                        </div>\n                                        <div class=\"col-md-4\">\n                                            <span class=\"big-text\" id=\"maxModeAmplitude\"></span>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
         "x": 710,
         "y": 480,
@@ -4025,5 +4026,20 @@
                 "a83f817b.5032b"
             ]
         ]
+    },
+    {
+        "id": "7e50c6f8.b2b708",
+        "type": "debug",
+        "z": "e17f7487.2a78e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 850,
+        "y": 440,
+        "wires": []
     }
 ]
