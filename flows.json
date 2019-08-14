@@ -406,6 +406,13 @@
         "wholemsg": "false"
     },
     {
+        "id": "87ffc8f5.a740d8",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/dma03/websocket",
+        "wholemsg": "false"
+    },
+    {
         "id": "d8aea031.7f89d",
         "type": "http in",
         "z": "dc20c6e0.0feb98",
@@ -1252,7 +1259,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Create Demo Database entry",
-        "func": "var device = \n{\n    name        : 'dma02',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0.0,    low : 1.0,   high : 4.0,      hihi : 10.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 100,   high : 1000,     hihi : 2000  }, notify:{name:'McGinnis', number:'46725722472', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 5,    unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 254,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
+        "func": "var device = \n{\n    name        : 'dma03',\n    arcPeriod   : 2000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0.0,    low : 1.0,   high : 4.0,      hihi : 10.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 100,   high : 1000,     hihi : 2000  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 5,    unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 254,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 340,
@@ -3408,7 +3415,7 @@
         "server": "a4d8c843.f9c6b8",
         "client": "",
         "x": 160,
-        "y": 1120,
+        "y": 1080,
         "wires": [
             [
                 "45a7d04b.f97db"
@@ -3496,11 +3503,16 @@
                 "t": "eq",
                 "v": "chillDetector/dma02/reading",
                 "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "chillDetector/dma03/reading",
+                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
+        "outputs": 3,
         "x": 630,
         "y": 820,
         "wires": [
@@ -3509,6 +3521,9 @@
             ],
             [
                 "a971650.b9f5b98"
+            ],
+            [
+                "856227a0.ae9c58"
             ]
         ]
     },
@@ -3743,7 +3758,7 @@
             "c7035bb0.5180c8"
         ],
         "x": 715,
-        "y": 800,
+        "y": 780,
         "wires": []
     },
     {
@@ -3765,7 +3780,8 @@
         "name": "App Check Login",
         "links": [
             "c7035bb0.5180c8",
-            "6eee5bd4.f602e4"
+            "6eee5bd4.f602e4",
+            "a9e05c69.66345"
         ],
         "x": 1115,
         "y": 1160,
@@ -3798,7 +3814,7 @@
             "6eee5bd4.f602e4"
         ],
         "x": 715,
-        "y": 840,
+        "y": 820,
         "wires": []
     },
     {
@@ -3807,7 +3823,8 @@
         "z": "8475ab9.3d26058",
         "name": "App Archiver Data 2",
         "links": [
-            "6eee5bd4.f602e4"
+            "6eee5bd4.f602e4",
+            "a9e05c69.66345"
         ],
         "x": 935,
         "y": 960,
@@ -3894,7 +3911,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector 1</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma02\" >Chill Detector 2</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector 1</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma02\" >Chill Detector 2</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma03\" >Chill Detector 3</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 510,
         "y": 40,
@@ -4041,5 +4058,116 @@
         "x": 850,
         "y": 440,
         "wires": []
+    },
+    {
+        "id": "218abe2c.7e2132",
+        "type": "websocket out",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "server": "87ffc8f5.a740d8",
+        "client": "",
+        "x": 1250,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "a9e05c69.66345",
+        "type": "link in",
+        "z": "8475ab9.3d26058",
+        "name": "demo-3 socket",
+        "links": [
+            "1c44acc.78a6853",
+            "439b1d51.6f5e64",
+            "856227a0.ae9c58"
+        ],
+        "x": 1095,
+        "y": 880,
+        "wires": [
+            [
+                "218abe2c.7e2132"
+            ]
+        ]
+    },
+    {
+        "id": "f2bd3d7d.d6a1f",
+        "type": "websocket in",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "server": "87ffc8f5.a740d8",
+        "client": "",
+        "x": 160,
+        "y": 1120,
+        "wires": [
+            [
+                "45a7d04b.f97db"
+            ]
+        ]
+    },
+    {
+        "id": "856227a0.ae9c58",
+        "type": "link out",
+        "z": "8475ab9.3d26058",
+        "name": "App Subscribe Readings 2",
+        "links": [
+            "a9e05c69.66345"
+        ],
+        "x": 715,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "577ec62c.503968",
+        "type": "http in",
+        "z": "8475ab9.3d26058",
+        "name": "/dma03",
+        "url": "/dma03",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "83d8e834.f6a368"
+            ]
+        ]
+    },
+    {
+        "id": "83d8e834.f6a368",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Set Device Leader to 3",
+        "field": "payload.script.deviceLeader",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "'dma03'",
+        "output": "str",
+        "x": 300,
+        "y": 200,
+        "wires": [
+            [
+                "f96f205b.99594"
+            ]
+        ]
+    },
+    {
+        "id": "f96f205b.99594",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Title 3",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Chill Detector 3",
+        "output": "str",
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "4df975bd.9d398c"
+            ]
+        ]
     }
 ]
