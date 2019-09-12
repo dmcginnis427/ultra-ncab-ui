@@ -2000,7 +2000,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- navBar -->\n    <div class=\"jumbotron\" width=\"100%\">\n        <div class=\"row\">\n            <div class=\"col-md-2\" style=\"text-align: left\">\n                <a href='/' >\n                    <img src=\"/img/home.png\" height=\"75px\"/>\n                </a>\n            </div>\n            <div class=\"col-md-8\" style=\"text-align: center\">\n                <h1 class=\"jumbotron-title big-text bold-text\">{{{payload.title}}}</h1>\n            </div>\n            <div class=\"col-md-2\" style=\"text-align: right\">\n                <a href='https://www.blinky-lite.io/' target='_blank'>\n                    <img src=\"/img/brainCoolLogo.png\" height=\"75px\"/>\n                </a>\n            </div>\n        </div>\n    </div>",
+        "template": "<!-- navBar -->\n    <div class=\"jumbotron\" width=\"100%\">\n        <div class=\"row\">\n            <div class=\"col-md-3\" style=\"text-align: left\">\n                <a href='/' >\n                    <img src=\"/img/home.png\" height=\"75px\"/>\n                </a>\n            </div>\n            <div class=\"col-md-6\" style=\"text-align: center\">\n                <h1 class=\"jumbotron-title big-text bold-text\">{{{payload.title}}}</h1>\n            </div>\n            <div class=\"col-md-3\" style=\"text-align: right\">\n                <a href='https://www.blinky-lite.io/' target='_blank'>\n                    <img src=\"/img/brainCoolLogo.png\" height=\"55px\"/>\n                </a>\n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 200,
         "y": 80,
