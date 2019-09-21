@@ -14,6 +14,13 @@
         "info": ""
     },
     {
+        "id": "90f83725.6dae08",
+        "type": "tab",
+        "label": "Utility Apps",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "dc20c6e0.0feb98",
         "type": "tab",
         "label": "scalarDevice",
@@ -39,7 +46,7 @@
                 "y": 40,
                 "wires": [
                     {
-                        "id": "ff0aca52.93d138"
+                        "id": "99bb1519.85fc18"
                     }
                 ]
             }
@@ -204,6 +211,26 @@
                 "wires": [
                     {
                         "id": "966e270e.701e48"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": []
+    },
+    {
+        "id": "e13648d6.d698c8",
+        "type": "subflow",
+        "name": "Log Setting",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "347f36fe.94ed7a"
                     }
                 ]
             }
@@ -410,6 +437,20 @@
         "type": "websocket-listener",
         "z": "",
         "path": "/dma03/websocket",
+        "wholemsg": "false"
+    },
+    {
+        "id": "47794345.2e8b8c",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/access-log/websocket",
+        "wholemsg": "false"
+    },
+    {
+        "id": "fcd0f0f1.e1a0f",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/settings-log/websocket",
         "wholemsg": "false"
     },
     {
@@ -689,7 +730,7 @@
         "datatype": "auto",
         "broker": "84d80994.260508",
         "x": 120,
-        "y": 200,
+        "y": 60,
         "wires": [
             [
                 "a56beba4.f70678"
@@ -705,7 +746,7 @@
         "action": "",
         "pretty": false,
         "x": 270,
-        "y": 200,
+        "y": 60,
         "wires": [
             [
                 "88bd3e6.77514c"
@@ -721,7 +762,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 410,
-        "y": 200,
+        "y": 60,
         "wires": [
             [
                 "731fcbcd.96f0a4"
@@ -737,7 +778,7 @@
         "outputs": 2,
         "noerr": 0,
         "x": 1080,
-        "y": 200,
+        "y": 60,
         "wires": [
             [
                 "bc2507b7.46f4b8"
@@ -767,74 +808,6 @@
         ]
     },
     {
-        "id": "d3fb135c.608ae",
-        "type": "template",
-        "z": "ca529822.9112f8",
-        "name": "HTML",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n{{{payload.head}}}\n  </head>\n  <body>\n{{{payload.navBar}}}\n{{{payload.html.websocket}}}\n{{{payload.body}}}\n{{{payload.foot}}}\n  </body>\n</html>",
-        "output": "str",
-        "x": 950,
-        "y": 40,
-        "wires": [
-            [
-                "18bc7c8e.8f7263"
-            ]
-        ]
-    },
-    {
-        "id": "ed1aa8d2.55f018",
-        "type": "template",
-        "z": "ca529822.9112f8",
-        "name": "Foot",
-        "field": "payload.foot",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "    <div id=\"acknowledgeDialog\" title=\"Acknowledge\" class='card'>\n        <p class='card-title' id='acknowledgeDialogTitle'>Warning</p>\n        <div class='card-body'>\n            <p class='tableText' id='acknowledgeDialogText'>Text</p>\n        </div>\n    </div>\n    <div id=\"optionDialog\" title=\"Option\" class='card'>\n        <p class='card-title' id='optionDialogTitle'>Choice</p>\n        <div class='card-body'>\n            <p class='tableText' id='optionDialogText'>Text</p>\n        </div>\n    </div>\n    <div id=\"messageDialog\" title=\"Message\" class='card'>\n        <p class='card-title' id='messageDialogTitle'>Warning</p>\n        <div class='card-body'>\n            <p class='tableText' id='messageDialogText'>Text</p>\n        </div>\n    </div>\n    <div id=\"loginDialog\" title=\"Login\" class='card'>\n        <div class='card-body'>\n            <table>\n                <tr>\n                    <td width=\"50%\" align=\"left\"><span class=\"tableText\">Username</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control tableText\" id=\"loginUser\" type=\"text\" value=\"\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\"><span class=\"tableText\">Password</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control tableText\" id=\"loginPassword\" type=\"password\" value=\"\" /></td>\n                </tr>\n           </table>\n        </div>\n    </div>    <script src=\"/scripts/popper.js\"></script>\n    <script src=\"/scripts/bootstrap.js\"></script>",
-        "output": "str",
-        "x": 650,
-        "y": 40,
-        "wires": [
-            [
-                "a70cf60.875b308"
-            ]
-        ]
-    },
-    {
-        "id": "a3e3873a.606468",
-        "type": "template",
-        "z": "ca529822.9112f8",
-        "name": "Head",
-        "field": "payload.head",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "    <meta charset=\"UTF-8\">\n    <link rel=\"icon\" href=\"/img/favicon.ico?v=4\" type=\"image/x-icon\"/>\n    <title>{{payload.title}}</title>\n    <link rel=\"stylesheet\" href=\"/css/bootstrap.css\"/>\n    <link rel=\"stylesheet\" href=\"/jquery/jquery-ui.css\"/>\n    <link rel=\"stylesheet\" href=\"/jquery/jquery-ui-timepicker-addon.css\"/>\n    <script src=\"/jquery/jquery.js\"></script>\n    <script src=\"/jquery/jquery-ui.js\"></script>\n    <script src=\"/jquery/jquery-ui-timepicker-addon.js\"></script>\n    <script src=\"/scripts/plotly-latest.min.js\"></script>\n    <script src=\"/scripts/visDist/vis.js\"></script>\n    <style>\n{{{payload.css}}}\n    </style>\n    <script>\n{{{payload.utilityScripts}}}\n    </script>\n    <script>\n{{{payload.javascript}}}\n    </script>",
-        "output": "str",
-        "x": 530,
-        "y": 40,
-        "wires": [
-            [
-                "ed1aa8d2.55f018"
-            ]
-        ]
-    },
-    {
-        "id": "9b590bf2.843288",
-        "type": "http response",
-        "z": "ca529822.9112f8",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 1270,
-        "y": 40,
-        "wires": []
-    },
-    {
         "id": "8a439be9.030ab8",
         "type": "subflow:ca529822.9112f8",
         "z": "f22a539a.a67b3",
@@ -842,25 +815,6 @@
         "x": 490,
         "y": 80,
         "wires": []
-    },
-    {
-        "id": "773bf8af.2ab458",
-        "type": "template",
-        "z": "ca529822.9112f8",
-        "name": "Utility Scripts",
-        "field": "payload.utilityScripts",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "        var ws;\n        var userID = -1;\n        var useWebSocketsFlag = true;\n        var projectName = '{{{payload.projectname}}}';\n        var heartBeatImage = false;\n        var wsUri = '';\n\n        function useWebSockets(webSocketsFlag)\n        {\n            useWebSocketsFlag = webSocketsFlag;\n        }\n        function wsConnectC()\n        {\n            if (!useWebSocketsFlag)\n            {\n                return;\n            }\n            if (wsUri.length < 1)\n            {\n                var uri = window.location.href.split('://');\n                var wslead = 'ws://';\n                if (uri[0] == 'https') wslead = 'wss://';\n                wsUri = wslead + uri[1] + '/websocket';\n            }\n            ws = new WebSocket(wsUri);\n            ws.onmessage = function(event)\n            {\n                onWebSocketMessage(JSON.parse(event.data));\n        \n            };\n            ws.onopen = function()\n            {\n                console.log(\"Websocket connected\");\n                $('#webSocketStatus').html('Open');\n                $('#reOpenWebSocketButton').hide();\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n                onWebSocketOpen();\n            };\n            ws.onclose = function()\n            {\n                console.log(\"Websocket closed\");\n                $('#webSocketStatus').html('Closed');\n                $('#reOpenWebSocketButton').show();\n                $('#webSocketStatusCard').show();\n                $('#webSocketStatusRow').css('padding-bottom','25px');\n                onWebSocketClose();\n            };\n        }\n        function sendWebSocketMessageObject(message)\n        {\n            ws.send(JSON.stringify(message));\n        }\n\n        function getRandomInt(max)\n        {\n          return Math.floor(Math.random() * Math.floor(max));\n        }\n        $( document ).ready(function()\n        {\n            loginDialog(\"close\");\n            userID  = getRandomInt(32768);\n            if (!useWebSocketsFlag)\n            {\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n            }\n            wsConnectC();\n            onDocumentReady();\n        });\n        $( function() \n        {\n            $( \"#acknowledgeDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() { $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n            $( \"#messageDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:[]\n                });\n        } );\n        function optionDialog(headerText, title, text, buttonTexts, buttonFunctions)\n        {\n            var buttonDefinitions = [];\n            for (var ii = 0; ii < buttonTexts.length; ++ii)\n            {\n                buttonDefinitions[ii] = \n                    {\n                        text: buttonTexts[ii],\n                        click: buttonFunctions[ii],\n                        showText: false\n                    };\n            }\n            $( \"#optionDialog\" ).dialog( \"option\", \"title\", headerText );   \n            $( \"#optionDialog\" ).dialog( \"option\", \"buttons\", buttonDefinitions);\n            $( \"#optionDialogTitle\" ).html(title);\n            $( \"#optionDialogText\" ).html(text);\n            $( \"#optionDialog\" ).dialog( \"open\" );\n        }\n        $( function() \n        {\n            $( \"#optionDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n        } );\n        function acknowledgeDialog(headerText, title, text)\n        {\n            $( \"#acknowledgeDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#acknowledgeDialogTitle\" ).html(title);\n            $( \"#acknowledgeDialogText\" ).html(text);\n            $( \"#acknowledgeDialog\" ).dialog( \"open\" );\n        }\n        function messageDialog(headerText, title, text)\n        {\n            $( \"#messageDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#messageDialogTitle\" ).html(title);\n            $( \"#messageDialogText\" ).html(text);\n            $( \"#messageDialog\" ).dialog( \"open\" );\n        }\n        var jwtToken = '';\n        var loginCallback = null;\n        var loginCallbackInfo = null;\n        function checkLogin(callback, callbackInfo)\n        {\n            if (jwtToken.length > 0) return callback(callbackInfo);\n            loginDialog(\"open\", callback, callbackInfo);\n        }\n        function loadJwtToken(data)\n        {\n            if (data.token == null)\n            {\n                acknowledgeDialog('Error', 'Login', 'Denied');\n            }\n            else\n            {\n                jwtToken = data.token;\n                loginCallback(loginCallbackInfo);\n            }\n        }\n        function loginDialog(action, callback, callbackInfo) \n        {\n            $( \"#loginDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Login\",\n                            click: function() \n                            {\n                                ws.send(JSON.stringify(\n                                {\n                                    topic       : 'getJwtToken',\n                                    payload     : \n                                    {\n                                        loginUser       : $('#loginUser').val(),\n                                        loginPassword   : $('#loginPassword').val()\n                                    },\n                                    'userID'    : userID,\n                                }));\n                                loginCallback = callback;\n                                loginCallbackInfo = callbackInfo;\n                                $( this ).dialog( \"close\" );\n                            },\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        }\n                    ]\n                });\n            $( \"#loginDialog\" ).dialog(action);\n        }\n        function sendSettingToMqtt(mqttMessage)\n        {\n            var socketMessage = \n            {\n                topic       : 'sendSettingToMqtt',\n                mqttMessage : mqttMessage,\n                token       : jwtToken,\n                userID      : userID\n            };\n            sendWebSocketMessageObject({topic : 'sendSettingToMqtt', mqttMessage : mqttMessage, token : jwtToken, userID : userID});\n        }\n        function heartbeat()\n        {\n            heartBeatImage = !heartBeatImage;\n            var heartBeatImageSrc = '/img/heartRed.png';\n            if (heartBeatImage) heartBeatImageSrc = '/img/heartPink.png';\n            $('#heartBeatID').attr('src',heartBeatImageSrc);\n        }\n",
-        "output": "str",
-        "x": 390,
-        "y": 40,
-        "wires": [
-            [
-                "a3e3873a.606468"
-            ]
-        ]
     },
     {
         "id": "e020461d.044ee8",
@@ -871,7 +825,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 840,
-        "y": 200,
+        "y": 60,
         "wires": [
             [
                 "72c58cab.a3c494"
@@ -888,7 +842,7 @@
         "collection": "devices",
         "operation": "findOne",
         "x": 610,
-        "y": 200,
+        "y": 60,
         "wires": [
             [
                 "e020461d.044ee8"
@@ -905,7 +859,7 @@
         "collection": "devices",
         "operation": "update",
         "x": 1350,
-        "y": 200,
+        "y": 60,
         "wires": [
             []
         ]
@@ -920,7 +874,7 @@
         "collection": "archiver",
         "operation": "insertOne",
         "x": 1360,
-        "y": 260,
+        "y": 120,
         "wires": [
             []
         ]
@@ -1332,61 +1286,6 @@
         "wires": []
     },
     {
-        "id": "e62b6f45.7351b",
-        "type": "http in",
-        "z": "e17f7487.2a78e8",
-        "name": "/core",
-        "url": "/core",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 60,
-        "wires": [
-            [
-                "c3a3b7de.071448"
-            ]
-        ]
-    },
-    {
-        "id": "1c28519.28fc1ae",
-        "type": "template",
-        "z": "e17f7487.2a78e8",
-        "name": "Body",
-        "field": "payload.body",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "    <div class='container' width=\"100%\">\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarPlotter\" >Scalar Plotter</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarArchivePlotter\" >Scalar Archive Plotter</a>\n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarViewer\" >Scalar Viewer</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarAlarmScanner\" >Scalar Alarm Scanner</a> \n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/vectorPlotter\" >Vector Plotter</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/vectorArchivePlotter\" >Vector Archive Plotter</a>\n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/deviceEditor\" >Device Editor</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/\" >Custom App Index</a> \n            </div>\n        </div>\n    </div>",
-        "output": "str",
-        "x": 390,
-        "y": 60,
-        "wires": [
-            [
-                "ba5082bb.b7e5a"
-            ]
-        ]
-    },
-    {
-        "id": "ba5082bb.b7e5a",
-        "type": "template",
-        "z": "e17f7487.2a78e8",
-        "name": "Title",
-        "field": "payload.title",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "Blinky-Lite Core",
-        "output": "str",
-        "x": 510,
-        "y": 60,
-        "wires": [
-            [
-                "ecc1f931.ada6e8"
-            ]
-        ]
-    },
-    {
         "id": "5d93334c.7b160c",
         "type": "inject",
         "z": "e17f7487.2a78e8",
@@ -1399,7 +1298,7 @@
         "once": true,
         "onceDelay": 0.1,
         "x": 130,
-        "y": 300,
+        "y": 160,
         "wires": [
             [
                 "e06b15ee.c3bf78"
@@ -1415,7 +1314,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 310,
-        "y": 300,
+        "y": 160,
         "wires": [
             []
         ]
@@ -1445,7 +1344,7 @@
         "qos": "0",
         "retain": "false",
         "broker": "84d80994.260508",
-        "x": 1240,
+        "x": 1300,
         "y": 460,
         "wires": []
     },
@@ -1776,7 +1675,7 @@
         "once": true,
         "onceDelay": 0.1,
         "x": 150,
-        "y": 360,
+        "y": 220,
         "wires": [
             [
                 "996ed5f8.da8f88"
@@ -1792,7 +1691,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 370,
-        "y": 360,
+        "y": 220,
         "wires": [
             []
         ]
@@ -1897,29 +1796,11 @@
         "y": 480,
         "wires": [
             [
-                "6381975d.b98928"
+                "6381975d.b98928",
+                "2e134ccf.236a14"
             ],
             [
                 "7ed83a34.453664"
-            ]
-        ]
-    },
-    {
-        "id": "c3a3b7de.071448",
-        "type": "template",
-        "z": "e17f7487.2a78e8",
-        "name": "JavaScript",
-        "field": "payload.javascript",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "        useWebSockets(false);\n        function onDocumentReady()\n        {\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n        }\n\n",
-        "output": "str",
-        "x": 250,
-        "y": 60,
-        "wires": [
-            [
-                "1c28519.28fc1ae"
             ]
         ]
     },
@@ -2082,82 +1963,6 @@
         "wires": []
     },
     {
-        "id": "ecc1f931.ada6e8",
-        "type": "subflow:f22a539a.a67b3",
-        "z": "e17f7487.2a78e8",
-        "name": "",
-        "x": 650,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "ff0aca52.93d138",
-        "type": "function",
-        "z": "ca529822.9112f8",
-        "name": "Get project name",
-        "func": "msg.payload['projectname'] = global.get('projectName')\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 210,
-        "y": 40,
-        "wires": [
-            [
-                "773bf8af.2ab458"
-            ]
-        ]
-    },
-    {
-        "id": "20a62097.be49f",
-        "type": "http in",
-        "z": "e17f7487.2a78e8",
-        "name": "/log",
-        "url": "/log",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 120,
-        "wires": [
-            [
-                "f519d1ee.f155e"
-            ]
-        ]
-    },
-    {
-        "id": "f519d1ee.f155e",
-        "type": "file in",
-        "z": "e17f7487.2a78e8",
-        "name": "",
-        "filename": "html-static/log.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "x": 270,
-        "y": 120,
-        "wires": [
-            [
-                "b843c8dc.4062b8"
-            ]
-        ]
-    },
-    {
-        "id": "b843c8dc.4062b8",
-        "type": "function",
-        "z": "e17f7487.2a78e8",
-        "name": "Add log data rows",
-        "func": "var logDataRows = msg.payload;\nmsg.payload = {logDataRows:logDataRows};\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 470,
-        "y": 120,
-        "wires": [
-            [
-                "f0c02605.2887e8"
-            ]
-        ]
-    },
-    {
         "id": "23499d91.3b4bf2",
         "type": "comment",
         "z": "e17f7487.2a78e8",
@@ -2166,191 +1971,6 @@
         "x": 160,
         "y": 840,
         "wires": []
-    },
-    {
-        "id": "a03fb560.a0da58",
-        "type": "template",
-        "z": "e17f7487.2a78e8",
-        "name": "Body",
-        "field": "payload.body",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <table width='100%'>\n        <tr>\n            <th>ip</th><th>country</th><th>region</th><th>city</th><th>rdns</th>\n            <th>isp</th><th>timezone</th><th>datetime</th><th>url</th>\n        </tr>\n    {{{payload.logDataRows}}}\n    </table>\n",
-        "output": "str",
-        "x": 790,
-        "y": 120,
-        "wires": [
-            [
-                "4a73b397.d1eb6c"
-            ]
-        ]
-    },
-    {
-        "id": "4a73b397.d1eb6c",
-        "type": "template",
-        "z": "e17f7487.2a78e8",
-        "name": "Title",
-        "field": "payload.title",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "Blinky-Lite Log",
-        "output": "str",
-        "x": 910,
-        "y": 120,
-        "wires": [
-            [
-                "fae8b936.5e59a8"
-            ]
-        ]
-    },
-    {
-        "id": "f0c02605.2887e8",
-        "type": "template",
-        "z": "e17f7487.2a78e8",
-        "name": "JavaScript",
-        "field": "payload.javascript",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "        useWebSockets(false);\n        function onDocumentReady()\n        {\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n        }\n\n",
-        "output": "str",
-        "x": 650,
-        "y": 120,
-        "wires": [
-            [
-                "a03fb560.a0da58"
-            ]
-        ]
-    },
-    {
-        "id": "fae8b936.5e59a8",
-        "type": "subflow:f22a539a.a67b3",
-        "z": "e17f7487.2a78e8",
-        "name": "",
-        "x": 1050,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "18bc7c8e.8f7263",
-        "type": "function",
-        "z": "ca529822.9112f8",
-        "name": "IP filter",
-        "func": "var ipfilter = [\n    \"127.0.0.16\"];\nvar ipAddress = ( msg.req.headers['x-forwarded-for'] || '').split(',').pop() || \n          msg.req.connection.remoteAddress || \n          msg.req.socket.remoteAddress || \n          msg.req.connection.socket.remoteAddress;\nif (ipAddress==undefined) return null;\nvar ipAddressSplit = ipAddress.split(\".\");\nfor (var ii =  0; ii < ipfilter.length; ++ii)\n{\n    var ipfilterSplit = ipfilter[ii].split(\".\");\n    if (ipAddress == ipfilter[ii]) return null;\n    if (ipfilterSplit[2] == '*')\n    {\n        if ((ipfilterSplit[0] == ipAddressSplit[0]) && (ipfilterSplit[1] == ipAddressSplit[1]))\n        {\n            return null;\n        }\n    }\n}\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1080,
-        "y": 40,
-        "wires": [
-            [
-                "d3dd21fb.556b7",
-                "9b590bf2.843288"
-            ]
-        ]
-    },
-    {
-        "id": "d3dd21fb.556b7",
-        "type": "function",
-        "z": "ca529822.9112f8",
-        "name": "ClientInfo",
-        "func": "var ipfilter = [\"127.0.0.1\",\"83.254.136.245\"]\nvar ipAddress = ( msg.req.headers['x-forwarded-for'] || '').split(',').pop() || \n          msg.req.connection.remoteAddress || \n          msg.req.socket.remoteAddress || \n          msg.req.connection.socket.remoteAddress;\nvar url = msg.req.url;\nif (ipAddress==undefined) return null;\nif (url == '/log') return null;\nfor (var ii =  0; ii < ipfilter.length; ++ii)\n{\n    if (ipAddress == ipfilter[ii]) return null;\n}\nreturn {\n    topic:'clientInfo', \n    payload:{\n        ipAddress   : ipAddress\n    },\n    extraInfo       : {url:url},\n};\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1220,
-        "y": 120,
-        "wires": [
-            [
-                "6e06934b.6150dc"
-            ]
-        ]
-    },
-    {
-        "id": "6e06934b.6150dc",
-        "type": "http request",
-        "z": "ca529822.9112f8",
-        "name": "",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": false,
-        "url": "https://tools.keycdn.com/geo.json?host={{{payload.ipAddress}}}",
-        "tls": "",
-        "proxy": "",
-        "authType": "basic",
-        "x": 1230,
-        "y": 160,
-        "wires": [
-            [
-                "a350a03d.73485"
-            ]
-        ]
-    },
-    {
-        "id": "a350a03d.73485",
-        "type": "function",
-        "z": "ca529822.9112f8",
-        "name": "parseIpRequest",
-        "func": "var data = msg.payload.data.geo;\ndata['url'] = msg.extraInfo.url;\nvar tableRow = '<tr>';\ntableRow = tableRow + '<td>' + data['ip'] + '</td>';\ntableRow = tableRow + '<td>' + data['country_code'] + '</td>';\ntableRow = tableRow + '<td>' + data['region_name'] + '</td>';\ntableRow = tableRow + '<td>' + data['city'] + '</td>';\ntableRow = tableRow + '<td>' + data['rdns'] + '</td>';\ntableRow = tableRow + '<td>' + data['isp'] + '</td>';\ntableRow = tableRow + '<td>' + data['timezone'] + '</td>';\ntableRow = tableRow + '<td>' + data['datetime'] + '</td>';\ntableRow = tableRow + '<td>' + data['url'] + '</td>';\ntableRow = tableRow + '</tr>';\n\nreturn {topic:'www.blinky-lite.io' + data.url, payload:tableRow, extraInfo:tableRow};\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1240,
-        "y": 200,
-        "wires": [
-            [
-                "51261b39.8f7774"
-            ]
-        ]
-    },
-    {
-        "id": "51261b39.8f7774",
-        "type": "file in",
-        "z": "ca529822.9112f8",
-        "name": "",
-        "filename": "html-static/log.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "x": 1250,
-        "y": 240,
-        "wires": [
-            [
-                "5465094c.d331b8"
-            ]
-        ]
-    },
-    {
-        "id": "5465094c.d331b8",
-        "type": "function",
-        "z": "ca529822.9112f8",
-        "name": "Insert new row",
-        "func": "msg.payload = msg.extraInfo + '\\n' + msg.payload;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1240,
-        "y": 280,
-        "wires": [
-            [
-                "2e700457.37b91c"
-            ]
-        ]
-    },
-    {
-        "id": "2e700457.37b91c",
-        "type": "file",
-        "z": "ca529822.9112f8",
-        "name": "",
-        "filename": "html-static/log.txt",
-        "appendNewline": false,
-        "createDir": false,
-        "overwriteFile": "true",
-        "encoding": "none",
-        "x": 1250,
-        "y": 320,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "58100264.e2a28c",
@@ -2852,7 +2472,7 @@
         "once": true,
         "onceDelay": "10",
         "x": 160,
-        "y": 480,
+        "y": 340,
         "wires": [
             [
                 "f8190aec.49ef68"
@@ -2869,7 +2489,7 @@
         "collection": "archiver",
         "operation": "stats",
         "x": 390,
-        "y": 480,
+        "y": 340,
         "wires": [
             [
                 "cd274381.ab6c7"
@@ -2886,7 +2506,7 @@
         "collection": "archiver",
         "operation": "find.toArray",
         "x": 930,
-        "y": 480,
+        "y": 340,
         "wires": [
             [
                 "9422ccdf.a61ab"
@@ -2917,7 +2537,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 650,
-        "y": 480,
+        "y": 340,
         "wires": [
             [
                 "b21dfdef.d025b",
@@ -2934,7 +2554,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 900,
-        "y": 540,
+        "y": 400,
         "wires": [
             [
                 "dabac723.bcc468"
@@ -2951,7 +2571,7 @@
         "collection": "archiver",
         "operation": "removeMany",
         "x": 930,
-        "y": 600,
+        "y": 460,
         "wires": [
             []
         ]
@@ -2969,7 +2589,7 @@
         "once": true,
         "onceDelay": 0.1,
         "x": 130,
-        "y": 420,
+        "y": 280,
         "wires": [
             [
                 "2208dd06.5d2ba2"
@@ -2985,7 +2605,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 350,
-        "y": 420,
+        "y": 280,
         "wires": [
             []
         ]
@@ -3863,7 +3483,8 @@
         "y": 1100,
         "wires": [
             [
-                "2132a017.ba23f"
+                "2132a017.ba23f",
+                "ee0ee61b.770a18"
             ],
             [
                 "439b1d51.6f5e64"
@@ -4063,7 +3684,7 @@
         "complete": "true",
         "targetType": "full",
         "x": 850,
-        "y": 440,
+        "y": 300,
         "wires": []
     },
     {
@@ -4190,7 +3811,260 @@
         "wires": []
     },
     {
-        "id": "a70cf60.875b308",
+        "id": "347f36fe.94ed7a",
+        "type": "function",
+        "z": "e13648d6.d698c8",
+        "name": "Setup accessLog Query",
+        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id                         :   0, \n    } \n};\nvar queryFilter = \n{\n    userID: msg.userID\n}\nvar settingLogEntry = {topic:msg.topic, userID: msg.userID, device:msg.payload, timeStamp: new Date().getTime()};\nvar newMsg = \n{\n    topic           : 'getAccessLog',\n    payload         : [queryFilter, projectionFilter],\n    settingLogEntry : settingLogEntry\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 160,
+        "wires": [
+            [
+                "e24c42fb.5b61a"
+            ]
+        ]
+    },
+    {
+        "id": "e24c42fb.5b61a",
+        "type": "mongodb3 in",
+        "z": "e13648d6.d698c8",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "accessLog",
+        "operation": "findOne",
+        "x": 500,
+        "y": 160,
+        "wires": [
+            [
+                "c006fe2c.abbb1"
+            ]
+        ]
+    },
+    {
+        "id": "c006fe2c.abbb1",
+        "type": "function",
+        "z": "e13648d6.d698c8",
+        "name": "setup settingLogEntry",
+        "func": "var settingLogEntry = \n{\n    topic       :   msg.settingLogEntry.topic, \n    userID      :   msg.settingLogEntry.userID,\n    device      :   msg.settingLogEntry.device,\n    timeStamp   :   msg.settingLogEntry.timeStamp,\n    ipInfo      :   msg.payload\n}\nreturn {topic: 'settingLogEntry', payload: settingLogEntry};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 740,
+        "y": 160,
+        "wires": [
+            [
+                "9c60f57c.b85078"
+            ]
+        ]
+    },
+    {
+        "id": "9c60f57c.b85078",
+        "type": "mongodb3 in",
+        "z": "e13648d6.d698c8",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "settingsLog",
+        "operation": "insertOne",
+        "x": 990,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ee0ee61b.770a18",
+        "type": "subflow:e13648d6.d698c8",
+        "z": "8475ab9.3d26058",
+        "x": 1330,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "2e134ccf.236a14",
+        "type": "subflow:e13648d6.d698c8",
+        "z": "dc20c6e0.0feb98",
+        "name": "",
+        "x": 1310,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "b9df3f26.ab53f",
+        "type": "template",
+        "z": "ca529822.9112f8",
+        "name": "HTML",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n{{{payload.head}}}\n  </head>\n  <body>\n{{{payload.navBar}}}\n{{{payload.html.websocket}}}\n{{{payload.body}}}\n{{{payload.foot}}}\n  </body>\n</html>",
+        "output": "str",
+        "x": 1150,
+        "y": 40,
+        "wires": [
+            [
+                "d1d9e12b.926ff"
+            ]
+        ]
+    },
+    {
+        "id": "895ba39c.86e59",
+        "type": "template",
+        "z": "ca529822.9112f8",
+        "name": "Foot",
+        "field": "payload.foot",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "    <div id=\"acknowledgeDialog\" title=\"Acknowledge\" class='card'>\n        <p class='card-title' id='acknowledgeDialogTitle'>Warning</p>\n        <div class='card-body'>\n            <p class='tableText' id='acknowledgeDialogText'>Text</p>\n        </div>\n    </div>\n    <div id=\"optionDialog\" title=\"Option\" class='card'>\n        <p class='card-title' id='optionDialogTitle'>Choice</p>\n        <div class='card-body'>\n            <p class='tableText' id='optionDialogText'>Text</p>\n        </div>\n    </div>\n    <div id=\"messageDialog\" title=\"Message\" class='card'>\n        <p class='card-title' id='messageDialogTitle'>Warning</p>\n        <div class='card-body'>\n            <p class='tableText' id='messageDialogText'>Text</p>\n        </div>\n    </div>\n    <div id=\"loginDialog\" title=\"Login\" class='card'>\n        <div class='card-body'>\n            <table>\n                <tr>\n                    <td width=\"50%\" align=\"left\"><span class=\"tableText\">Password</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control tableText\" id=\"loginPassword\" type=\"password\" value=\"\" /></td>\n                </tr>\n           </table>\n        </div>\n    </div>    <script src=\"/scripts/popper.js\"></script>\n    <script src=\"/scripts/bootstrap.js\"></script>",
+        "output": "str",
+        "x": 690,
+        "y": 40,
+        "wires": [
+            [
+                "a9a62959.7c01e8"
+            ]
+        ]
+    },
+    {
+        "id": "aa17ff35.7cdfd",
+        "type": "template",
+        "z": "ca529822.9112f8",
+        "name": "Head",
+        "field": "payload.head",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "    <meta charset=\"UTF-8\">\n    <link rel=\"icon\" href=\"/img/favicon.ico?v=4\" type=\"image/x-icon\"/>\n    <title>{{payload.title}}</title>\n    <link rel=\"stylesheet\" href=\"/css/bootstrap.css\"/>\n    <link rel=\"stylesheet\" href=\"/jquery/jquery-ui.css\"/>\n    <link rel=\"stylesheet\" href=\"/jquery/jquery-ui-timepicker-addon.css\"/>\n    <script src=\"/jquery/jquery.js\"></script>\n    <script src=\"/jquery/jquery-ui.js\"></script>\n    <script src=\"/jquery/jquery-ui-timepicker-addon.js\"></script>\n    <script src=\"/scripts/plotly-latest.min.js\"></script>\n    <script src=\"/scripts/visDist/vis.js\"></script>\n    <style>\n{{{payload.css}}}\n    </style>\n    <script>\n{{{payload.utilityScripts}}}\n    </script>\n    <script>\n{{{payload.javascript}}}\n    </script>",
+        "output": "str",
+        "x": 570,
+        "y": 40,
+        "wires": [
+            [
+                "895ba39c.86e59"
+            ]
+        ]
+    },
+    {
+        "id": "d1d9e12b.926ff",
+        "type": "http response",
+        "z": "ca529822.9112f8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1270,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c4ed2505.8c07e8",
+        "type": "template",
+        "z": "ca529822.9112f8",
+        "name": "Utility Scripts",
+        "field": "payload.utilityScripts",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "        var ws;\n        var userID = -1;\n        var useWebSocketsFlag = true;\n        var projectName = '{{{payload.projectname}}}';\n        var heartBeatImage = false;\n        var wsUri = '';\n\n        function useWebSockets(webSocketsFlag)\n        {\n            useWebSocketsFlag = webSocketsFlag;\n        }\n        function wsConnectC()\n        {\n            if (!useWebSocketsFlag)\n            {\n                return;\n            }\n            if (wsUri.length < 1)\n            {\n                var uri = window.location.href.split('://');\n                var wslead = 'ws://';\n                if (uri[0] == 'https') wslead = 'wss://';\n                if (uri[1].indexOf('/') < (uri[1].length - 1))\n                {\n                    wsUri = wslead + uri[1] + '/websocket';\n                }\n                else\n                {\n                    wsUri = wslead + uri[1] + 'websocket';\n                }\n            }\n            ws = new WebSocket(wsUri);\n            ws.onmessage = function(event)\n            {\n                onWebSocketMessage(JSON.parse(event.data));\n        \n            };\n            ws.onopen = function()\n            {\n                console.log(\"Websocket connected\");\n                $('#webSocketStatus').html('Open');\n                $('#reOpenWebSocketButton').hide();\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n                onWebSocketOpen();\n            };\n            ws.onclose = function()\n            {\n                console.log(\"Websocket closed\");\n                $('#webSocketStatus').html('Closed');\n                $('#reOpenWebSocketButton').show();\n                $('#webSocketStatusCard').show();\n                $('#webSocketStatusRow').css('padding-bottom','25px');\n                onWebSocketClose();\n            };\n        }\n        function sendWebSocketMessageObject(message)\n        {\n            ws.send(JSON.stringify(message));\n        }\n\n        function getRandomInt(max)\n        {\n          return Math.floor(Math.random() * Math.floor(max));\n        }\n        $( document ).ready(function()\n        {\n            loginDialog(\"close\");\n//            userID  = getRandomInt(32768);\n            userID  = {{{payload.userID}}};\n            if (!useWebSocketsFlag)\n            {\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n            }\n            wsConnectC();\n            onDocumentReady();\n        });\n        $( function() \n        {\n            $( \"#acknowledgeDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() { $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n            $( \"#messageDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:[]\n                });\n        } );\n        function optionDialog(headerText, title, text, buttonTexts, buttonFunctions)\n        {\n            var buttonDefinitions = [];\n            for (var ii = 0; ii < buttonTexts.length; ++ii)\n            {\n                buttonDefinitions[ii] = \n                    {\n                        text: buttonTexts[ii],\n                        click: buttonFunctions[ii],\n                        showText: false\n                    };\n            }\n            $( \"#optionDialog\" ).dialog( \"option\", \"title\", headerText );   \n            $( \"#optionDialog\" ).dialog( \"option\", \"buttons\", buttonDefinitions);\n            $( \"#optionDialogTitle\" ).html(title);\n            $( \"#optionDialogText\" ).html(text);\n            $( \"#optionDialog\" ).dialog( \"open\" );\n        }\n        $( function() \n        {\n            $( \"#optionDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n        } );\n        function acknowledgeDialog(headerText, title, text)\n        {\n            $( \"#acknowledgeDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#acknowledgeDialogTitle\" ).html(title);\n            $( \"#acknowledgeDialogText\" ).html(text);\n            $( \"#acknowledgeDialog\" ).dialog( \"open\" );\n        }\n        function messageDialog(headerText, title, text)\n        {\n            $( \"#messageDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#messageDialogTitle\" ).html(title);\n            $( \"#messageDialogText\" ).html(text);\n            $( \"#messageDialog\" ).dialog( \"open\" );\n        }\n        var jwtToken = '';\n        var loginCallback = null;\n        var loginCallbackInfo = null;\n        function checkLogin(callback, callbackInfo)\n        {\n            if (jwtToken.length > 0) return callback(callbackInfo);\n            loginDialog(\"open\", callback, callbackInfo);\n        }\n        function loadJwtToken(data)\n        {\n            if (data.token == null)\n            {\n                acknowledgeDialog('Error', 'Login', 'Denied');\n            }\n            else\n            {\n                jwtToken = data.token;\n                loginCallback(loginCallbackInfo);\n            }\n        }\n        function loginDialog(action, callback, callbackInfo) \n        {\n            $( \"#loginDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Login\",\n                            click: function() \n                            {\n                                ws.send(JSON.stringify(\n                                {\n                                    topic       : 'getJwtToken',\n                                    payload     : \n                                    {\n//                                        loginUser       : $('#loginUser').val(),\n                                        loginPassword   : $('#loginPassword').val()\n                                    },\n                                    'userID'    : userID,\n                                }));\n                                loginCallback = callback;\n                                loginCallbackInfo = callbackInfo;\n                                $( this ).dialog( \"close\" );\n                            },\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        }\n                    ]\n                });\n            $( \"#loginDialog\" ).dialog(action);\n        }\n        function sendSettingToMqtt(mqttMessage)\n        {\n            var socketMessage = \n            {\n                topic       : 'sendSettingToMqtt',\n                mqttMessage : mqttMessage,\n                token       : jwtToken,\n                userID      : userID\n            };\n            sendWebSocketMessageObject({topic : 'sendSettingToMqtt', mqttMessage : mqttMessage, token : jwtToken, userID : userID});\n        }\n        function heartbeat()\n        {\n            heartBeatImage = !heartBeatImage;\n            var heartBeatImageSrc = '/img/heartRed.png';\n            if (heartBeatImage) heartBeatImageSrc = '/img/heartPink.png';\n            $('#heartBeatID').attr('src',heartBeatImageSrc);\n        }\n",
+        "output": "str",
+        "x": 430,
+        "y": 40,
+        "wires": [
+            [
+                "aa17ff35.7cdfd"
+            ]
+        ]
+    },
+    {
+        "id": "99bb1519.85fc18",
+        "type": "function",
+        "z": "ca529822.9112f8",
+        "name": "Get project name and userID",
+        "func": "function getRandomInt(max)\n{\n  return Math.floor(Math.random() * Math.floor(max));\n}\nmsg.payload['projectname'] = global.get('projectName')\nmsg.payload['userID'] = getRandomInt(32768);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 220,
+        "y": 40,
+        "wires": [
+            [
+                "c4ed2505.8c07e8"
+            ]
+        ]
+    },
+    {
+        "id": "e87e796a.685178",
+        "type": "function",
+        "z": "ca529822.9112f8",
+        "name": "IP filter",
+        "func": "var ipfilter = [\n    \"127.0.0.16\"];\nvar ipAddress = ( msg.req.headers['x-forwarded-for'] || '').split(',').pop() || \n          msg.req.connection.remoteAddress || \n          msg.req.socket.remoteAddress || \n          msg.req.connection.socket.remoteAddress;\nif (ipAddress==undefined) return null;\nvar ipAddressSplit = ipAddress.split(\".\");\nfor (var ii =  0; ii < ipfilter.length; ++ii)\n{\n    var ipfilterSplit = ipfilter[ii].split(\".\");\n    if (ipAddress == ipfilter[ii])\n    { \n        node.warn('Booger');\n        return null;\n    }\n    if (ipfilterSplit[2] == '*')\n    {\n        if ((ipfilterSplit[0] == ipAddressSplit[0]) && (ipfilterSplit[1] == ipAddressSplit[1]))\n        {\n            return null;\n        }\n    }\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1000,
+        "y": 40,
+        "wires": [
+            [
+                "b9df3f26.ab53f",
+                "fe4fcd1f.16e39"
+            ]
+        ]
+    },
+    {
+        "id": "fe4fcd1f.16e39",
+        "type": "function",
+        "z": "ca529822.9112f8",
+        "name": "ClientInfo",
+        "func": "var ipAddress = ( msg.req.headers['x-forwarded-for'] || '').split(',').pop() || \n          msg.req.connection.remoteAddress || \n          msg.req.socket.remoteAddress || \n          msg.req.connection.socket.remoteAddress;\nvar url = msg.req.url;\nreturn {\n    topic:'clientInfo', \n    payload:{\n        ipAddress   : ipAddress\n    },\n    extraInfo       : {url:url, userID:msg.payload.userID},\n};\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1120,
+        "y": 100,
+        "wires": [
+            [
+                "8382c3d.0aeea4"
+            ]
+        ]
+    },
+    {
+        "id": "8382c3d.0aeea4",
+        "type": "http request",
+        "z": "ca529822.9112f8",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": false,
+        "url": "https://tools.keycdn.com/geo.json?host={{{payload.ipAddress}}}",
+        "tls": "",
+        "proxy": "",
+        "authType": "basic",
+        "x": 1130,
+        "y": 140,
+        "wires": [
+            [
+                "d0cd3f7.e986fc"
+            ]
+        ]
+    },
+    {
+        "id": "d0cd3f7.e986fc",
+        "type": "function",
+        "z": "ca529822.9112f8",
+        "name": "parseIpRequest",
+        "func": "var data = msg.payload.data.geo;\ndata['url'] = msg.extraInfo.url;\ndata['userID'] = msg.extraInfo.userID;\ndata['timeStamp'] = new Date().getTime();\nreturn {topic:'ipData', payload:data};\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1140,
+        "y": 180,
+        "wires": [
+            [
+                "b7f38426.fa6658"
+            ]
+        ]
+    },
+    {
+        "id": "a9a62959.7c01e8",
         "type": "template",
         "z": "ca529822.9112f8",
         "name": "html.websocket",
@@ -4200,12 +4074,594 @@
         "syntax": "mustache",
         "template": "<!-- websocket status HTML -->\n    <div width=\"100%\">\n        <div class='row' id='webSocketStatusRow' style='padding-bottom: 0px;'>\n            <div class='col-md-12' align='center'>\n\n                <div class='card' id='webSocketStatusCard' >\n                    <p class='card-title'>Web Socket Status</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'  style='padding-top: 0px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Websocket Status</span>\n                                    </td>\n                                    <td width='20%' align='center'>\n                                        <button class='btn card-button btn-block big-text' id='reOpenWebSocketButton' onclick=\"wsConnectC()\">Re-open</button>\n                                    </td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='webSocketStatus' >Closed</span>\n                                   </td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n",
         "output": "str",
-        "x": 800,
+        "x": 840,
         "y": 40,
         "wires": [
             [
-                "d3fb135c.608ae"
+                "e87e796a.685178"
             ]
         ]
+    },
+    {
+        "id": "b7f38426.fa6658",
+        "type": "mongodb3 in",
+        "z": "ca529822.9112f8",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "accessLog",
+        "operation": "insertOne",
+        "x": 1190,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "275c08.dff3c3f8",
+        "type": "http in",
+        "z": "90f83725.6dae08",
+        "name": "/core",
+        "url": "/core",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "f1353403.af8cb8"
+            ]
+        ]
+    },
+    {
+        "id": "59315144.42ea4",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "Body",
+        "field": "payload.body",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "    <div class='container' width=\"100%\">\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarPlotter\" >Scalar Plotter</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarArchivePlotter\" >Scalar Archive Plotter</a>\n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarViewer\" >Scalar Viewer</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/scalarAlarmScanner\" >Scalar Alarm Scanner</a> \n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/vectorPlotter\" >Vector Plotter</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/vectorArchivePlotter\" >Vector Archive Plotter</a>\n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-6' align='center'>\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/access-log\" >Access Log</a> \n            </div>\n            <div class='col-md-6' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/settings-log\" >Settings Log</a>\n            </div>\n        </div>\n        <div class='row' style='padding-top:10px; padding-bottom:10px;'>\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block\" width='80%' href=\"/\" >Custom App Index</a> \n            </div>\n        </div>\n    </div>",
+        "output": "str",
+        "x": 390,
+        "y": 60,
+        "wires": [
+            [
+                "a9d47de1.dae3f"
+            ]
+        ]
+    },
+    {
+        "id": "a9d47de1.dae3f",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "Title",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Blinky-Lite Core",
+        "output": "str",
+        "x": 510,
+        "y": 60,
+        "wires": [
+            [
+                "1e988252.38bf7e"
+            ]
+        ]
+    },
+    {
+        "id": "f1353403.af8cb8",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "JavaScript",
+        "field": "payload.javascript",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "        useWebSockets(false);\n        function onDocumentReady()\n        {\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n        }\n\n",
+        "output": "str",
+        "x": 250,
+        "y": 60,
+        "wires": [
+            [
+                "59315144.42ea4"
+            ]
+        ]
+    },
+    {
+        "id": "2666eb47.cb2c24",
+        "type": "http in",
+        "z": "90f83725.6dae08",
+        "name": "/access-log",
+        "url": "/access-log",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "3836124.ae654ee"
+            ]
+        ]
+    },
+    {
+        "id": "c41bff2c.e8b63",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "Body",
+        "field": "payload.body",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!-- Body HTML -->\n    <div id='querySetup'>\n        <div class='row'>\n            <div class='col-md-12'>\n                <table id='plotSetupTable'>\n                    <tr>\n                        <td align=\"center\">\n                            <span>Start Date</span>\n                        </td>\n                        <td align=\"center\">\n                            <span>Stop Date</span>\n                        </td>\n                        <td align=\"center\">\n                        </td>\n                    </tr>\n                    <tr>\n                        <td align=\"center\">\n                            <input class=\"form-control\" id=\"startDate\" type=\"text\"/>\n                        </td>\n                        <td align=\"center\">\n                            <input class=\"form-control\" id=\"stopDate\" type=\"text\"/>\n                        </td>\n                        <td align=\"center\">\n                            <button width=100% class=\"btn jumbotron-button\" id=\"getDataButton\" type=\"button\" onclick=\"getData()\">Get Data</button>\n                        </td>\n                    </tr>\n                </table>\n                <table width='100%' id='accessLogTable'>\n                    <thead>\n                        <tr>\n                            <th width='10%'>url</th>\n                            <th width='10%'>ip</th>\n                            <th width='7%' >country</th>\n                            <th width='6%' >region</th>\n                            <th width='7%' >city</th>\n                            <th width='20%'>rdns</th>\n                            <th width='10%'>isp</th>\n                            <th width='10%'>timezone</th>\n                            <th width='10%'>datetime</th>\n                        </tr>\n                    </thead>\n                    <tbody id=\"accessLogTableBody\"></tbody>\n                </table>\n            </div>\n       </div>\n    </div>\n",
+        "output": "str",
+        "x": 430,
+        "y": 120,
+        "wires": [
+            [
+                "56402369.244bec"
+            ]
+        ]
+    },
+    {
+        "id": "56402369.244bec",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "Title",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Access Log",
+        "output": "str",
+        "x": 550,
+        "y": 120,
+        "wires": [
+            [
+                "e4c1258f.54e248"
+            ]
+        ]
+    },
+    {
+        "id": "3836124.ae654ee",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "JavaScript",
+        "field": "payload.javascript",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "        useWebSockets(true);\n        function onDocumentReady()\n        {\n            var now = new Date();\n            console.log(now.toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', ''));\n            var then = new Date(now.getTime() - 3600 * 24 * 1000);\n            $( \"#startDate\" ).val(then.toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', ''));\n            $( \"#stopDate\" ).val(now.toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', ''));\n            $( function()\n            {\n                $('#startDate').datetimepicker();\n            } );\n            $( function()\n            {\n                $('#stopDate').datetimepicker();\n            } );\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            if (msg.userID == userID)\n            {\n                switch(msg.topic)\n                {\n                    case 'getAccessLog':\n                        displayData(msg);\n                        break;\n                    default:\n                    // code block\n                }\n            }\n        }\n        function getData()\n        {\n            var startDate = new Date($( \"#startDate\" ).val()).getTime();\n            var stopDate = new Date($( \"#stopDate\" ).val()).getTime();\n            $(\"#accessLogTableBody\").remove();\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getAccessLog',\n                    userID      : userID,\n                    startDate   : startDate,\n                    stopDate    : stopDate,\n                });\n            \n        }\n        function displayData(msg)\n        {\n            var markup = '<tbody id=\"accessLogTableBody\">';\n            for (var ii = 0; ii < msg.payload.length; ++ii)\n            {\n                markup = markup + addRow(msg.payload[ii]);\n            }\n            markup = markup + '</tbody>';\n            $(\"#accessLogTable\").append(markup);\n        }\n\n        function addRow(record)\n        {\n            var markup = '<tr>';\n            markup = markup + '<td>' + record.url + '</td>';\n            markup = markup + '<td>' + record.ip + '</td>';\n            markup = markup + '<td>' + record.country + '</td>';\n            markup = markup + '<td>' + record.region + '</td>';\n            markup = markup + '<td>' + record.city + '</td>';\n            markup = markup + '<td>' + record.rdns + '</td>';\n            markup = markup + '<td>' + record.isp + '</td>';\n            markup = markup + '<td>' + record.timezone + '</td>';\n            markup = markup + '<td>' + record.datetime + '</td>';\n            markup = markup + '</tr>';\n            return markup;\n            \n        }\n",
+        "output": "str",
+        "x": 290,
+        "y": 120,
+        "wires": [
+            [
+                "c41bff2c.e8b63"
+            ]
+        ]
+    },
+    {
+        "id": "47b50e0.c7354f4",
+        "type": "websocket in",
+        "z": "90f83725.6dae08",
+        "name": "/access-log/websocket",
+        "server": "47794345.2e8b8c",
+        "client": "",
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "adfb1983.8d4b08"
+            ]
+        ]
+    },
+    {
+        "id": "adfb1983.8d4b08",
+        "type": "json",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "b9aba820.9dbf78"
+            ]
+        ]
+    },
+    {
+        "id": "b9aba820.9dbf78",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "Setup AccessLog Query",
+        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id : 0, \n    } \n};\nvar queryFilter = \n{\n    timeStamp :\n    {\n        $gte: msg.payload.startDate,\n        $lte: msg.payload.stopDate\n    }\n}\nvar newMsg = \n{\n    topic           : 'getAccessLog',\n    userID          : msg.payload.userID,\n    payload         : [queryFilter, projectionFilter],\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 510,
+        "y": 200,
+        "wires": [
+            [
+                "aef63175.9e1f7"
+            ]
+        ]
+    },
+    {
+        "id": "aef63175.9e1f7",
+        "type": "mongodb3 in",
+        "z": "90f83725.6dae08",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "accessLog",
+        "operation": "find.toArray",
+        "x": 780,
+        "y": 200,
+        "wires": [
+            [
+                "c60d9fa2.da0d4"
+            ]
+        ]
+    },
+    {
+        "id": "c60d9fa2.da0d4",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "Sort Archive Data",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\n\nfunction sortByKey(arr, key) \n{\n    return arr.sort( function(a, b) \n        {\n            var x = a[key]; \n            var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        } );\n}\n\nvar numRecords = objectLength(msg.payload);\nif (numRecords < 1)\n{\n    return {\n        topic : msg.device.name,\n        payload:{\n            topic           : 'getAccessLog',\n            payload         : null,\n            userID          : msg.userID,\n        }\n    };\n}\nvar records = [];\nfor (var ii = 0; ii < numRecords; ++ii) records[ii] = msg.payload[ii]; \nsortByKey(records, 'timeStamp');\n\nreturn {\n    payload:{\n        topic           : 'getAccessLog',\n        payload         : records,\n        userID          : msg.userID,\n    }\n};\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 200,
+        "wires": [
+            [
+                "7a08c826.6c9ca8"
+            ]
+        ]
+    },
+    {
+        "id": "7a08c826.6c9ca8",
+        "type": "websocket out",
+        "z": "90f83725.6dae08",
+        "name": "/access-log/websocket",
+        "server": "47794345.2e8b8c",
+        "client": "",
+        "x": 1240,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7db6e983.ea0948",
+        "type": "http in",
+        "z": "90f83725.6dae08",
+        "name": "/settings-log",
+        "url": "/settings-log",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 320,
+        "wires": [
+            [
+                "3ff05971.6144b6"
+            ]
+        ]
+    },
+    {
+        "id": "207a1450.67f23c",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "Body",
+        "field": "payload.body",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!-- Body HTML -->\n    <div id='querySetup'>\n        <div class='row'>\n            <div class='col-md-12'>\n                <table id='plotSetupTable'>\n                    <tr>\n                        <td align=\"center\">\n                            <span>Start Date</span>\n                        </td>\n                        <td align=\"center\">\n                            <span>Stop Date</span>\n                        </td>\n                        <td align=\"center\">\n                        </td>\n                    </tr>\n                    <tr>\n                        <td align=\"center\">\n                            <input class=\"form-control\" id=\"startDate\" type=\"text\"/>\n                        </td>\n                        <td align=\"center\">\n                            <input class=\"form-control\" id=\"stopDate\" type=\"text\"/>\n                        </td>\n                        <td align=\"center\">\n                            <button width=100% class=\"btn jumbotron-button\" id=\"getDataButton\" type=\"button\" onclick=\"getData()\">Get Data</button>\n                        </td>\n                    </tr>\n                </table>\n                <table width='100%' id='settingsLogTable'>\n                    <thead>\n                        <tr>\n                            <th width='10%' >url</th>\n                            <th width='10%' >device</th>\n                            <th width='10%' >ip</th>\n                            <th width='7%'  >country</th>\n                            <th width='6%'  >region</th>\n                            <th width='7%'  >city</th>\n                            <th width='20%' >rdns</th>\n                            <th width='10%' >isp</th>\n                            <th width='10%' >timezone</th>\n                            <th width='10%' >datetime</th>\n                        </tr>\n                    </thead>\n                    <tbody id=\"settingsLogTableBody\"></tbody>\n                </table>\n            </div>\n       </div>\n   </div>\n    <div id=\"showDeviceDialog\" title=\"Device\" class='card'>\n        <p class='card-title' id='showDeviceDialogName'>Device</p>\n        <div class='card-body'>\n            <table id='showDeviceTable' width='100%'>\n                <thead>\n                    <tr>\n                        <th width='50%' >Attribute</th>\n                        <th width='50%' >Value</th>\n                    </tr>\n                </thead>\n                <tbody id=\"showDeviceTableBody\"></tbody>\n            </table>\n        </div>\n    </div>  ",
+        "output": "str",
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "c3c60f3c.51f22"
+            ]
+        ]
+    },
+    {
+        "id": "c3c60f3c.51f22",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "Title",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Settings Log",
+        "output": "str",
+        "x": 550,
+        "y": 320,
+        "wires": [
+            [
+                "1f057b8c.e3a574"
+            ]
+        ]
+    },
+    {
+        "id": "78d16800.4adc18",
+        "type": "websocket in",
+        "z": "90f83725.6dae08",
+        "name": "/settings-log/websocket",
+        "server": "fcd0f0f1.e1a0f",
+        "client": "",
+        "x": 160,
+        "y": 400,
+        "wires": [
+            [
+                "61089c8b.87fe94"
+            ]
+        ]
+    },
+    {
+        "id": "61089c8b.87fe94",
+        "type": "json",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 330,
+        "y": 400,
+        "wires": [
+            [
+                "8d3e512a.420f"
+            ]
+        ]
+    },
+    {
+        "id": "8d3e512a.420f",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "Setup AccessLog Query",
+        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id : 0, \n    } \n};\nvar queryFilter = \n{\n    timeStamp :\n    {\n        $gte: msg.payload.startDate,\n        $lte: msg.payload.stopDate\n    }\n}\nvar newMsg = \n{\n    topic           : 'getSettingsLog',\n    userID          : msg.payload.userID,\n    payload         : [queryFilter, projectionFilter],\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 510,
+        "y": 400,
+        "wires": [
+            [
+                "ce493245.30ca8"
+            ]
+        ]
+    },
+    {
+        "id": "ce493245.30ca8",
+        "type": "mongodb3 in",
+        "z": "90f83725.6dae08",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "settingsLog",
+        "operation": "find.toArray",
+        "x": 780,
+        "y": 400,
+        "wires": [
+            [
+                "e1eb29b.c5c23d8"
+            ]
+        ]
+    },
+    {
+        "id": "e1eb29b.c5c23d8",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "Sort Archive Data",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\n\nfunction sortByKey(arr, key) \n{\n    return arr.sort( function(a, b) \n        {\n            var x = a[key]; \n            var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        } );\n}\n\nvar numRecords = objectLength(msg.payload);\nif (numRecords < 1)\n{\n    return {\n        topic : msg.device.name,\n        payload:{\n            topic           : 'getSettingsLog',\n            payload         : null,\n            userID          : msg.userID,\n        }\n    };\n}\nvar records = [];\nfor (var ii = 0; ii < numRecords; ++ii) records[ii] = msg.payload[ii]; \nsortByKey(records, 'timeStamp');\n\nreturn {\n    payload:{\n        topic           : 'getSettingsLog',\n        payload         : records,\n        userID          : msg.userID,\n    }\n};\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 400,
+        "wires": [
+            [
+                "89be3294.49e69"
+            ]
+        ]
+    },
+    {
+        "id": "89be3294.49e69",
+        "type": "websocket out",
+        "z": "90f83725.6dae08",
+        "name": "/settings-log/websocket",
+        "server": "fcd0f0f1.e1a0f",
+        "client": "",
+        "x": 1250,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "3ff05971.6144b6",
+        "type": "template",
+        "z": "90f83725.6dae08",
+        "name": "JavaScript",
+        "field": "payload.javascript",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "        var settingsHistory = null;\n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            var now = new Date();\n            console.log(now.toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', ''));\n            var then = new Date(now.getTime() - 3600 * 24 * 1000);\n            $( \"#startDate\" ).val(then.toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', ''));\n            $( \"#stopDate\" ).val(now.toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', ''));\n            $( function()\n            {\n                $('#startDate').datetimepicker();\n            } );\n            $( function()\n            {\n                $('#stopDate').datetimepicker();\n            } );\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            if (msg.userID == userID)\n            {\n                switch(msg.topic)\n                {\n                    case 'getSettingsLog':\n                        settingsHistory = msg.payload;\n                        displayData();\n                        break;\n                    default:\n                    // code block\n                }\n            }\n        }\n        function getData()\n        {\n            var startDate = new Date($( \"#startDate\" ).val()).getTime();\n            var stopDate = new Date($( \"#stopDate\" ).val()).getTime();\n            settingsHistory = null;\n            $(\"#settingsLogTableBody\").remove();\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getSettingsLog',\n                    userID      : userID,\n                    startDate   : startDate,\n                    stopDate    : stopDate,\n                });\n            \n        }\n        function displayData()\n        {\n            var markup = '<tbody id=\"settingsLogTableBody\">';\n            for (var ii = 0; ii < settingsHistory.length; ++ii)\n            {\n                markup = markup + addRow(ii);\n            }\n            markup = markup + '</tbody>';\n            $(\"#settingsLogTable\").append(markup);\n        }\n\n        function addRow(ii)\n        {\n            var markup = '<tr>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.url + '</td>';\n            markup = markup + '<td>' \n                +  '<button onclick=\"displayDevice(' + ii.toString() + ')\">' + settingsHistory[ii].device.name + '</button>' \n                + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.ip + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.country + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.region + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.city + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.rdns + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.isp + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.timezone + '</td>';\n            markup = markup + '<td>' + settingsHistory[ii].ipInfo.datetime + '</td>';\n            markup = markup + '</tr>';\n            return markup;\n            \n        }\n        function displayDevice(index)\n        {\n            console.log(index);\n            var time = new Date(settingsHistory[index].timeStamp).toLocaleString('en-US',{year: 'numeric', month: '2-digit', day : '2-digit', hour12:false, hour: '2-digit', minute: '2-digit'}).replace(',', '');\n\n            $( \"#showDeviceDialogName\" ).html(settingsHistory[index].device.name + ' ' + time);\n            $( \"#showDeviceTableBody\" ).remove();\n            var markup = '<tbody id=\"showDeviceTableBody\">';\n\n            for (var ii = 0; ii < settingsHistory[index].device.settings.length; ++ii)\n            {\n                markup = markup +'<tr>';\n                markup = markup + '<td align=\"left\">' + settingsHistory[index].device.settings[ii].attr + '</td>';\n                markup = markup + '<td>' + settingsHistory[index].device.settings[ii].value.toString() + '</td>';\n                markup = markup + '</tr>';\n            }\n            markup = markup + '</tbody>';\n            $(\"#showDeviceTable\").append(markup);\n\n            $( \"#showDeviceDialog\" ).dialog( \"option\", \"title\", \"Device Setting\"); \n            $( \"#showDeviceDialog\" ).dialog( \"open\" );\n        }\n        $( function() \n        {\n            $( \"#showDeviceDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    640,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Close\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        }\n                    ]\n                });\n        } );\n",
+        "output": "str",
+        "x": 290,
+        "y": 320,
+        "wires": [
+            [
+                "207a1450.67f23c"
+            ]
+        ]
+    },
+    {
+        "id": "4140c1ee.dca18",
+        "type": "inject",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 140,
+        "y": 580,
+        "wires": [
+            [
+                "8bfd61eb.0f8f1"
+            ]
+        ]
+    },
+    {
+        "id": "8bfd61eb.0f8f1",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "remove 127.0.0.1 from settings log",
+        "func": "var queryFilter = \n{\n    'ipInfo.ip' : '127.0.0.1'\n}\nvar newMsg = \n{\n    topic           : 'remove127',\n    payload         : [queryFilter, null],\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 580,
+        "wires": [
+            [
+                "f7ff007a.8d8b"
+            ]
+        ]
+    },
+    {
+        "id": "f7ff007a.8d8b",
+        "type": "mongodb3 in",
+        "z": "90f83725.6dae08",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "settingsLog",
+        "operation": "findAndRemove",
+        "x": 710,
+        "y": 580,
+        "wires": [
+            [
+                "ab1257ae.74fda8"
+            ]
+        ]
+    },
+    {
+        "id": "ab1257ae.74fda8",
+        "type": "debug",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 940,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "79a0dc4b.21aaa4",
+        "type": "inject",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 140,
+        "y": 660,
+        "wires": [
+            [
+                "d3d9bc03.02e38"
+            ]
+        ]
+    },
+    {
+        "id": "d3d9bc03.02e38",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "remove 127.0.0.1 from access log",
+        "func": "var queryFilter = \n{\n    'ip' : '127.0.0.1'\n}\nvar newMsg = \n{\n    topic           : 'remove127',\n    payload         : [queryFilter, null],\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 380,
+        "y": 660,
+        "wires": [
+            [
+                "7ffae9ab.87bee8"
+            ]
+        ]
+    },
+    {
+        "id": "7ffae9ab.87bee8",
+        "type": "mongodb3 in",
+        "z": "90f83725.6dae08",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "accessLog",
+        "operation": "findAndRemove",
+        "x": 710,
+        "y": 660,
+        "wires": [
+            [
+                "35a0f533.d24c2a"
+            ]
+        ]
+    },
+    {
+        "id": "35a0f533.d24c2a",
+        "type": "debug",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 940,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "1e988252.38bf7e",
+        "type": "subflow:f22a539a.a67b3",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "x": 650,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e4c1258f.54e248",
+        "type": "subflow:f22a539a.a67b3",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "x": 690,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1f057b8c.e3a574",
+        "type": "subflow:f22a539a.a67b3",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "x": 690,
+        "y": 320,
+        "wires": []
     }
 ]
