@@ -1212,11 +1212,11 @@
         "id": "acb98a7f.ed2778",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Create Demo Database entry",
+        "name": "Create ChillDetector Database entry",
         "func": "var device = \n{\n    name        : 'dma03',\n    arcPeriod   : 2000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0.0,    low : 1.0,   high : 4.0,      hihi : 10.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 100,   high : 1000,     hihi : 2000  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 5,    unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 254,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
         "outputs": 1,
         "noerr": 0,
-        "x": 340,
+        "x": 370,
         "y": 900,
         "wires": [
             [
@@ -1274,16 +1274,6 @@
                 "acb98a7f.ed2778"
             ]
         ]
-    },
-    {
-        "id": "257e26d7.a53eca",
-        "type": "comment",
-        "z": "e17f7487.2a78e8",
-        "name": "Old Stuff needs to be fixed",
-        "info": "",
-        "x": 170,
-        "y": 1080,
-        "wires": []
     },
     {
         "id": "5d93334c.7b160c",
@@ -1490,53 +1480,6 @@
         ]
     },
     {
-        "id": "9fbb803b.8ea5f",
-        "type": "status",
-        "z": "e17f7487.2a78e8",
-        "name": "Socket Status",
-        "scope": [
-            "b62e337d.c978e",
-            "a23dd3d3.8e283"
-        ],
-        "x": 130,
-        "y": 1160,
-        "wires": [
-            [
-                "e9e0e27c.7f81f"
-            ]
-        ]
-    },
-    {
-        "id": "e9e0e27c.7f81f",
-        "type": "function",
-        "z": "e17f7487.2a78e8",
-        "name": "Check Socket Status",
-        "func": "var newMsg = null;\nif (msg.status.text.indexOf(\"connected \") >= 0)\n{\n    newMsg = {topic:'socketStatus', payload:'connected'};\n}\nif (msg.status.text.indexOf(\"common.status.disconnected\") >= 0)\n{\n    newMsg = {topic:'socketStatus', payload:'disconnected'};\n}\nreturn newMsg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 320,
-        "y": 1160,
-        "wires": [
-            [
-                "1b490f0.dddedf1"
-            ]
-        ]
-    },
-    {
-        "id": "1b490f0.dddedf1",
-        "type": "function",
-        "z": "e17f7487.2a78e8",
-        "name": "Allow Database poll",
-        "func": "if (msg.topic == 'socketStatus')\n{\n    context.set('socketStatus', msg.payload);\n    return null;\n}\nif (msg.topic == 'pollDatabase')\n{\n    var socketStatus = context.get('socketStatus');\n    if (socketStatus == undefined) return null;\n    if (socketStatus == 'connected') return {topic:'databasePoll', payload:true};\n}\nreturn null;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 530,
-        "y": 1160,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "1c8b36de.a489c9",
         "type": "sendsms",
         "z": "dc20c6e0.0feb98",
@@ -1572,12 +1515,12 @@
         "id": "b6eb6c47.1e51",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Update Demo Database entry with MQTT",
+        "name": "Update ChillDetector Database entry with MQTT",
         "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 2000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0.0,    low : 1.0,   high : 4.0,      hihi : 10.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 100,   high : 1000,     hihi : 2000  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 5,    unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 254,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n    ]\n};\nreturn {topic:'chillDetector/dma01/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
-        "x": 380,
-        "y": 980,
+        "x": 400,
+        "y": 1040,
         "wires": [
             [
                 "f2a0c42e.7c1d68"
@@ -1597,7 +1540,7 @@
         "once": false,
         "onceDelay": 0.1,
         "x": 120,
-        "y": 980,
+        "y": 1040,
         "wires": [
             [
                 "b6eb6c47.1e51"
@@ -1706,7 +1649,7 @@
         "retain": "",
         "broker": "84d80994.260508",
         "x": 660,
-        "y": 980,
+        "y": 1040,
         "wires": []
     },
     {
@@ -4662,6 +4605,122 @@
         "name": "",
         "x": 690,
         "y": 320,
+        "wires": []
+    },
+    {
+        "id": "19231a1a.0ae266",
+        "type": "function",
+        "z": "e17f7487.2a78e8",
+        "name": "Create shiver-sim Database entry",
+        "func": "var device = \n{\n    name        : 'shiver-sim',\n    arcPeriod   : 6000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'shiver-sim',payload:device};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 960,
+        "wires": [
+            [
+                "ea518230.a9dc3"
+            ]
+        ]
+    },
+    {
+        "id": "ea518230.a9dc3",
+        "type": "mongodb3 in",
+        "z": "e17f7487.2a78e8",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "devices",
+        "operation": "insertOne",
+        "x": 720,
+        "y": 960,
+        "wires": [
+            [
+                "4356af61.0546e"
+            ]
+        ]
+    },
+    {
+        "id": "4356af61.0546e",
+        "type": "debug",
+        "z": "e17f7487.2a78e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 970,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "c337c4d4.9e4258",
+        "type": "inject",
+        "z": "e17f7487.2a78e8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 130,
+        "y": 960,
+        "wires": [
+            [
+                "19231a1a.0ae266"
+            ]
+        ]
+    },
+    {
+        "id": "77c20def.ce8aa4",
+        "type": "function",
+        "z": "e17f7487.2a78e8",
+        "name": "Update shiver-sim Database entry with MQTT",
+        "func": "var device = \n{\n    name        : 'shiver-sim',\n    arcPeriod   : 6000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/shiver-sim/setting', payload:device};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 400,
+        "y": 1100,
+        "wires": [
+            [
+                "d98f20a0.09629"
+            ]
+        ]
+    },
+    {
+        "id": "e1bc1eaa.b15fc",
+        "type": "inject",
+        "z": "e17f7487.2a78e8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 120,
+        "y": 1100,
+        "wires": [
+            [
+                "77c20def.ce8aa4"
+            ]
+        ]
+    },
+    {
+        "id": "d98f20a0.09629",
+        "type": "mqtt out",
+        "z": "e17f7487.2a78e8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "84d80994.260508",
+        "x": 660,
+        "y": 1100,
         "wires": []
     }
 ]
