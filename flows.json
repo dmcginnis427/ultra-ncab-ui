@@ -454,6 +454,13 @@
         "wholemsg": "false"
     },
     {
+        "id": "9d73700b.2888b",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/shiver-sim/websocket",
+        "wholemsg": "false"
+    },
+    {
         "id": "d8aea031.7f89d",
         "type": "http in",
         "z": "dc20c6e0.0feb98",
@@ -2597,7 +2604,7 @@
         "server": "a4d8c843.f9c6b8",
         "client": "",
         "x": 1250,
-        "y": 840,
+        "y": 780,
         "wires": []
     },
     {
@@ -2758,7 +2765,7 @@
         "server": "e6c7842e.bc4f98",
         "client": "",
         "x": 1250,
-        "y": 800,
+        "y": 740,
         "wires": []
     },
     {
@@ -3026,7 +3033,7 @@
         "datatype": "auto",
         "broker": "84d80994.260508",
         "x": 150,
-        "y": 820,
+        "y": 800,
         "wires": [
             [
                 "ebb8ce.0c3d873"
@@ -3042,7 +3049,7 @@
         "action": "",
         "pretty": false,
         "x": 310,
-        "y": 820,
+        "y": 800,
         "wires": [
             [
                 "764116fd.f6e648"
@@ -3071,13 +3078,18 @@
                 "t": "eq",
                 "v": "chillDetector/dma03/reading",
                 "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "chillDetector/shiver-sim/reading",
+                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 3,
+        "outputs": 4,
         "x": 630,
-        "y": 820,
+        "y": 800,
         "wires": [
             [
                 "2c85681c.6f9628"
@@ -3087,6 +3099,9 @@
             ],
             [
                 "856227a0.ae9c58"
+            ],
+            [
+                "dd585613.72b248"
             ]
         ]
     },
@@ -3099,7 +3114,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 470,
-        "y": 820,
+        "y": 800,
         "wires": [
             [
                 "81c39fe.b208a6"
@@ -3313,7 +3328,7 @@
             "2c85681c.6f9628"
         ],
         "x": 1095,
-        "y": 800,
+        "y": 740,
         "wires": [
             [
                 "aa54395e.1b6888"
@@ -3329,7 +3344,7 @@
             "c7035bb0.5180c8"
         ],
         "x": 715,
-        "y": 780,
+        "y": 740,
         "wires": []
     },
     {
@@ -3350,9 +3365,10 @@
         "z": "8475ab9.3d26058",
         "name": "App Check Login",
         "links": [
-            "c7035bb0.5180c8",
+            "5e98ed1e.d1c5b4",
             "6eee5bd4.f602e4",
-            "a9e05c69.66345"
+            "a9e05c69.66345",
+            "c7035bb0.5180c8"
         ],
         "x": 1115,
         "y": 1160,
@@ -3369,7 +3385,7 @@
             "439b1d51.6f5e64"
         ],
         "x": 1095,
-        "y": 840,
+        "y": 780,
         "wires": [
             [
                 "cab6dc8d.e8eb8"
@@ -3385,7 +3401,7 @@
             "6eee5bd4.f602e4"
         ],
         "x": 715,
-        "y": 820,
+        "y": 780,
         "wires": []
     },
     {
@@ -3482,7 +3498,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector 1</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma02\" >Chill Detector 2</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma03\" >Chill Detector 3</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n         <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <iframe src=\"https://shiftr.io/Blinky-Lite/chill-detector/embed?zoom=1\" width=\"700\" height=\"500\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\n                <p>Chill Detector MQTT Broker</p>\n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector 1</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma02\" >Chill Detector 2</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma03\" >Chill Detector 3</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiver-sim\" >Shiver Simulator</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n         <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <iframe src=\"https://shiftr.io/Blinky-Lite/chill-detector/embed?zoom=1\" width=\"700\" height=\"500\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\n                <p>Chill Detector MQTT Broker</p>\n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 510,
         "y": 40,
@@ -3638,7 +3654,7 @@
         "server": "87ffc8f5.a740d8",
         "client": "",
         "x": 1250,
-        "y": 880,
+        "y": 820,
         "wires": []
     },
     {
@@ -3652,7 +3668,7 @@
             "de6d1627.f7aa88"
         ],
         "x": 1095,
-        "y": 880,
+        "y": 820,
         "wires": [
             [
                 "218abe2c.7e2132"
@@ -3683,7 +3699,7 @@
             "a9e05c69.66345"
         ],
         "x": 715,
-        "y": 860,
+        "y": 820,
         "wires": []
     },
     {
@@ -4722,5 +4738,219 @@
         "x": 660,
         "y": 1100,
         "wires": []
+    },
+    {
+        "id": "86c59754.260268",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Body",
+        "field": "payload.body",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "    <div width=\"100%\">\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.control}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.wifimon}}}\n            </div>\n        </div>\n    </div>\n",
+        "output": "str",
+        "x": 1270,
+        "y": 660,
+        "wires": [
+            [
+                "cd62d45f.e79408"
+            ]
+        ]
+    },
+    {
+        "id": "82baaa16.c743b8",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "JavaScript",
+        "field": "payload.javascript",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "{{{payload.script.global}}}\n",
+        "output": "str",
+        "x": 810,
+        "y": 660,
+        "wires": [
+            [
+                "da46536a.03e36"
+            ]
+        ]
+    },
+    {
+        "id": "fe8f260e.b76e48",
+        "type": "http in",
+        "z": "8475ab9.3d26058",
+        "name": "/shiver-sim",
+        "url": "/shiver-sim",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 660,
+        "wires": [
+            [
+                "7fef6ef1.b515e"
+            ]
+        ]
+    },
+    {
+        "id": "7fef6ef1.b515e",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Set Device Leader",
+        "field": "payload.script.deviceLeader",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "'shiver-sim'",
+        "output": "str",
+        "x": 290,
+        "y": 660,
+        "wires": [
+            [
+                "41fa8d81.f31114"
+            ]
+        ]
+    },
+    {
+        "id": "41fa8d81.f31114",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Title 1",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Shiver Simulator",
+        "output": "str",
+        "x": 450,
+        "y": 660,
+        "wires": [
+            [
+                "3e073000.e791a"
+            ]
+        ]
+    },
+    {
+        "id": "3e073000.e791a",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Global Javascript",
+        "field": "payload.script.global",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// Global Javascript\n        var deviceLeader= {{{payload.script.deviceLeader}}};\n        useWebSockets(true);\n        var motorSpeedSliderMoved = false;\n        function onDocumentReady()\n        {\n            $( function() \n            {\n                $( \"#motorSpeedSlider\" ).slider(\n                    {\n                        stop    :   function( event, ui ) \n                                    {\n                                        $('#motorSpeed').hide();\n                                        var motorSpeedValue = Math.round(1.2 * ui.value) + 100;\n                                        var motorSpeedSetting = getAttrObject( 'settings', 'motor-speed');\n                                        motorSpeedSetting.value = motorSpeedValue;\n                                        var mqttMessage = \n                                        {\n                                            topic   : mqtt + '/setting',\n                                            payload :  device\n                                        };\n                                        checkLogin(sendSettingToMqtt, mqttMessage);\n                            \n                                        setTimeout(function()\n                                        {\n                                            motorSpeedSliderMoved = false; \n                                            $('#motorSpeed').show();\n                                        }, 1500);\n                                        \n                                    },\n                        start   :   function( event, ui ){motorSpeedSliderMoved = true},\n                    });\n            } );\n            $(\"#motorSpeedSlider\").children(\"div\").css(\"background\",\"red\");\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'readings':\n                    heartbeat();\n                    device = msg.payload;\n                    mqtt = msg.mqtt;\n                    $('#linkQualityId').text(getAttrObject('readings', 'linkQuality').value);\n                    $('#signalLevelId').text(getAttrObject('readings', 'signalLevel').value);\n                    if (!motorSpeedSliderMoved)\n                    {   \n                        var motorSpeed = getAttrObject('settings', 'motor-speed').value;\n                        $('#motorSpeed').text(motorSpeed);\n                        $('#motorSpeedSlider' ).slider( \"value\", Math.round((motorSpeed - 100) / 1.2) );\n                    }\n                    var motorOn = getAttrObject('settings', 'motor-on').value;\n                    if (motorOn == 0)\n                    {\n                        $('#motorOffButton').css('color', 'var(--color1)'); \n                        $('#motorOffButton').css('background-color', 'var(--color5)'); \n                        $('#motorOnButton').css('color', 'var(--color5)'); \n                        $('#motorOnButton').css('background-color', 'var(--color1)'); \n                    }\n                    else\n                    {\n                        $('#motorOffButton').css('color', 'var(--color5)'); \n                        $('#motorOffButton').css('background-color', 'var(--color1)'); \n                        $('#motorOnButton').css('color', 'var(--color1)'); \n                        $('#motorOnButton').css('background-color', 'var(--color5)'); \n                    }\n                    var motorDirection = getAttrObject('settings', 'motor-direction').value;\n                    if (motorDirection == 0)\n                    {\n                        $('#motorDirectionCCWButton').css('color', 'var(--color1)'); \n                        $('#motorDirectionCCWButton').css('background-color', 'var(--color5)'); \n                        $('#motorDirectionCWButton').css('color', 'var(--color5)'); \n                        $('#motorDirectionCWButton').css('background-color', 'var(--color1)'); \n                    }\n                    else\n                    {\n                        $('#motorDirectionCCWButton').css('color', 'var(--color5)'); \n                        $('#motorDirectionCCWButton').css('background-color', 'var(--color1)'); \n                        $('#motorDirectionCWButton').css('color', 'var(--color1)'); \n                        $('#motorDirectionCWButton').css('background-color', 'var(--color5)'); \n                    }\n                    \n                    break;\n                case 'getJwtToken':\n                    if (msg.userID == userID) loadJwtToken(msg);\n                    break;\n                case 'settingAcknowledge':\n                    if (msg.userID == userID)\n                    {\n                        if (msg.payload != 'Success!') acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n        function setMotorOn(motorOn)\n        {\n            var motorOnSetting = getAttrObject( 'settings', 'motor-on');\n            motorOnSetting.value = motorOn;\n            var mqttMessage = \n            {\n                topic   : mqtt + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n        function setMotorDirection(motorDirection)\n        {\n            var motorDirectionSetting = getAttrObject( 'settings', 'motor-direction');\n            motorDirectionSetting.value = motorDirection;\n            var mqttMessage = \n            {\n                topic   : mqtt + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n",
+        "output": "str",
+        "x": 630,
+        "y": 660,
+        "wires": [
+            [
+                "82baaa16.c743b8"
+            ]
+        ]
+    },
+    {
+        "id": "cd62d45f.e79408",
+        "type": "subflow:8341090a.df9758",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "x": 1410,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "254c3078.a1ace",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "html.wifimon",
+        "field": "payload.html.wifimon",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!-- Dashboard HTML -->\n                <div class='card'>\n                    <p class='card-title'>WiFi Connection</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'  style='padding-top: 0px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Device Update</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <img src='/img/heartRed.png' id='heartBeatID' width='100px' height='100px'/>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Signal Level (dBm)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='signalLevelId' >-100</span>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Link Quality (/70)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='linkQualityId' >-1</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 1130,
+        "y": 660,
+        "wires": [
+            [
+                "86c59754.260268"
+            ]
+        ]
+    },
+    {
+        "id": "dd585613.72b248",
+        "type": "link out",
+        "z": "8475ab9.3d26058",
+        "name": "Subscribe shiver-sim Readings",
+        "links": [
+            "5e98ed1e.d1c5b4"
+        ],
+        "x": 715,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "5e98ed1e.d1c5b4",
+        "type": "link in",
+        "z": "8475ab9.3d26058",
+        "name": "Shiver-sim socket",
+        "links": [
+            "dd585613.72b248",
+            "439b1d51.6f5e64"
+        ],
+        "x": 1095,
+        "y": 860,
+        "wires": [
+            [
+                "5715075f.6c2398"
+            ]
+        ]
+    },
+    {
+        "id": "5715075f.6c2398",
+        "type": "websocket out",
+        "z": "8475ab9.3d26058",
+        "name": "shiver-sim/websocket",
+        "server": "9d73700b.2888b",
+        "client": "",
+        "x": 1240,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "17ef3390.ec1e7c",
+        "type": "websocket in",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "server": "9d73700b.2888b",
+        "client": "",
+        "x": 170,
+        "y": 1160,
+        "wires": [
+            [
+                "45a7d04b.f97db"
+            ]
+        ]
+    },
+    {
+        "id": "da46536a.03e36",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "html.control",
+        "field": "payload.html.control",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!-- Control HTML -->\n                <div class='card'>\n                    <p class='card-title'>Control</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='30%'>\n                                        <span class='big-text'>Motor State</span>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorOffButton\" onclick=\"setMotorOn(0)\">Off</button>\n                                    </td>\n                                    <td width='20%' align='center'>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorOnButton\" onclick=\"setMotorOn(1)\">On</button>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='30%'>\n                                        <span class='big-text'>Motor Direction</span>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorDirectionCCWButton\" onclick=\"setMotorDirection(0)\">&#8634;</button>\n                                    </td>\n                                    <td width='20%' align='center'>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorDirectionCWButton\" onclick=\"setMotorDirection(1)\">&#8635;</button>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' style='padding-top: 35px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='75%'>\n                                        <span class='big-text'>Motor Speed</span>\n                                    </td>\n                                    <td width='25%'  align='right'>\n                                        <span class='big-text bold-text' id='motorSpeed'>0</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='10%'></td>\n                                    <td width='80%' align='center'><div id=\"motorSpeedSlider\"></div></td>\n                                    <td width='10%'></td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 970,
+        "y": 660,
+        "wires": [
+            [
+                "254c3078.a1ace"
+            ]
+        ]
     }
 ]
