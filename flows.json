@@ -1220,7 +1220,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Create ChillDetector Database entry",
-        "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0.0,    low : 1.0,   high : 4.0,      hihi : 10.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 100,   high : 1000,     hihi : 2000  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 5,    unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 254,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,      low : 1,     high : 254,      hihi : 255   }, notify:{name:'', number:'', time:0} } },\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
+        "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'patientID',        type : 'scalar',    value : 0,   unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,        low : 0,       high : 999999999998,      hihi : 999999999999  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 370,
@@ -1523,7 +1523,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Update ChillDetector Database entry with MQTT",
-        "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/dma01/setting', payload:device};",
+        "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'patientID',        type : 'scalar',    value : 0,   unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,        low : 0,       high : 999999999998,      hihi : 999999999999  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/dma01/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 400,
@@ -2561,23 +2561,6 @@
         ]
     },
     {
-        "id": "e287cf41.4ebc6",
-        "type": "http in",
-        "z": "8475ab9.3d26058",
-        "name": "/dma02",
-        "url": "/dma02",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 160,
-        "wires": [
-            [
-                "977d3e55.f786c"
-            ]
-        ]
-    },
-    {
         "id": "6ee884d5.e2b2bc",
         "type": "template",
         "z": "8475ab9.3d26058",
@@ -2661,44 +2644,6 @@
         "wires": [
             [
                 "95937ebc.cd75a"
-            ]
-        ]
-    },
-    {
-        "id": "977d3e55.f786c",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Set Device Leader to 2",
-        "field": "payload.script.deviceLeader",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "'dma02'",
-        "output": "str",
-        "x": 300,
-        "y": 160,
-        "wires": [
-            [
-                "396f8573.1c143a"
-            ]
-        ]
-    },
-    {
-        "id": "396f8573.1c143a",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Title 2",
-        "field": "payload.title",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "Chill Detector 2",
-        "output": "str",
-        "x": 470,
-        "y": 160,
-        "wires": [
-            [
-                "4df975bd.9d398c"
             ]
         ]
     },
@@ -3124,7 +3069,7 @@
         "type": "function",
         "z": "8475ab9.3d26058",
         "name": "Sort Archive Data",
-        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\n\nfunction sortByKey(arr, key) \n{\n    return arr.sort( function(a, b) \n        {\n            var x = a[key]; \n            var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        } );\n}\n\nvar numRecords = objectLength(msg.payload);\nif (numRecords < 1)\n{\n    return {\n        topic : msg.device.name,\n        payload:{\n            topic           : 'getArchiveValues',\n            payload         : {device: msg.device, trace:null},\n            userID          : msg.userID,\n        }\n    };\n}\nvar records = [];\nfor (var ii = 0; ii < numRecords; ++ii) records[ii] = msg.payload[ii]; \nsortByKey(records, 'timeStamp');\nvar trace = [];\nfor (var ii = 0; ii < numRecords; ++ii)\n{\n    trace[ii] = {timeStamp: records[ii].timeStamp, value: records[ii][msg.device.prop][0].value};\n}\n\nreturn {\n    topic : msg.device.socket,\n    payload:{\n        topic           : 'getArchiveValues',\n        payload         : {device: msg.device, trace: trace},\n        userID          : msg.userID,\n    }\n};\n",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\n\nfunction sortByKey(arr, key) \n{\n    return arr.sort( function(a, b) \n        {\n            var x = a[key]; \n            var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        } );\n}\n\nvar numRecords = objectLength(msg.payload);\nif (numRecords < 1)\n{\n    return {\n        topic : msg.device.name,\n        payload:{\n            topic           : 'getArchiveValues',\n            payload         : {device: msg.device, trace:null},\n            userID          : msg.userID,\n        }\n    };\n}\nvar records = [];\nfor (var ii = 0; ii < numRecords; ++ii) records[ii] = msg.payload[ii]; \nsortByKey(records, 'timeStamp');\nvar trace = [];\nvar icount = 0;\nfor (var ii = 0; ii < numRecords; ++ii)\n{\n    if (records[ii].hasOwnProperty('readings') || records[ii].hasOwnProperty('settings'))\n    {\n        trace[icount] = {timeStamp: records[ii].timeStamp, value: records[ii][msg.device.prop][0].value};\n        ++icount;\n    }\n}\n\nreturn {\n    topic : msg.device.socket,\n    payload:{\n        topic           : 'getArchiveValues',\n        payload         : {device: msg.device, trace: trace},\n        userID          : msg.userID,\n    }\n};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 690,
@@ -3392,7 +3337,7 @@
         "type": "subflow:8341090a.df9758",
         "z": "8475ab9.3d26058",
         "name": "",
-        "x": 870,
+        "x": 850,
         "y": 560,
         "wires": []
     },
@@ -3422,7 +3367,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector 1</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma02\" >Chill Detector 2</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma03\" >Chill Detector 3</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiver-sim\" >Shiver Simulator</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n         <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <iframe src=\"https://shiftr.io/Blinky-Lite/chill-detector/embed?zoom=1\" width=\"700\" height=\"500\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\n                <p>Chill Detector MQTT Broker</p>\n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiver-sim\" >Shiver Simulator</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 510,
         "y": 40,
@@ -3625,61 +3570,6 @@
         "x": 715,
         "y": 820,
         "wires": []
-    },
-    {
-        "id": "577ec62c.503968",
-        "type": "http in",
-        "z": "8475ab9.3d26058",
-        "name": "/dma03",
-        "url": "/dma03",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 200,
-        "wires": [
-            [
-                "83d8e834.f6a368"
-            ]
-        ]
-    },
-    {
-        "id": "83d8e834.f6a368",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Set Device Leader to 3",
-        "field": "payload.script.deviceLeader",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "'dma03'",
-        "output": "str",
-        "x": 300,
-        "y": 200,
-        "wires": [
-            [
-                "f96f205b.99594"
-            ]
-        ]
-    },
-    {
-        "id": "f96f205b.99594",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Title 3",
-        "field": "payload.title",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "Chill Detector 3",
-        "output": "str",
-        "x": 470,
-        "y": 200,
-        "wires": [
-            [
-                "4df975bd.9d398c"
-            ]
-        ]
     },
     {
         "id": "de6d1627.f7aa88",
