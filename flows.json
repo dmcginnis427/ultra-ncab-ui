@@ -419,24 +419,10 @@
         "secret": "$(JWTKEYSECRET)"
     },
     {
-        "id": "a4d8c843.f9c6b8",
-        "type": "websocket-listener",
-        "z": "",
-        "path": "/dma02/websocket",
-        "wholemsg": "false"
-    },
-    {
         "id": "e6c7842e.bc4f98",
         "type": "websocket-listener",
         "z": "",
         "path": "/dma01/websocket",
-        "wholemsg": "false"
-    },
-    {
-        "id": "87ffc8f5.a740d8",
-        "type": "websocket-listener",
-        "z": "",
-        "path": "/dma03/websocket",
         "wholemsg": "false"
     },
     {
@@ -457,7 +443,7 @@
         "id": "9d73700b.2888b",
         "type": "websocket-listener",
         "z": "",
-        "path": "/shiver-sim/websocket",
+        "path": "/shiver-sim-01/websocket",
         "wholemsg": "false"
     },
     {
@@ -2580,17 +2566,6 @@
         ]
     },
     {
-        "id": "cab6dc8d.e8eb8",
-        "type": "websocket out",
-        "z": "8475ab9.3d26058",
-        "name": "",
-        "server": "a4d8c843.f9c6b8",
-        "client": "",
-        "x": 1250,
-        "y": 780,
-        "wires": []
-    },
-    {
         "id": "a83f817b.5032b",
         "type": "template",
         "z": "8475ab9.3d26058",
@@ -2847,21 +2822,6 @@
         ]
     },
     {
-        "id": "48ec056e.22d62c",
-        "type": "websocket in",
-        "z": "8475ab9.3d26058",
-        "name": "",
-        "server": "a4d8c843.f9c6b8",
-        "client": "",
-        "x": 160,
-        "y": 1080,
-        "wires": [
-            [
-                "45a7d04b.f97db"
-            ]
-        ]
-    },
-    {
         "id": "45a7d04b.f97db",
         "type": "json",
         "z": "8475ab9.3d26058",
@@ -2885,7 +2845,7 @@
         "server": "e6c7842e.bc4f98",
         "client": "",
         "x": 160,
-        "y": 1040,
+        "y": 1060,
         "wires": [
             [
                 "45a7d04b.f97db"
@@ -2940,34 +2900,18 @@
             },
             {
                 "t": "eq",
-                "v": "chillDetector/dma02/reading",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "chillDetector/dma03/reading",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "chillDetector/shiver-sim/reading",
+                "v": "chillDetector/shiver-sim-01/reading",
                 "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 4,
+        "outputs": 2,
         "x": 630,
         "y": 800,
         "wires": [
             [
                 "2c85681c.6f9628"
-            ],
-            [
-                "a971650.b9f5b98"
-            ],
-            [
-                "856227a0.ae9c58"
             ],
             [
                 "dd585613.72b248"
@@ -3108,32 +3052,16 @@
                 "t": "eq",
                 "v": "dma01",
                 "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "dma02",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "dma03",
-                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 3,
+        "outputs": 1,
         "x": 850,
         "y": 940,
         "wires": [
             [
                 "c7477c59.bb2cf"
-            ],
-            [
-                "1c44acc.78a6853"
-            ],
-            [
-                "de6d1627.f7aa88"
             ]
         ]
     },
@@ -3142,7 +3070,7 @@
         "type": "function",
         "z": "8475ab9.3d26058",
         "name": "CheckLogin",
-        "func": "if (msg.payload.payload.loginPassword != global.get('settingsPassword'))\n{\n    return [{topic:'getJwtToken', payload:{topic:'getJwtToken', userID:msg.payload.userID, token: null}}, null];\n}\nreturn [null, {topic:'getJwtToken',payload:msg.payload.userID, userID : msg.payload.userID}];",
+        "func": "if (global.get('settingsPassword') == 'NULL')\n{\n    return [null, {topic:'getJwtToken',payload:msg.payload.userID, userID : msg.payload.userID}];    \n}\nif (msg.payload.payload.loginPassword != global.get('settingsPassword'))\n{\n    return [{topic:'getJwtToken', payload:{topic:'getJwtToken', userID:msg.payload.userID, token: null}}, null];\n}\nreturn [null, {topic:'getJwtToken',payload:msg.payload.userID, userID : msg.payload.userID}];",
         "outputs": 2,
         "noerr": 0,
         "x": 690,
@@ -3197,7 +3125,7 @@
             "2c85681c.6f9628"
         ],
         "x": 1095,
-        "y": 740,
+        "y": 780,
         "wires": [
             [
                 "aa54395e.1b6888"
@@ -3213,7 +3141,7 @@
             "c7035bb0.5180c8"
         ],
         "x": 715,
-        "y": 740,
+        "y": 780,
         "wires": []
     },
     {
@@ -3225,7 +3153,7 @@
             "c7035bb0.5180c8"
         ],
         "x": 935,
-        "y": 900,
+        "y": 940,
         "wires": []
     },
     {
@@ -3241,48 +3169,6 @@
         ],
         "x": 1115,
         "y": 1160,
-        "wires": []
-    },
-    {
-        "id": "6eee5bd4.f602e4",
-        "type": "link in",
-        "z": "8475ab9.3d26058",
-        "name": "demo-2 socket",
-        "links": [
-            "a971650.b9f5b98",
-            "1c44acc.78a6853",
-            "439b1d51.6f5e64"
-        ],
-        "x": 1095,
-        "y": 780,
-        "wires": [
-            [
-                "cab6dc8d.e8eb8"
-            ]
-        ]
-    },
-    {
-        "id": "a971650.b9f5b98",
-        "type": "link out",
-        "z": "8475ab9.3d26058",
-        "name": "App Subscribe Readings 2",
-        "links": [
-            "6eee5bd4.f602e4"
-        ],
-        "x": 715,
-        "y": 780,
-        "wires": []
-    },
-    {
-        "id": "1c44acc.78a6853",
-        "type": "link out",
-        "z": "8475ab9.3d26058",
-        "name": "App Archiver Data 2",
-        "links": [
-            "6eee5bd4.f602e4"
-        ],
-        "x": 935,
-        "y": 940,
         "wires": []
     },
     {
@@ -3367,7 +3253,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiver-sim\" >Shiver Simulator</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/dma01\" >Chill Detector</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiver-sim-01\" >Shiver Simulator</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Core</a> \n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 510,
         "y": 40,
@@ -3513,74 +3399,6 @@
         "targetType": "full",
         "x": 850,
         "y": 300,
-        "wires": []
-    },
-    {
-        "id": "218abe2c.7e2132",
-        "type": "websocket out",
-        "z": "8475ab9.3d26058",
-        "name": "",
-        "server": "87ffc8f5.a740d8",
-        "client": "",
-        "x": 1250,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "a9e05c69.66345",
-        "type": "link in",
-        "z": "8475ab9.3d26058",
-        "name": "demo-3 socket",
-        "links": [
-            "439b1d51.6f5e64",
-            "856227a0.ae9c58",
-            "de6d1627.f7aa88"
-        ],
-        "x": 1095,
-        "y": 820,
-        "wires": [
-            [
-                "218abe2c.7e2132"
-            ]
-        ]
-    },
-    {
-        "id": "f2bd3d7d.d6a1f",
-        "type": "websocket in",
-        "z": "8475ab9.3d26058",
-        "name": "",
-        "server": "87ffc8f5.a740d8",
-        "client": "",
-        "x": 160,
-        "y": 1120,
-        "wires": [
-            [
-                "45a7d04b.f97db"
-            ]
-        ]
-    },
-    {
-        "id": "856227a0.ae9c58",
-        "type": "link out",
-        "z": "8475ab9.3d26058",
-        "name": "App Subscribe Readings 2",
-        "links": [
-            "a9e05c69.66345"
-        ],
-        "x": 715,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "de6d1627.f7aa88",
-        "type": "link out",
-        "z": "8475ab9.3d26058",
-        "name": "App Archiver Data 2",
-        "links": [
-            "a9e05c69.66345"
-        ],
-        "x": 935,
-        "y": 980,
         "wires": []
     },
     {
@@ -4442,7 +4260,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Create shiver-sim Database entry",
-        "func": "var device = \n{\n    name        : 'shiver-sim',\n    arcPeriod   : 6000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'shiver-sim',payload:device};",
+        "func": "var device = \n{\n    name        : 'shiver-sim-01',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'shiver-sim-01',payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 360,
@@ -4509,7 +4327,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Update shiver-sim Database entry with MQTT",
-        "func": "var device = \n{\n    name        : 'shiver-sim',\n    arcPeriod   : 6000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/shiver-sim/setting', payload:device};",
+        "func": "var device = \n{\n    name        : 'shiver-sim-01',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/shiver-sim-01/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 400,
@@ -4595,12 +4413,12 @@
         "id": "fe8f260e.b76e48",
         "type": "http in",
         "z": "8475ab9.3d26058",
-        "name": "/shiver-sim",
-        "url": "/shiver-sim",
+        "name": "/shiver-sim-01",
+        "url": "/shiver-sim-01",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 120,
+        "x": 110,
         "y": 660,
         "wires": [
             [
@@ -4617,7 +4435,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "'shiver-sim'",
+        "template": "'shiver-sim-01'",
         "output": "str",
         "x": 290,
         "y": 660,
@@ -4702,7 +4520,7 @@
             "5e98ed1e.d1c5b4"
         ],
         "x": 715,
-        "y": 860,
+        "y": 840,
         "wires": []
     },
     {
@@ -4715,7 +4533,7 @@
             "439b1d51.6f5e64"
         ],
         "x": 1095,
-        "y": 860,
+        "y": 820,
         "wires": [
             [
                 "5715075f.6c2398"
@@ -4730,7 +4548,7 @@
         "server": "9d73700b.2888b",
         "client": "",
         "x": 1240,
-        "y": 860,
+        "y": 820,
         "wires": []
     },
     {
@@ -4740,8 +4558,8 @@
         "name": "",
         "server": "9d73700b.2888b",
         "client": "",
-        "x": 170,
-        "y": 1160,
+        "x": 180,
+        "y": 1140,
         "wires": [
             [
                 "45a7d04b.f97db"
