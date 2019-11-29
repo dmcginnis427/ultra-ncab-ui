@@ -520,6 +520,11 @@
             },
             {
                 "t": "eq",
+                "v": "getNameList",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
                 "v": "getAttrList",
                 "vt": "str"
             },
@@ -546,12 +551,15 @@
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 6,
+        "outputs": 7,
         "x": 430,
         "y": 380,
         "wires": [
             [
                 "7ef5d7af.5aeed8"
+            ],
+            [
+                "80b3fbd.ba21908"
             ],
             [
                 "ccb4a4a2.49a2e8"
@@ -566,7 +574,8 @@
                 "4819746c.65db8c"
             ],
             [
-                "174cb425.13a64c"
+                "174cb425.13a64c",
+                "21767302.27042c"
             ]
         ]
     },
@@ -575,7 +584,7 @@
         "type": "function",
         "z": "dc20c6e0.0feb98",
         "name": "getDeviceList",
-        "func": "var newMsg = \n{\n    topic           : 'getDeviceList',\n    userID          : msg.payload.userID,\n    payload         : [{},{projection:{name:1, _id:0}}]\n};\nreturn newMsg;",
+        "func": "var newMsg = \n{\n    topic           : 'getDeviceList',\n    userID          : msg.payload.userID,\n    payload         : [{},{projection:{deviceType:1, _id:0}}]\n};\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
         "x": 620,
@@ -610,7 +619,7 @@
         "type": "function",
         "z": "dc20c6e0.0feb98",
         "name": "parse device list",
-        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\nvar numDevices = objectLength(msg.payload);\nvar deviceList = [];\n\nfor (var idevice = 0; idevice < numDevices; ++idevice)\n{\n    deviceList[idevice] = msg.payload[idevice].name;\n}\nreturn {\n    topic:'getDeviceList',\n    payload:{\n        topic           : 'getDeviceList',\n        payload         : deviceList,\n        userID          : msg.userID,\n    }\n};\n",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\nvar numDevices = objectLength(msg.payload);\nvar deviceList = [];\ndeviceList[0] = msg.payload[0].deviceType;\nif (numDevices > 1)\n{\n    for (var idevice = 1; idevice < numDevices; ++idevice)\n    {\n        var deviceAlreadyFound = false;\n        for (ii = 0; ii < idevice; ++ii)\n        {\n            if (msg.payload[idevice].deviceType == deviceList[ii]) deviceAlreadyFound = true;\n        }\n        if (!deviceAlreadyFound) deviceList[idevice] = msg.payload[idevice].deviceType;\n    }\n}\n\nreturn {\n    topic:'getDeviceList',\n    payload:{\n        topic           : 'getDeviceList',\n        payload         : deviceList,\n        userID          : msg.userID,\n    }\n};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 1240,
@@ -626,11 +635,11 @@
         "type": "function",
         "z": "dc20c6e0.0feb98",
         "name": "getAttrList",
-        "func": "var projectionFilter =  {projection:{readings:1,_id:0}};\nif (msg.payload.prop == 'settings') projectionFilter =  {projection:{settings:1,_id:0}};\nvar newMsg = \n{\n    topic           : 'getAttrList',\n    userID          : msg.payload.userID,\n    payload         : [{name:msg.payload.name}, projectionFilter],\n    prop            : msg.payload.prop,\n    name            : msg.payload.name,\n    trace           : msg.payload.trace\n};\nreturn newMsg;",
+        "func": "var projectionFilter =  {projection:{readings:1,_id:0}};\nif (msg.payload.prop == 'settings') projectionFilter =  {projection:{settings:1,_id:0}};\nvar newMsg = \n{\n    topic           : 'getAttrList',\n    userID          : msg.payload.userID,\n    payload         : [{$and : [{deviceType:msg.payload.deviceType}, {name:msg.payload.name}]}, projectionFilter],\n    prop            : msg.payload.prop,\n    name            : msg.payload.name,\n    deviceType      : msg.payload.deviceType,\n    trace           : msg.payload.trace\n};\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
         "x": 600,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "699dce99.1fe68"
@@ -652,6 +661,11 @@
             },
             {
                 "t": "eq",
+                "v": "getNameList",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
                 "v": "getAttrList",
                 "vt": "str"
             },
@@ -663,12 +677,15 @@
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 3,
+        "outputs": 4,
         "x": 1090,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "2b6693c7.697dbc"
+            ],
+            [
+                "818972ac.61492"
             ],
             [
                 "a73ef173.723ab"
@@ -683,11 +700,11 @@
         "type": "function",
         "z": "dc20c6e0.0feb98",
         "name": "parse attrList",
-        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\nvar numDevices = objectLength(msg.payload);\nif (numDevices < 1) return null;\nvar attrListBig = msg.payload[0][msg.prop];\nvar attrList = [];\nvar attrCount = 0;\nfor (var ii = 0; ii < attrListBig.length; ++ii)\n{\n    if (attrListBig[ii].type == 'scalar')\n    {\n        attrList[attrCount] = attrListBig[ii].attr;\n        ++attrCount\n    }\n}\nif (attrCount < 1) return null;\nreturn {\n    topic:'getAttrList',\n    payload:{\n        topic           : 'getAttrList',\n        userID          : msg.userID,\n        prop            : msg.prop,\n        name            : msg.name,\n        trace           : msg.trace,\n        attrList        : attrList\n\n    }\n};\n",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\nvar numDevices = objectLength(msg.payload);\nif (numDevices < 1) return null;\nvar attrListBig = msg.payload[0][msg.prop];\nvar attrList = [];\nvar attrCount = 0;\nfor (var ii = 0; ii < attrListBig.length; ++ii)\n{\n    if (attrListBig[ii].type == 'scalar')\n    {\n        attrList[attrCount] = attrListBig[ii].attr;\n        ++attrCount\n    }\n}\nif (attrCount < 1) return null;\nreturn {\n    topic:'getAttrList',\n    payload:{\n        topic           : 'getAttrList',\n        userID          : msg.userID,\n        prop            : msg.prop,\n        name            : msg.name,\n        deviceType      : msg.deviceType,\n        trace           : msg.trace,\n        attrList        : attrList\n\n    }\n};\n",
         "outputs": 1,
         "noerr": 0,
         "x": 1230,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "1f6a9f15.3d80c1"
@@ -751,7 +768,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "parse topic",
-        "func": "return {\n    topic   :msg.payload.name, \n    payload : [{name : msg.payload.name}, {projection:{_id:0}}],\n    'device':msg.payload\n};\n\n",
+        "func": "return {\n    topic   :msg.payload.name, \n    payload : \n    [\n        {\n            $and   :    \n            [\n                {\n                    deviceType : msg.payload.deviceType\n                },\n                {\n                    name : msg.payload.name\n                }\n            ]\n        }, \n        {\n            projection  :\n            {\n                _id :   0\n                \n            }\n        }\n    ],\n    'device'    :   msg.payload\n};\n\n",
         "outputs": 1,
         "noerr": 0,
         "x": 410,
@@ -767,7 +784,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Check Archive interval",
-        "func": "msg.payload.readings = msg.device.readings;\nmsg.payload.settings = msg.device.settings;\nmsg.payload.timeStamp = new Date().getTime();\nmsg.payload.arcPeriod = msg.device.arcPeriod;\nvar archiveMsg = null;\nif ((msg.payload.timeStamp - msg.payload.lastArchive) > msg.payload.arcPeriod)\n{\n    msg.payload.lastArchive  = msg.payload.timeStamp;\n    msg.device.lastArchive = msg.payload.lastArchive;\n    msg.device.timeStamp = msg.payload.timeStamp;\n    var archiveDevice = JSON.parse(JSON.stringify(msg.device));\n    delete archiveDevice.arcPeriod;\n    delete archiveDevice.lastArchive;\n    for (var ii = 0; ii < archiveDevice.readings.length; ++ii)\n    {\n        if (archiveDevice.readings[ii].type == 'scalar')\n        {\n            delete archiveDevice.readings[ii].unit;\n            delete archiveDevice.readings[ii].alarm;\n        }\n        delete archiveDevice.readings[ii].type;\n    }\n    for (var ii = 0; ii < archiveDevice.settings.length; ++ii)\n    {\n        if (archiveDevice.settings[ii].type == 'scalar')\n        {\n            delete archiveDevice.settings[ii].unit;\n            delete archiveDevice.settings[ii].alarm;\n        }\n        delete archiveDevice.settings[ii].type;\n    }\n    archiveMsg = {topic:'archiveData',payload: archiveDevice};\n}\nvar updateDeviceMsg = {topic:'updateDevice',payload:[{name:msg.payload.name},msg.payload]};\nreturn [updateDeviceMsg,archiveMsg];\n",
+        "func": "msg.payload.readings = msg.device.readings;\nmsg.payload.settings = msg.device.settings;\nmsg.payload.timeStamp = new Date().getTime();\nmsg.payload.arcPeriod = msg.device.arcPeriod;\nvar archiveMsg = null;\nif ((msg.payload.timeStamp - msg.payload.lastArchive) > msg.payload.arcPeriod)\n{\n    msg.payload.lastArchive  = msg.payload.timeStamp;\n    msg.device.lastArchive = msg.payload.lastArchive;\n    msg.device.timeStamp = msg.payload.timeStamp;\n    var archiveDevice = JSON.parse(JSON.stringify(msg.device));\n    delete archiveDevice.arcPeriod;\n    delete archiveDevice.lastArchive;\n    for (var ii = 0; ii < archiveDevice.readings.length; ++ii)\n    {\n        if (archiveDevice.readings[ii].type == 'scalar')\n        {\n            delete archiveDevice.readings[ii].unit;\n            delete archiveDevice.readings[ii].alarm;\n        }\n        delete archiveDevice.readings[ii].type;\n    }\n    for (var ii = 0; ii < archiveDevice.settings.length; ++ii)\n    {\n        if (archiveDevice.settings[ii].type == 'scalar')\n        {\n            delete archiveDevice.settings[ii].unit;\n            delete archiveDevice.settings[ii].alarm;\n        }\n        delete archiveDevice.settings[ii].type;\n    }\n    archiveMsg = {topic:'archiveData',payload: archiveDevice};\n}\nvar updateDeviceMsg = \n{\n    topic:'updateDevice',\n    payload:\n    [\n        {\n            $and   :    \n            [\n                {\n                    deviceType : msg.payload.deviceType\n                },\n                {\n                    name : msg.payload.name\n                }\n            ]\n        }, \n        msg.payload\n    ]\n};\nreturn [updateDeviceMsg,archiveMsg];\n",
         "outputs": 2,
         "noerr": 0,
         "x": 1080,
@@ -882,7 +899,7 @@
         "collection": "devices",
         "operation": "find.toArray",
         "x": 890,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "d206e66b.d73eb8"
@@ -898,7 +915,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 630,
-        "y": 380,
+        "y": 420,
         "wires": [
             [
                 "699dce99.1fe68"
@@ -914,7 +931,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1260,
-        "y": 380,
+        "y": 420,
         "wires": [
             [
                 "1f6a9f15.3d80c1"
@@ -1061,7 +1078,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 630,
-        "y": 420,
+        "y": 460,
         "wires": [
             [
                 "c83b72f2.fbac"
@@ -1078,7 +1095,7 @@
         "collection": "archiver",
         "operation": "find.toArray",
         "x": 890,
-        "y": 420,
+        "y": 460,
         "wires": [
             [
                 "91696018.4cd47"
@@ -1094,7 +1111,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 1250,
-        "y": 420,
+        "y": 460,
         "wires": [
             [
                 "1f6a9f15.3d80c1"
@@ -1127,7 +1144,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "    <div width=\"100%\">\n        <table width=\"100%\">\n            <tr>\n                <td width=\"10%\" align=\"center\"><span class=\"tableHeading \">Tr</span></td>\n                <td width=\"15%\" align=\"center\"><span class=\"tableHeading \">Device</span></td>\n                <td width=\"15%\" align=\"center\"><span class=\"tableHeading \">Prop</span></td>\n                <td width=\"15%\" align=\"center\"><span class=\"tableHeading \">Attr</span></td>\n                <td width=\"15%\" align=\"center\"><span class=\"tableHeading \">value</span></td>\n                <td width=\"15%\" align=\"center\"><span class=\"tableHeading \">unit</span></td>\n                <td width=\"15%\" align=\"center\"><span class=\"tableHeading \">Edit</span></td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">1</span></td>\n                <td>\n                    <select class=\"custom-select \" id=\"deviceSelect0\" onchange=\"deviceSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"propSelect0\" onchange=\"propSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"attrSelect0\" onchange=\"attrSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText \" id=\"valueSelect0\"></span></td>\n                <td align=\"center\"><span class=\"tableText \" id=\"unitSelect0\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton0\" type=\"button\" onclick=\"editDevice(0)\">Edit</button>\n                </td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">2</span></td>\n                <td>\n                    <select class=\"custom-select\" id=\"deviceSelect1\" onchange=\"deviceSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"propSelect1\" onchange=\"propSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"attrSelect1\" onchange=\"attrSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText\" id=\"valueSelect1\"></span></td>\n                <td align=\"center\"><span class=\"tableText\" id=\"unitSelect1\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton1\" type=\"button\" onclick=\"editDevice(1)\">Edit</button>\n                </td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">3</span></td>\n                <td>\n                    <select class=\"custom-select\" id=\"deviceSelect2\" onchange=\"deviceSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"propSelect2\" onchange=\"propSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"attrSelect2\" onchange=\"attrSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText\" id=\"valueSelect2\"></span></td>\n                <td align=\"center\"><span class=\"tableText\" id=\"unitSelect2\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton2\" type=\"button\" onclick=\"editDevice(2)\">Edit</button>\n                </td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">4</span></td>\n                <td>\n                    <select class=\"custom-select\" id=\"deviceSelect3\" onchange=\"deviceSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"propSelect3\" onchange=\"propSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"attrSelect3\" onchange=\"attrSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText\" id=\"valueSelect3\"></span></td>\n                <td align=\"center\"><span class=\"tableText\" id=\"unitSelect3\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton3\" type=\"button\" onclick=\"editDevice(3)\">Edit</button>\n                </td>\n            </tr>\n        </table>\n    </div>\n    <div id=\"editDeviceDialog\" title=\"Edit Device\" class='card'>\n        <p class='card-title' id='editDeviceDialogAttribute'>Attribute</p>\n        <div class='card-body'>\n            <table>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">Value</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"attrValue\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">LoLo</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"loloAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">LOW</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"lowAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">HIGH</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"highAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">HiHi</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"hihiAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">Notify Name</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"notifyName\" type=\"text\" value=\"\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">Notify Number</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"notifyNumber\" type=\"text\" value=\"\" /></td>\n                </tr>\n            </table>\n        </div>\n    </div>",
+        "template": "    <div width=\"100%\">\n        <table width=\"100%\">\n            <tr>\n                <td width=\"9%\"  align=\"center\"><span class=\"tableHeading \">Tr</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">Device</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">Name</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">Prop</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">Attr</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">value</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">unit</span></td>\n                <td width=\"13%\" align=\"center\"><span class=\"tableHeading \">Edit</span></td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">1</span></td>\n                <td>\n                    <select class=\"custom-select \" id=\"deviceSelect0\" onchange=\"deviceSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"nameSelect0\" onchange=\"nameSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"propSelect0\" onchange=\"propSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"attrSelect0\" onchange=\"attrSelected(0)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText \" id=\"valueSelect0\"></span></td>\n                <td align=\"center\"><span class=\"tableText \" id=\"unitSelect0\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton0\" type=\"button\" onclick=\"editDevice(0)\">Edit</button>\n                </td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">2</span></td>\n                <td>\n                    <select class=\"custom-select\" id=\"deviceSelect1\" onchange=\"deviceSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"nameSelect1\" onchange=\"nameSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"propSelect1\" onchange=\"propSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"attrSelect1\" onchange=\"attrSelected(1)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText\" id=\"valueSelect1\"></span></td>\n                <td align=\"center\"><span class=\"tableText\" id=\"unitSelect1\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton1\" type=\"button\" onclick=\"editDevice(1)\">Edit</button>\n                </td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">3</span></td>\n                <td>\n                    <select class=\"custom-select\" id=\"deviceSelect2\" onchange=\"deviceSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"nameSelect2\" onchange=\"nameSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"propSelect2\" onchange=\"propSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"attrSelect2\" onchange=\"attrSelected(2)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText\" id=\"valueSelect2\"></span></td>\n                <td align=\"center\"><span class=\"tableText\" id=\"unitSelect2\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton2\" type=\"button\" onclick=\"editDevice(2)\">Edit</button>\n                </td>\n            </tr>\n            <tr>\n                <td align=\"center\"><span class=\"tableText\">4</span></td>\n                <td>\n                    <select class=\"custom-select\" id=\"deviceSelect3\" onchange=\"deviceSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select \" id=\"nameSelect3\" onchange=\"nameSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"propSelect3\" onchange=\"propSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td>\n                    <select class=\"custom-select\" id=\"attrSelect3\" onchange=\"attrSelected(3)\">\n                        <option value='notSelected'></option>\n                    </select>\n                </td>\n                <td align=\"center\"><span class=\"tableText\" id=\"valueSelect3\"></span></td>\n                <td align=\"center\"><span class=\"tableText\" id=\"unitSelect3\"></span></td>\n                <td align=\"center\">\n                    <button class=\"btn jumbotron-button btn-block\" id=\"editDeviceButton3\" type=\"button\" onclick=\"editDevice(3)\">Edit</button>\n                </td>\n            </tr>\n        </table>\n    </div>\n    <div id=\"editDeviceDialog\" title=\"Edit Device\" class='card'>\n        <p class='card-title' id='editDeviceDialogAttribute'>Attribute</p>\n        <div class='card-body'>\n            <table>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">Value</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"attrValue\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">LoLo</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"loloAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">LOW</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"lowAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">HIGH</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"highAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">HiHi</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"hihiAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">Notify Name</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"notifyName\" type=\"text\" value=\"\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"50%\" align=\"left\">  <span class=\"tableHeading\">Notify Number</span></td>\n                    <td width=\"50%\" align=\"right\"><input class=\"form-control\" id=\"notifyNumber\" type=\"text\" value=\"\" /></td>\n                </tr>\n            </table>\n        </div>\n    </div>",
         "output": "str",
         "x": 610,
         "y": 160,
@@ -1146,7 +1163,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "        var numTraces = 4;\n        var deviceSelect = [];\n        var propSelect=[];\n        var attrSelect=[];\n        var valSelect=[];\n        var devInfo = [];\n        var permitGetDeviceValues = true;\n        var editedTrace = -1;\n        \n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                deviceSelect[itrace] = document.getElementById('deviceSelect' + itrace.toString());\n                propSelect[itrace] = document.getElementById('propSelect' + itrace.toString());\n                attrSelect[itrace] = document.getElementById('attrSelect' + itrace.toString());\n                valSelect[itrace] = document.getElementById('valSelect' + itrace.toString());\n                devInfo[itrace] = {name : '',  prop : '',attr : '',device : {}};\n                $('#unitSelect'+ itrace.toString()).html('');\n                $('#editDeviceButton'+ itrace.toString()).hide();\n            }\n            setInterval(getDeviceValues, 1000);\n        }\n        function onWebSocketOpen()\n        {\n            sendWebSocketMessageObject({topic : 'getDeviceList',payload : {}, 'userID' : userID,});\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            if (msg.userID == userID)\n            {\n                switch(msg.topic)\n                {\n                    case 'getDeviceList':\n                        loadDeviceList(msg.payload);\n                        break;\n                    case 'getAttrList':\n                        loadAttrList(msg);\n                        break;\n                    case 'getDeviceValues':\n                        loadDeviceValues(msg);\n                        break;\n                    case 'getJwtToken':\n                        loadJwtToken(msg);\n                        break;\n                    case 'settingAcknowledge':\n                        acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                        break;\n                    default:\n                    // code block\n                }\n            }\n        }\n        function loadDeviceList(deviceList)\n        {\n            deviceList.sort();\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                for (var ii = 0; ii < deviceList.length; ++ii)\n                {\n                    var opt = document.createElement('option');\n                    opt.value = deviceList[ii];\n                    opt.innerHTML = deviceList[ii];\n                    deviceSelect[itrace].appendChild(opt);\n                }\n                var readOpt = document.createElement('option');\n                readOpt.value = 'readings';\n                readOpt.innerHTML = 'readings';\n                propSelect[itrace].appendChild(readOpt);\n                var setOpt = document.createElement('option');\n                setOpt.value = 'settings';\n                setOpt.innerHTML = 'settings';\n                propSelect[itrace].appendChild(setOpt);\n            }\n        }\n        function deviceSelected(itrace)\n        {\n            propSelect[itrace].value = 'notSelected';\n            clearAttrOptionList(itrace);\n        }\n        function propSelected(itrace)\n        {\n            if (propSelect[itrace].value == 'notSelected') return;\n            if(deviceSelect[itrace].value == 'notSelected')\n            {\n                propSelect[itrace].value = 'notSelected';\n                return;\n            }\n            clearAttrOptionList(itrace);\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getAttrList',\n                    userID      : userID,\n                    trace       : itrace,\n                    name        : deviceSelect[itrace].value,\n                    prop        : propSelect[itrace].value\n                });\n        }\n        function loadAttrList(data)\n        {\n            data.attrList.sort();\n            for (var ii = 0; ii < data.attrList.length; ++ii)\n            {\n                var opt = document.createElement('option');\n                opt.value = data.attrList[ii];\n                opt.innerHTML = data.attrList[ii];\n                attrSelect[data.trace].appendChild(opt);\n            }\n        }\n        function attrSelected(itrace)\n        {\n            devInfo[itrace].name = '';\n            devInfo[itrace].prop = '';\n            devInfo[itrace].attr = '';\n            devInfo[itrace].device = {};\n            if (attrSelect[itrace].value == 'notSelected') \n            {\n                $('#valueSelect' + itrace.toString()).html('');\n                $('#unitSelect' + itrace.toString()).html('');\n                $('#editDeviceButton'+ itrace.toString()).hide();\n\n                return;\n            }\n            devInfo[itrace].name = deviceSelect[itrace].value;\n            devInfo[itrace].prop = propSelect[itrace].value;\n            devInfo[itrace].attr = attrSelect[itrace].value;\n            $('#editDeviceButton'+ itrace.toString()).show();\n\n\n        }\n        function clearAttrOptionList(itrace)\n        {\n            devInfo[itrace].name = '';\n            devInfo[itrace].prop = '';\n            devInfo[itrace].attr = '';\n            devInfo[itrace].device = {};\n\n            while (attrSelect[itrace].firstChild)\n            {\n                attrSelect[itrace].removeChild(attrSelect[itrace].firstChild);\n            }\n            var opt = document.createElement('option');\n            opt.value = 'notSelected';\n            opt.innerHTML = '';\n            attrSelect[itrace].appendChild(opt);\n            $('#valueSelect' + itrace.toString()).html('');\n            $('#unitSelect' + itrace.toString()).html('');\n            $('#editDeviceButton'+ itrace.toString()).hide();\n        }\n        function getDeviceValues()\n        {\n            var devList = [];\n            var traceCount = 0;\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                if (devInfo[itrace].name.length > 0) \n                {\n                    devList[traceCount] = {name : devInfo[itrace].name};\n                    ++traceCount;\n                }\n            }\n            if (traceCount < 1) return;\n            var queryFilter = { $or: devList };\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getDeviceValues',\n                    userID      : userID,\n                    queryFilter : queryFilter,\n                });\n \n        }\n        function loadDeviceValues(data)\n        {\n            if (!permitGetDeviceValues) return;\n            var devices = data.devices;\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                if (devInfo[itrace].name.length > 0)\n                {\n                    devInfo[itrace].device = devices.find(device => device.name === devInfo[itrace].name);\n                    var attr = getAttrObject(devInfo[itrace].device, itrace);\n                    var valueColor = 'black';\n                    if (attr.alarm.value > 0) valueColor = 'orange';\n                    if (attr.alarm.value > 2) valueColor = 'red';\n                    $('#valueSelect' + itrace.toString()).css(\"color\", valueColor);\n                    $('#valueSelect' + itrace.toString()).html(attr.value.toString());\n                    $('#unitSelect' + itrace.toString()).css(\"color\", valueColor);\n                    $('#unitSelect' + itrace.toString()).html(attr.unit);\n\n                }\n            }\n        }\n        function getAttrObject(device, itrace)\n        {\n            var props = device[devInfo[itrace].prop];\n            var attr = props.find(attr => attr.attr === devInfo[itrace].attr);\n            return attr;\n        }\n        $( function() \n        {\n            $( \"#editDeviceDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Set\",\n                            click: function() {setDevice(); $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" ); permitGetDeviceValues = true;},\n                            showText: false\n                        }\n                    ]\n                });\n        } );\n        function editDevice(itrace)\n        {\n            permitGetDeviceValues = false;\n            editedTrace = itrace;\n            $( \"#editDeviceDialog\" ).dialog( \"option\", \"title\", \"Edit\");    \n            $( \"#editDeviceDialogAttribute\").html(devInfo[itrace].name + '-'  + devInfo[itrace].prop + '-'  + devInfo[itrace].attr);\n\n            var attr = getAttrObject(devInfo[itrace].device, itrace);\n            $( \"#attrValue\").val(attr.value);\n            $( \"#loloAlarm\").val(attr.alarm.limits.lolo);\n            $( \"#lowAlarm\").val(attr.alarm.limits.low);\n            $( \"#highAlarm\").val(attr.alarm.limits.high);\n            $( \"#hihiAlarm\").val(attr.alarm.limits.hihi);\n            $( \"#notifyName\").val(attr.alarm.notify.name);\n            $( \"#notifyNumber\").val(attr.alarm.notify.number);\n\n            $( \"#editDeviceDialog\" ).dialog( \"open\" );\n        }\n        function setDevice()\n        {\n            var attr = getAttrObject(devInfo[editedTrace].device, editedTrace);\n            if (isNaN($('#attrValue').val()) \n                || isNaN($('#loloAlarm').val()) \n                || isNaN($('#lowAlarm').val()) \n                || isNaN($('#highAlarm').val()) \n                || isNaN($('#hihiAlarm').val()))\n            {\n                permitGetDeviceValues = true;\n                acknowledgeDialog('Error', 'Entry not a number!', attr.attr);\n                return;\n            }\n\n            attr.value = Number($( \"#attrValue\").val());\n            attr.alarm.limits.lolo = Number($( \"#loloAlarm\").val());\n            attr.alarm.limits.low = Number($( \"#lowAlarm\").val());\n            attr.alarm.limits.high = Number($( \"#highAlarm\").val());\n            attr.alarm.limits.hihi = Number($( \"#hihiAlarm\").val());\n            attr.alarm.notify.number =  $( \"#notifyNumber\").val();\n            attr.alarm.notify.name = $( \"#notifyName\").val();\n            console.log(devInfo[editedTrace].device);\n            var mqttMessage = \n            {\n                topic   : projectName + '/' + devInfo[editedTrace].device.name + '/setting',\n                payload :  devInfo[editedTrace].device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n            permitGetDeviceValues = true;\n        }\n",
+        "template": "        var numTraces = 4;\n        var deviceSelect = [];\n        var nameSelect = [];\n        var propSelect=[];\n        var attrSelect=[];\n        var valSelect=[];\n        var devInfo = [];\n        var permitGetDeviceValues = true;\n        var editedTrace = -1;\n        \n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                deviceSelect[itrace] = document.getElementById('deviceSelect' + itrace.toString());\n                nameSelect[itrace] = document.getElementById('nameSelect' + itrace.toString());\n                propSelect[itrace] = document.getElementById('propSelect' + itrace.toString());\n                attrSelect[itrace] = document.getElementById('attrSelect' + itrace.toString());\n                valSelect[itrace] = document.getElementById('valSelect' + itrace.toString());\n                devInfo[itrace] = {deviceType: '', name : '',  prop : '',attr : '',device : {}};\n                $('#unitSelect'+ itrace.toString()).html('');\n                $('#editDeviceButton'+ itrace.toString()).hide();\n            }\n            setInterval(getDeviceValues, 1000);\n        }\n        function onWebSocketOpen()\n        {\n            sendWebSocketMessageObject({topic : 'getDeviceList',payload : {}, 'userID' : userID,});\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            if (msg.userID == userID)\n            {\n                switch(msg.topic)\n                {\n                    case 'getDeviceList':\n                        loadDeviceList(msg.payload);\n                        break;\n                    case 'getNameList':\n                        loadNameList(msg);\n                        break;\n                    case 'getAttrList':\n                        loadAttrList(msg);\n                        break;\n                    case 'getDeviceValues':\n                        loadDeviceValues(msg);\n                        break;\n                    case 'getJwtToken':\n                        loadJwtToken(msg);\n                        break;\n                    case 'settingAcknowledge':\n                        acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                        break;\n                    default:\n                    // code block\n                }\n            }\n        }\n        function loadDeviceList(deviceList)\n        {\n            deviceList.sort();\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                for (var ii = 0; ii < deviceList.length; ++ii)\n                {\n                    var opt = document.createElement('option');\n                    opt.value = deviceList[ii];\n                    opt.innerHTML = deviceList[ii];\n                    deviceSelect[itrace].appendChild(opt);\n                }\n            }\n        }\n        function loadNameList(data)\n        {\n            data.nameList.sort();\n            for (var ii = 0; ii < data.nameList.length; ++ii)\n            {\n                var opt = document.createElement('option');\n                opt.value = data.nameList[ii];\n                opt.innerHTML = data.nameList[ii];\n                nameSelect[data.trace].appendChild(opt);\n            }\n\n            return;\n        }\n        function loadAttrList(data)\n        {\n            data.attrList.sort();\n            for (var ii = 0; ii < data.attrList.length; ++ii)\n            {\n                var opt = document.createElement('option');\n                opt.value = data.attrList[ii];\n                opt.innerHTML = data.attrList[ii];\n                attrSelect[data.trace].appendChild(opt);\n            }\n        }\n        function deviceSelected(itrace)\n        {\n            clearNameOptionList(itrace);\n            if (deviceSelect[itrace].value == 'notSelected') return;\n            nameSelect[itrace].value = 'notSelected';\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getNameList',\n                    userID      : userID,\n                    trace       : itrace,\n                    deviceType  : deviceSelect[itrace].value,\n                });\n        }\n        function nameSelected(itrace)\n        {\n            clearPropOptionList(itrace);\n            if (nameSelect[itrace].value == 'notSelected') return;\n            var readOpt = document.createElement('option');\n            readOpt.value = 'readings';\n            readOpt.innerHTML = 'readings';\n            propSelect[itrace].appendChild(readOpt);\n            var setOpt = document.createElement('option');\n            setOpt.value = 'settings';\n            setOpt.innerHTML = 'settings';\n            propSelect[itrace].appendChild(setOpt);\n            \n            propSelect[itrace].value = 'notSelected';\n        }\n        function propSelected(itrace)\n        {\n            clearAttrOptionList(itrace);\n            if (propSelect[itrace].value == 'notSelected') return;\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getAttrList',\n                    userID      : userID,\n                    trace       : itrace,\n                    deviceType  : deviceSelect[itrace].value,\n                    name        : nameSelect[itrace].value,\n                    prop        : propSelect[itrace].value\n                });\n        }\n        function attrSelected(itrace)\n        {\n            devInfo[itrace].deviceType = '';\n            devInfo[itrace].name = '';\n            devInfo[itrace].prop = '';\n            devInfo[itrace].attr = '';\n            devInfo[itrace].device = {};\n            if (attrSelect[itrace].value == 'notSelected') \n            {\n                $('#valueSelect' + itrace.toString()).html('');\n                $('#unitSelect' + itrace.toString()).html('');\n                $('#editDeviceButton'+ itrace.toString()).hide();\n\n                return;\n            }\n            devInfo[itrace].deviceType = deviceSelect[itrace].value;\n            devInfo[itrace].name = nameSelect[itrace].value;\n            devInfo[itrace].prop = propSelect[itrace].value;\n            devInfo[itrace].attr = attrSelect[itrace].value;\n            $('#editDeviceButton'+ itrace.toString()).show();\n\n\n        }\n        function clearNameOptionList(itrace)\n        {\n            devInfo[itrace].deviceType = '';\n            devInfo[itrace].name = '';\n            devInfo[itrace].prop = '';\n            devInfo[itrace].attr = '';\n            devInfo[itrace].device = {};\n\n            while (nameSelect[itrace].firstChild)\n            {\n                nameSelect[itrace].removeChild(nameSelect[itrace].firstChild);\n            }\n            var opt = document.createElement('option');\n            opt.value = 'notSelected';\n            opt.innerHTML = '';\n            nameSelect[itrace].appendChild(opt);\n            $('#valueSelect' + itrace.toString()).html('');\n            $('#unitSelect' + itrace.toString()).html('');\n            $('#editDeviceButton'+ itrace.toString()).hide();\n            clearPropOptionList(itrace);\n        }\n        function clearPropOptionList(itrace)\n        {\n            devInfo[itrace].deviceType = '';\n            devInfo[itrace].name = '';\n            devInfo[itrace].prop = '';\n            devInfo[itrace].attr = '';\n            devInfo[itrace].device = {};\n\n            while (propSelect[itrace].firstChild)\n            {\n                propSelect[itrace].removeChild(propSelect[itrace].firstChild);\n            }\n            var opt = document.createElement('option');\n            opt.value = 'notSelected';\n            opt.innerHTML = '';\n            propSelect[itrace].appendChild(opt);\n            $('#valueSelect' + itrace.toString()).html('');\n            $('#unitSelect' + itrace.toString()).html('');\n            $('#editDeviceButton'+ itrace.toString()).hide();\n            clearAttrOptionList(itrace);\n        }\n        function clearAttrOptionList(itrace)\n        {\n            devInfo[itrace].deviceType = '';\n            devInfo[itrace].name = '';\n            devInfo[itrace].prop = '';\n            devInfo[itrace].attr = '';\n            devInfo[itrace].device = {};\n\n            while (attrSelect[itrace].firstChild)\n            {\n                attrSelect[itrace].removeChild(attrSelect[itrace].firstChild);\n            }\n            var opt = document.createElement('option');\n            opt.value = 'notSelected';\n            opt.innerHTML = '';\n            attrSelect[itrace].appendChild(opt);\n            $('#valueSelect' + itrace.toString()).html('');\n            $('#unitSelect' + itrace.toString()).html('');\n            $('#editDeviceButton'+ itrace.toString()).hide();\n        }\n        function getDeviceValues()\n        {\n            var devList = [];\n            var traceCount = 0;\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                if ((devInfo[itrace].deviceType.length > 0) && (devInfo[itrace].name.length > 0)) \n                {\n                    devList[traceCount] = { $and: [ {deviceType : devInfo[itrace].deviceType}, {name : devInfo[itrace].name}]};\n                    ++traceCount;\n                }\n            }\n            if (traceCount < 1) return;\n            var queryFilter = { $or: devList };\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getDeviceValues',\n                    userID      : userID,\n                    queryFilter : queryFilter,\n                });\n \n        }\n        function loadDeviceValues(data)\n        {\n            if (!permitGetDeviceValues) return;\n            var devices = data.devices;\n            for (var itrace = 0; itrace < numTraces; ++itrace)\n            {\n                if (devInfo[itrace].attr.length > 0)\n                {\n                    for (idev = 0; idev < devices.length; ++idev)\n                    {\n                        if (devices[idev].deviceType == devInfo[itrace].deviceType)\n                        {\n                            if(devices[idev].name == devInfo[itrace].name)\n                            {\n                                devInfo[itrace].device = devices[idev];\n                                var props = devInfo[itrace].device[devInfo[itrace].prop];\n//                                var props = devices[idev][devInfo[itrace].prop];\n                                var attr = props.find(attr => attr.attr === devInfo[itrace].attr);\n                                var valueColor = 'black';\n                                if (attr.alarm.value > 0) valueColor = 'orange';\n                                if (attr.alarm.value > 2) valueColor = 'red';\n                                $('#valueSelect' + itrace.toString()).css(\"color\", valueColor);\n                                $('#valueSelect' + itrace.toString()).html(attr.value.toString());\n                                $('#unitSelect' + itrace.toString()).css(\"color\", valueColor);\n                                $('#unitSelect' + itrace.toString()).html(attr.unit);\n                            }\n                        }\n                    } \n                }\n            }\n        }\n        $( function() \n        {\n            $( \"#editDeviceDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Set\",\n                            click: function() {setDevice(); $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" ); permitGetDeviceValues = true;},\n                            showText: false\n                        }\n                    ]\n                });\n        } );\n        function editDevice(itrace)\n        {\n            permitGetDeviceValues = false;\n            editedTrace = itrace;\n            $( \"#editDeviceDialog\" ).dialog( \"option\", \"title\", \"Edit\");    \n            $( \"#editDeviceDialogAttribute\").html(devInfo[itrace].deviceType + '-'  + devInfo[itrace].name + '-'  + devInfo[itrace].prop + '-'  + devInfo[itrace].attr);\n            var props = devInfo[itrace].device[devInfo[itrace].prop];\n            var attr = props.find(attr => attr.attr === devInfo[itrace].attr);\n\n            $( \"#attrValue\").val(attr.value);\n            $( \"#loloAlarm\").val(attr.alarm.limits.lolo);\n            $( \"#lowAlarm\").val(attr.alarm.limits.low);\n            $( \"#highAlarm\").val(attr.alarm.limits.high);\n            $( \"#hihiAlarm\").val(attr.alarm.limits.hihi);\n            $( \"#notifyName\").val(attr.alarm.notify.name);\n            $( \"#notifyNumber\").val(attr.alarm.notify.number);\n\n            $( \"#editDeviceDialog\" ).dialog( \"open\" );\n        }\n        function setDevice()\n        {\n            var props = devInfo[editedTrace].device[devInfo[editedTrace].prop];\n            var attr = props.find(attr => attr.attr === devInfo[editedTrace].attr);\n            if (isNaN($('#attrValue').val()) \n                || isNaN($('#loloAlarm').val()) \n                || isNaN($('#lowAlarm').val()) \n                || isNaN($('#highAlarm').val()) \n                || isNaN($('#hihiAlarm').val()))\n            {\n                permitGetDeviceValues = true;\n                acknowledgeDialog('Error', 'Entry not a number!', attr.attr);\n                return;\n            }\n\n            attr.value = Number($( \"#attrValue\").val());\n            attr.alarm.limits.lolo = Number($( \"#loloAlarm\").val());\n            attr.alarm.limits.low = Number($( \"#lowAlarm\").val());\n            attr.alarm.limits.high = Number($( \"#highAlarm\").val());\n            attr.alarm.limits.hihi = Number($( \"#hihiAlarm\").val());\n            attr.alarm.notify.number =  $( \"#notifyNumber\").val();\n            attr.alarm.notify.name = $( \"#notifyName\").val();\n//            console.log(devInfo[editedTrace].device);\n            var mqttMessage = \n            {\n                topic   : projectName + '/' + devInfo[editedTrace].device.deviceType + '/' + devInfo[editedTrace].device.name + '/setting',\n                payload :  devInfo[editedTrace].device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n            permitGetDeviceValues = true;\n        }\n",
         "output": "str",
         "x": 350,
         "y": 160,
@@ -1205,11 +1222,11 @@
         "id": "acb98a7f.ed2778",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Create ChillDetector Database entry",
-        "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'patientID',        type : 'scalar',    value : 0,   unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,        low : 0,       high : 999999999998,      hihi : 999999999999  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
+        "name": "Create chillDetector Database entry",
+        "func": "var device = \n{\n    name        : '002',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
         "outputs": 1,
         "noerr": 0,
-        "x": 370,
+        "x": 360,
         "y": 900,
         "wires": [
             [
@@ -1311,7 +1328,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 630,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "10ada662.0629da"
@@ -1328,7 +1345,7 @@
         "retain": "false",
         "broker": "84d80994.260508",
         "x": 1300,
-        "y": 460,
+        "y": 500,
         "wires": []
     },
     {
@@ -1508,8 +1525,8 @@
         "id": "b6eb6c47.1e51",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Update ChillDetector Database entry with MQTT",
-        "func": "var device = \n{\n    name        : 'dma01',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'patientID',        type : 'scalar',    value : 0,   unit : 'unit',  alarm : {value : 0, limits: {lolo : 0,        low : 0,       high : 999999999998,      hihi : 999999999999  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/dma01/setting', payload:device};",
+        "name": "Update chillDetector Database entry with MQTT",
+        "func": "var device = \n{\n    name        : '003',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'BrainCool/chillDetector/003/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 400,
@@ -1650,11 +1667,11 @@
         "type": "function",
         "z": "dc20c6e0.0feb98",
         "name": "CheckLogin",
-        "func": "if (msg.payload.payload.loginPassword != global.get('settingsPassword'))\n{\n    return [{topic:'getJwtToken', payload:{topic:'getJwtToken', userID:msg.payload.userID, token: null}}, null];\n}\nreturn [null, {topic:'getJwtToken',payload:msg.payload.userID, userID : msg.payload.userID}];",
+        "func": "if ('NULL' == global.get('settingsPassword'))\n    return [null, {topic:'getJwtToken',payload:msg.payload.userID, userID : msg.payload.userID}];\nif (msg.payload.payload.loginPassword != global.get('settingsPassword'))\n{\n    return [{topic:'getJwtToken', payload:{topic:'getJwtToken', userID:msg.payload.userID, token: null}}, null];\n}\nreturn [null, {topic:'getJwtToken',payload:msg.payload.userID, userID : msg.payload.userID}];",
         "outputs": 2,
         "noerr": 0,
         "x": 610,
-        "y": 540,
+        "y": 580,
         "wires": [
             [
                 "7ed83a34.453664"
@@ -1671,7 +1688,7 @@
         "name": "get Token",
         "tokenconfig": "6acefdd9.69f124",
         "x": 830,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "eeebc9b7.1b2438"
@@ -1687,7 +1704,7 @@
         "outputs": 1,
         "noerr": 0,
         "x": 990,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "7ed83a34.453664"
@@ -1703,7 +1720,7 @@
             "23adba5a.1575e6"
         ],
         "x": 1155,
-        "y": 520,
+        "y": 560,
         "wires": []
     },
     {
@@ -1713,7 +1730,7 @@
         "name": "decrypt Token",
         "tokenconfig": "6acefdd9.69f124",
         "x": 850,
-        "y": 480,
+        "y": 520,
         "wires": [
             [
                 "2ed6e079.2ab4d"
@@ -1729,7 +1746,7 @@
         "outputs": 2,
         "noerr": 0,
         "x": 1030,
-        "y": 480,
+        "y": 520,
         "wires": [
             [
                 "6381975d.b98928",
@@ -2929,9 +2946,7 @@
         "x": 470,
         "y": 800,
         "wires": [
-            [
-                "81c39fe.b208a6"
-            ]
+            []
         ]
     },
     {
@@ -3479,7 +3494,7 @@
         "z": "dc20c6e0.0feb98",
         "name": "",
         "x": 1310,
-        "y": 520,
+        "y": 560,
         "wires": []
     },
     {
@@ -4259,48 +4274,17 @@
         "id": "19231a1a.0ae266",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Create shiver-sim Database entry",
-        "func": "var device = \n{\n    name        : 'shiver-sim-01',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'shiver-sim-01',payload:device};",
+        "name": "Create shiverSim Database entry",
+        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'shiverSim',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'shiverSim-01',payload:device};\n\n\n",
         "outputs": 1,
         "noerr": 0,
         "x": 360,
         "y": 960,
         "wires": [
             [
-                "ea518230.a9dc3"
+                "194e0a53.8d5cd6"
             ]
         ]
-    },
-    {
-        "id": "ea518230.a9dc3",
-        "type": "mongodb3 in",
-        "z": "e17f7487.2a78e8",
-        "service": "_ext_",
-        "configNode": "9cd5ff5e.caf86",
-        "name": "",
-        "collection": "devices",
-        "operation": "insertOne",
-        "x": 720,
-        "y": 960,
-        "wires": [
-            [
-                "4356af61.0546e"
-            ]
-        ]
-    },
-    {
-        "id": "4356af61.0546e",
-        "type": "debug",
-        "z": "e17f7487.2a78e8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 970,
-        "y": 960,
-        "wires": []
     },
     {
         "id": "c337c4d4.9e4258",
@@ -4326,15 +4310,15 @@
         "id": "77c20def.ce8aa4",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Update shiver-sim Database entry with MQTT",
-        "func": "var device = \n{\n    name        : 'shiver-sim-01',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'chillDetector/shiver-sim-01/setting', payload:device};",
+        "name": "Update shiverSim Database entry with MQTT",
+        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'shiverSim',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'BrainCool/shiverSim/001/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
-        "x": 400,
+        "x": 390,
         "y": 1100,
         "wires": [
             [
-                "d98f20a0.09629"
+                "f2a0c42e.7c1d68"
             ]
         ]
     },
@@ -4357,19 +4341,6 @@
                 "77c20def.ce8aa4"
             ]
         ]
-    },
-    {
-        "id": "d98f20a0.09629",
-        "type": "mqtt out",
-        "z": "e17f7487.2a78e8",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "84d80994.260508",
-        "x": 660,
-        "y": 1100,
-        "wires": []
     },
     {
         "id": "86c59754.260268",
@@ -4622,5 +4593,66 @@
                 "e96b7563.ec1818"
             ]
         ]
+    },
+    {
+        "id": "96e3bf4c.1ee58",
+        "type": "debug",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 620,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "80b3fbd.ba21908",
+        "type": "function",
+        "z": "dc20c6e0.0feb98",
+        "name": "getNameList",
+        "func": "var newMsg = \n{\n    topic           : 'getNameList',\n    userID          : msg.payload.userID,\n    payload         : [{deviceType:msg.payload.deviceType},{projection:{name:1, _id:0}}],\n    deviceType      : msg.payload.deviceType,\n    trace           : msg.payload.trace\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "699dce99.1fe68"
+            ]
+        ]
+    },
+    {
+        "id": "818972ac.61492",
+        "type": "function",
+        "z": "dc20c6e0.0feb98",
+        "name": "parse name list",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\nvar numNames = objectLength(msg.payload);\nvar nameList = [];\n\nfor (var iname = 0; iname < numNames; ++iname)\n{\n    nameList[iname] = msg.payload[iname].name;\n}\nreturn {\n    topic:'getNameList',\n    payload:{\n        topic           : 'getNameList',\n        nameList        : nameList,\n        userID          : msg.userID,\n        deviceType      : msg.deviceType,\n        trace           : msg.trace,\n    }\n};\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1240,
+        "y": 340,
+        "wires": [
+            [
+                "1f6a9f15.3d80c1"
+            ]
+        ]
+    },
+    {
+        "id": "21767302.27042c",
+        "type": "debug",
+        "z": "dc20c6e0.0feb98",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 520,
+        "y": 680,
+        "wires": []
     }
 ]
