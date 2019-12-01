@@ -453,7 +453,7 @@
         "id": "e6c7842e.bc4f98",
         "type": "websocket-listener",
         "z": "",
-        "path": "/dma01/websocket",
+        "path": "/chillDetector/websocket",
         "wholemsg": "false"
     },
     {
@@ -474,7 +474,7 @@
         "id": "9d73700b.2888b",
         "type": "websocket-listener",
         "z": "",
-        "path": "/shiver-sim-01/websocket",
+        "path": "/shiverSim/websocket",
         "wholemsg": "false"
     },
     {
@@ -1253,7 +1253,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Create chillDetector Database entry",
-        "func": "var device = \n{\n    name        : '002',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
+        "func": "var device = \n{\n    name        : '003',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 360,
@@ -1556,7 +1556,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Update chillDetector Database entry with MQTT",
-        "func": "var device = \n{\n    name        : '003',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'BrainCool/chillDetector/003/setting', payload:device};",
+        "func": "var device = \n{\n    name        : '002',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'BrainCool/chillDetector/002/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 400,
@@ -1865,7 +1865,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- navBar -->\n    <div class=\"jumbotron\" width=\"100%\">\n        <div class=\"row\">\n            <div class=\"col-md-3\" style=\"text-align: left\">\n                <a href='/' >\n                    <img src=\"/img/home.png\" height=\"75px\"/>\n                </a>\n            </div>\n            <div class=\"col-md-6\" style=\"text-align: center\">\n                <h1 class=\"jumbotron-title big-text bold-text\">{{{payload.title}}}</h1>\n            </div>\n            <div class=\"col-md-3\" style=\"text-align: right\">\n                <a href='https://www.blinky-lite.io/' target='_blank'>\n                    <img src=\"/img/brainCoolLogo.png\" height=\"55px\"/>\n                </a>\n            </div>\n        </div>\n    </div>",
+        "template": "<!-- navBar -->\n    <div class=\"jumbotron\" width=\"100%\">\n        <div class=\"row\">\n            <div class=\"col-md-2\" style=\"text-align: left\">\n                <a href='/' >\n                    <img src=\"/img/home.png\" height=\"75px\"/>\n                </a>\n            </div>\n            <div class=\"col-md-7\" style=\"text-align: center\">\n                <h1 class=\"jumbotron-title big-text bold-text\">{{{payload.title}}}</h1>\n            </div>\n            <div class=\"col-md-2\" style=\"text-align: right\">\n                <a href='https://www.braincool.se/en/home-2/' target='_blank'>\n                    <img src=\"/img/brainCoolLogo.png\" height=\"50px\"/>\n                </a>\n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 200,
         "y": 80,
@@ -2606,8 +2606,8 @@
         "syntax": "mustache",
         "template": "    <div width=\"100%\">\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.maxAmpBar}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.timeStripChart}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.ampPowStripChart}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.spectrogram}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.wifimon}}}\n            </div>\n        </div>\n    </div>\n    <div id=\"editDeviceDialog\" title=\"Edit Device\" class='card'>\n        <p class='card-title' id='editDeviceDialogAttribute'>Attribute</p>\n        <div class='card-body'>\n            <table>\n                <tr id='editDeviceValueRow'>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">Value</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"editDeviceValue\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">LoLo</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"loloAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">LOW</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"lowAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">HIGH</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"highAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">HiHi</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"hihiAlarm\" type=\"text\" value=\"0\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">Notify Name</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"notifyName\" type=\"text\" value=\"\" /></td>\n                </tr>\n                <tr>\n                    <td width=\"70%\" align=\"left\">  <span class=\"tableHeading tableText\">Notify Number</span></td>\n                    <td width=\"30%\" align=\"right\"><input class=\"form-control tableText\" id=\"notifyNumber\" type=\"text\" value=\"\" /></td>\n                </tr>\n            </table>\n        </div>\n    </div>",
         "output": "str",
-        "x": 670,
-        "y": 560,
+        "x": 650,
+        "y": 580,
         "wires": [
             [
                 "3a38071f.ae4798"
@@ -2675,35 +2675,16 @@
         "id": "29aa5410.d24f1c",
         "type": "http in",
         "z": "8475ab9.3d26058",
-        "name": "/dma01",
-        "url": "/dma01",
+        "name": "/chillDetector",
+        "url": "/chillDetector",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
+        "x": 130,
         "y": 120,
         "wires": [
             [
-                "654043f7.5ee6dc"
-            ]
-        ]
-    },
-    {
-        "id": "654043f7.5ee6dc",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Set Device Leader to 1",
-        "field": "payload.script.deviceLeader",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "'dma01'",
-        "output": "str",
-        "x": 300,
-        "y": 120,
-        "wires": [
-            [
-                "61f6a690.76b898"
+                "71b75beb.7d99b4"
             ]
         ]
     },
@@ -2716,9 +2697,9 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "Chill Detector 1",
+        "template": "Chill Detector {{{payload.script.name}}}",
         "output": "str",
-        "x": 470,
+        "x": 510,
         "y": 120,
         "wires": [
             [
@@ -2730,7 +2711,7 @@
         "id": "aa54395e.1b6888",
         "type": "websocket out",
         "z": "8475ab9.3d26058",
-        "name": "",
+        "name": "chillDetector/websocket",
         "server": "e6c7842e.bc4f98",
         "client": "",
         "x": 1250,
@@ -2746,7 +2727,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "// Global Javascript\n        var deviceLeader= {{{payload.script.deviceLeader}}};\n        var graph3d = null;\n        var itimeSlice = 0;\n        var oodataArray = [];\n        var timeStamp = [];\n        var deltaT = 0;\n        var freeze = false;\n        var sliceViewActive = false;\n        var birdsEyeViewActive = false;\n        var topViewActive = false;\n        var birdsEyeTimeMax = 100; \n        var timeMax = birdsEyeTimeMax;\n        var modeMax = 255;\n        var modeMin = 0;\n        var maxAmpScale = 10;\n        var editDeviceProperty = '';\n\n        var archiveRequestList = [];\n        var archiveList = [];\n\n        var plotConfig = \n        {\n            trace1Title : 'Pitch Amplitude (dB)',\n            trace1Color : '#557a95',\n            trace1GridColor : '#beceda',\n            plotLength  : 600,\n            width   : '',\n            height  :   '500',\n        };\n        var threedPlotOptions = \n        {\n            width: '850px',\n            height: '600px',\n            style: 'surface',\n            showPerspective: false,\n            showGrid: true,\n            showShadow: false,\n            keepAspectRatio: false,\n            verticalRatio: 0.6,\n            showZAxis: true,\n            zLabel: 'dB',\n            xLabel: 'Freq (Hz)',\n            yLabel: 'Time',\n            tooltip: true,\n            axisColor: '#000000',\n            zMin:0,\n            zMax:10\n        };\n        let ampPowStripChart = new StripChart();\n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            $(\"#freezeButton\").text('Running');\n            $(\"#plotslices\").val(timeMax.toString());\n            $('#waitForArchiveMessage').hide();\n\n            drawSpectrogram();\n        }\n        function onWebSocketOpen()\n        {\n//            getArchive(2.0,4);\n        }\n        function onWebSocketClose()\n        {\n            wsConnectC();\n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'readings':\n                    heartbeat();\n                    device = msg.payload;\n                    mqtt = msg.mqtt;\n                    $('#linkQualityId').text(getAttrObject('readings', 'linkQuality').value);\n                    $('#signalLevelId').text(getAttrObject('readings', 'signalLevel').value);\n                    var maxAmp =  getAttrObject('readings', 'maxAmp');\n                    var maxAmpChartConfig = \n                    {\n                        lolo            : maxAmp.alarm.limits.lolo, \n                        low             : maxAmp.alarm.limits.low, \n                        high            : maxAmp.alarm.limits.high, \n                        hihi            : maxAmp.alarm.limits.hihi, \n                        value           : maxAmp.value, \n                        title           : maxAmp.value.toString() +' um @' + (Math.round(10 * getAttrObject('readings', 'maxAmpMode').value) / 10).toString() + ' Hz', \n                        textsize        : 38,\n                        label           : 'Device 1', \n                        lowColor        : '#ffff00', \n                        mediumColor     : '#00ff00',\n                        highColor       : '#ff0000', \n                        backgroundColor : '#9eb5c7', \n                        labelColor      : '#000000', \n                        gridColor       : '#ffffff',\n                        height          : 300, \n                        htmlId          : 'maxAmpBarChart'\n                    };\n                    setHorzBarWidget(maxAmpChartConfig);\n                    ampPowStripChart.addTracePoints(maxAmp.value);\n                    addOoDataArrays();\n                    plotTimeDomainData();\n                    break;\n                case 'getArchiveValues':\n                    if (msg.userID == userID)\n                    {\n                        putArchiveValues(msg.payload);\n                    }\n                    break;\n                case 'getJwtToken':\n                    if (msg.userID == userID) loadJwtToken(msg);\n                    break;\n                case 'settingAcknowledge':\n                    if (msg.userID == userID)\n                    {\n                        if (msg.payload != 'Success!') acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n        function refreshHistory()\n        {\n            $('#refreshHistoryButton').css('color', 'var(--color1)'); \n            $('#refreshHistoryButton').css('background-color', 'var(--color5)'); \n            ampPowStripChart.refreshPlot();\n            setTimeout(\n                function()\n                {\n                    $('#refreshHistoryButton').css('color', 'var(--color5)'); \n                    $('#refreshHistoryButton').css('background-color', 'var(--color1)'); \n               },2000);\n        }\n",
+        "template": "// Global Javascript\n        var restfulDevice = \n        {\n            deviceType  : '{{{payload.script.deviceType}}}',\n            name        : '{{{payload.script.name}}}'\n        };\n        var mqttDevice = null;\n        var device = null;\n\n        var graph3d = null;\n        var itimeSlice = 0;\n        var oodataArray = [];\n        var timeStamp = [];\n        var deltaT = 0;\n        var freeze = false;\n        var sliceViewActive = false;\n        var birdsEyeViewActive = false;\n        var topViewActive = false;\n        var birdsEyeTimeMax = 100; \n        var timeMax = birdsEyeTimeMax;\n        var modeMax = 255;\n        var modeMin = 0;\n        var maxAmpScale = 10;\n        var editDeviceProperty = '';\n\n        var archiveRequestList = [];\n        var archiveList = [];\n\n        var plotConfig = \n        {\n            trace1Title : 'Pitch Amplitude (dB)',\n            trace1Color : '#557a95',\n            trace1GridColor : '#beceda',\n            plotLength  : 600,\n            width   : '',\n            height  :   '500',\n        };\n        var threedPlotOptions = \n        {\n            width: '850px',\n            height: '600px',\n            style: 'surface',\n            showPerspective: false,\n            showGrid: true,\n            showShadow: false,\n            keepAspectRatio: false,\n            verticalRatio: 0.6,\n            showZAxis: true,\n            zLabel: 'dB',\n            xLabel: 'Freq (Hz)',\n            yLabel: 'Time',\n            tooltip: true,\n            axisColor: '#000000',\n            zMin:0,\n            zMax:10\n        };\n        let ampPowStripChart = new StripChart();\n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            $(\"#freezeButton\").text('Running');\n            $(\"#plotslices\").val(timeMax.toString());\n            $('#waitForArchiveMessage').hide();\n\n            drawSpectrogram();\n        }\n        function onWebSocketOpen()\n        {\n//            getArchive(2.0,4);\n        }\n        function onWebSocketClose()\n        {\n            wsConnectC();\n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'readings':\n                    if (msg.mqttDevice.name == restfulDevice.name)\n                    {\n                        heartbeat();\n                        device = msg.payload;\n                        mqttDevice = msg.mqttDevice;\n                        $('#linkQualityId').text(getAttrObject('readings', 'linkQuality').value);\n                        $('#signalLevelId').text(getAttrObject('readings', 'signalLevel').value);\n                        var maxAmp =  getAttrObject('readings', 'maxAmp');\n                        var maxAmpChartConfig = \n                        {\n                            lolo            : maxAmp.alarm.limits.lolo, \n                            low             : maxAmp.alarm.limits.low, \n                            high            : maxAmp.alarm.limits.high, \n                            hihi            : maxAmp.alarm.limits.hihi, \n                            value           : maxAmp.value, \n                            title           : maxAmp.value.toString() +' um @' + (Math.round(10 * getAttrObject('readings', 'maxAmpMode').value) / 10).toString() + ' Hz', \n                            textsize        : 38,\n                            label           : 'Device 1', \n                            lowColor        : '#ffff00', \n                            mediumColor     : '#00ff00',\n                            highColor       : '#ff0000', \n                            backgroundColor : '#9eb5c7', \n                            labelColor      : '#000000', \n                            gridColor       : '#ffffff',\n                            height          : 300, \n                            htmlId          : 'maxAmpBarChart'\n                        };\n                        setHorzBarWidget(maxAmpChartConfig);\n                        ampPowStripChart.addTracePoints(maxAmp.value);\n                        addOoDataArrays();\n                        plotTimeDomainData();\n                    }\n                    break;\n                case 'getArchiveValues':\n                    if (msg.userID == userID)\n                    {\n                        putArchiveValues(msg.payload);\n                    }\n                    break;\n                case 'getJwtToken':\n                    if (msg.userID == userID) loadJwtToken(msg);\n                    break;\n                case 'settingAcknowledge':\n                    if (msg.userID == userID)\n                    {\n                        if (msg.payload != 'Success!') acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n        function refreshHistory()\n        {\n            $('#refreshHistoryButton').css('color', 'var(--color1)'); \n            $('#refreshHistoryButton').css('background-color', 'var(--color5)'); \n            ampPowStripChart.refreshPlot();\n            setTimeout(\n                function()\n                {\n                    $('#refreshHistoryButton').css('color', 'var(--color5)'); \n                    $('#refreshHistoryButton').css('background-color', 'var(--color1)'); \n               },2000);\n        }\n",
         "output": "str",
         "x": 190,
         "y": 340,
@@ -2786,8 +2767,8 @@
         "syntax": "mustache",
         "template": "<!-- Control HTML -->\n                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-3'></div>\n                        <div class='col-md-6'>\n                            <p class='card-title'>Pitch Amplitude</p>\n                         </div>\n                        <div class='col-md-3'>\n                            <button class='btn btn-block card-button big-text' onclick=\"editDevice('maxAmp','readings','Pitch Amp')\" >Edit</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div  id='maxAmpBarChart'></div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 710,
-        "y": 320,
+        "x": 690,
+        "y": 340,
         "wires": [
             [
                 "be200ed3.d9983"
@@ -2805,8 +2786,8 @@
         "syntax": "mustache",
         "template": "                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-3'>\n                            <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' onclick=\"editDevice('minDisplayMode','settings','Max Frequency')\" >-</button>\n                        </div>\n                        <div class='col-md-6'>\n                            <p class='card-title'>Spectrogram</p>\n                         </div>\n                        <div class='col-md-3'>\n                            <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' onclick=\"editDevice('maxDisplayMode','settings','Max Frequency')\" >+</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div class=\"container-fluid spectrogram\" align=\"center\" id=\"spectrogram\"></div>\n                                <div width=\"100%\">\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"freezeButton\" type=\"button\" onclick=\"freezeRun()\"></button>\n                                        </div>\n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"birdsEyeButton\" type=\"button\" onclick=\"birdsEyeView()\">Birds Eye</button>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"sliceViewButton\" type=\"button\" onclick=\"sliceView()\">Slice View</button>\n                                        </div>\n                                        <div class=\"col-md-6\" align=\"center\" style=\"padding-top:10px;padding-bottom:10px;\">\n                                            <button class=\"btn jumbotron-button btn-block big-text\" id=\"sliceViewButton\" type=\"button\" onclick=\"topView()\">Top View</button>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-3\"  align=\"left\">\n                                            <span class=\"big-text\">Time</span>\n                                        </div>\n                                        <div class=\"col-md-9\">\n                                            <span class=\"big-text\" id=\"stopTime\"></span>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                        <div class=\"col-md-8\" align=\"left\" >\n                                            <span class=\"big-text\">Pitch</span>\n                                        </div>\n                                        <div class=\"col-md-4\">\n                                            <span class=\"big-text\" id=\"maxMode\"></span>\n                                        </div>\n                                    </div>\n                                    <div class=\"row\"> \n                                         <div class=\"col-md-8\" align=\"left\" >\n                                            <span class=\"big-text\">Pitch Amp.</span>\n                                        </div>\n                                        <div class=\"col-md-4\">\n                                            <span class=\"big-text\" id=\"maxModeAmplitude\"></span>\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 710,
-        "y": 480,
+        "x": 690,
+        "y": 500,
         "wires": [
             [
                 "63c8ae0c.656db"
@@ -2824,8 +2805,8 @@
         "syntax": "mustache",
         "template": "<!-- Control HTML -->\n                <div class='card'>\n                    <div class='row'>\n                        <div class='col-md-3'></div>\n                        <div class='col-md-6'>\n                            <p class='card-title'>Pitch History</p>\n                         </div>\n                        <div class='col-md-3'>\n                            <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"refreshHistoryButton\" onclick=\"refreshHistory()\" >Refresh</button>\n                        </div>\n                    </div>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div  id='ampPowStripChart'></div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 730,
-        "y": 400,
+        "x": 710,
+        "y": 420,
         "wires": [
             [
                 "ada53d0d.8aeef"
@@ -2890,7 +2871,7 @@
         "id": "9047f741.783b08",
         "type": "websocket in",
         "z": "8475ab9.3d26058",
-        "name": "",
+        "name": "chillDetector/websocket",
         "server": "e6c7842e.bc4f98",
         "client": "",
         "x": 160,
@@ -2939,17 +2920,17 @@
         "type": "switch",
         "z": "8475ab9.3d26058",
         "name": "",
-        "property": "topic",
+        "property": "payload.mqttDevice.deviceType",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "eq",
-                "v": "chillDetector/dma01/reading",
+                "v": "chillDetector",
                 "vt": "str"
             },
             {
                 "t": "eq",
-                "v": "chillDetector/shiver-sim-01/reading",
+                "v": "shiverSim",
                 "vt": "str"
             }
         ],
@@ -2971,14 +2952,16 @@
         "id": "764116fd.f6e648",
         "type": "function",
         "z": "8475ab9.3d26058",
-        "name": "Add dma topic",
-        "func": "var mqttArray = msg.topic.split('/');\nvar mqtt = mqttArray[0];\nfor (var ii = 1; ii < (mqttArray.length - 1); ++ii) mqtt = mqtt + '/' + mqttArray[ii]; \nreturn {topic : msg.topic, payload:{topic:'readings', mqtt : mqtt, payload:msg.payload}};",
+        "name": "Split MQTT topic",
+        "func": "var mqttArray = msg.topic.split('/');\nvar device = \n{\n    project     : mqttArray[0],\n    deviceType  : mqttArray[1],\n    name        : mqttArray[2],\n    prop        : mqttArray[3],\n};\nreturn {topic : msg.topic, payload:{topic:'readings', mqttDevice : device, payload:msg.payload}};",
         "outputs": 1,
         "noerr": 0,
         "x": 470,
         "y": 800,
         "wires": [
-            []
+            [
+                "81c39fe.b208a6"
+            ]
         ]
     },
     {
@@ -3027,7 +3010,7 @@
         "type": "function",
         "z": "8475ab9.3d26058",
         "name": "Setup Archive Query",
-        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id                         :   0, \n        name                        :   1,  \n        timeStamp                   :   1, \n        [msg.payload.device.prop]   : \n        {\n            $elemMatch  : \n            {   \n                attr    : msg.payload.device.attr \n            }\n        } \n    } \n};\nvar queryFilter = \n{\n    $and :\n    [\n        {\n            name: msg.payload.device.name\n        },\n        {\n            timeStamp :\n            {\n                $gte: msg.payload.device.startDate,\n                $lte: msg.payload.device.stopDate\n            }\n        }\n    ] \n    \n}\nvar newMsg = \n{\n    topic           : 'getArchiveValues',\n    userID          : msg.payload.userID,\n    payload         : [queryFilter, projectionFilter],\n    device          : msg.payload.device,\n};\nreturn newMsg;\n",
+        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id                         :   0, \n        deviceType                  :   1,  \n        name                        :   1,  \n        timeStamp                   :   1, \n        [msg.payload.device.prop]   : \n        {\n            $elemMatch  : \n            {   \n                attr    : msg.payload.device.attr \n            }\n        } \n    } \n};\nvar queryFilter = \n{\n    $and :\n    [\n        {\n            deviceType  : msg.payload.device.deviceType\n        },\n        {\n            name        : msg.payload.device.name\n        },\n        {\n            timeStamp :\n            {\n                $gte: msg.payload.device.startDate,\n                $lte: msg.payload.device.stopDate\n            }\n        }\n    ] \n    \n}\nvar newMsg = \n{\n    topic           : 'getArchiveValues',\n    userID          : msg.payload.userID,\n    payload         : [queryFilter, projectionFilter],\n    device          : msg.payload.device,\n};\nreturn newMsg;\n",
         "outputs": 1,
         "noerr": 0,
         "x": 700,
@@ -3097,7 +3080,7 @@
         "rules": [
             {
                 "t": "eq",
-                "v": "dma01",
+                "v": "chillDetector",
                 "vt": "str"
             }
         ],
@@ -3270,8 +3253,8 @@
         "type": "subflow:8341090a.df9758",
         "z": "8475ab9.3d26058",
         "name": "",
-        "x": 850,
-        "y": 560,
+        "x": 830,
+        "y": 580,
         "wires": []
     },
     {
@@ -3368,8 +3351,8 @@
         "syntax": "mustache",
         "template": "<!-- Dashboard HTML -->\n                <div class='card'>\n                    <p class='card-title'>WiFi Connection</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'  style='padding-top: 0px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Device Update</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <img src='/img/heartRed.png' id='heartBeatID' width='100px' height='100px'/>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Signal Level (dBm)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='signalLevelId' >-100</span>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Link Quality (/70)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='linkQualityId' >-1</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 690,
-        "y": 520,
+        "x": 670,
+        "y": 540,
         "wires": [
             [
                 "6ee884d5.e2b2bc"
@@ -3387,8 +3370,8 @@
         "syntax": "mustache",
         "template": "<!-- Archive HTML -->\n                <div class='card'>\n                    <p class='card-title'>Archive</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive1Button\" onclick=\"getArchive(0.25,1)\" >0.25</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive2Button\" onclick=\"getArchive(0.50,2)\" >0.5</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive3Button\" onclick=\"getArchive(1.00,3)\" >1</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive4Button\" onclick=\"getArchive(2.0,4)\" >2</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive5Button\" onclick=\"getArchive(4.0,5)\" >4</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive6Button\" onclick=\"getArchive(8.0,6)\" >8</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <span class='big-text' >Hours</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' id=\"waitForArchiveMessage\">\n                            <div class='col-md-12'>\n                                <h1 style='color:white;'>Retrieving Archive Data...</h1>\n                            </div>\n                        </div>\n                        <div class='row vert-pad'>\n                            <div class='col-md-12'>\n                                <div id=\"archiveChart\" width=\"100%\" ></div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 690,
-        "y": 440,
+        "x": 670,
+        "y": 460,
         "wires": [
             [
                 "97fab312.6b40a"
@@ -3404,7 +3387,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "// Archive JavaScript\n        function getArchive(hours,button)\n        { \n            $('#waitForArchiveMessage').show();\n            for (var ii = 1; ii < 7; ++ii)\n            {\n                $('#archive' + ii.toString() + 'Button').attr(\"disabled\", true); \n                $('#archive' + ii.toString() + 'Button').css('color', 'var(--color5)'); \n                $('#archive' + ii.toString() + 'Button').css('background-color', 'var(--color1)'); \n            };\n            $('#archive' + button.toString() + 'Button').css('color', 'var(--color1)'); \n            $('#archive' + button.toString() + 'Button').css('background-color', 'var(--color5)'); \n\n            archiveRequestList = [];\n            archiveList = [];\n            var stopDate = new Date().getTime();\n            var startDate = stopDate - hours * 3600000;\n            archiveRequestList[0] = \n            {\n                name : {{{payload.script.deviceLeader}}}, \n                prop : 'readings', \n                attr : 'maxAmp',\n                startDate: startDate, \n                stopDate: stopDate,\n                socket : {{{payload.script.deviceLeader}}}\n            };\n            getArchiveValues();\n        }\n        function getArchiveValues()\n        {\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getArchive',\n                    userID      : userID,\n                    device      : archiveRequestList[0],\n                 });\n            archiveRequestList.shift();\n            return;\n        }\n        function putArchiveValues(data)\n        {\n            archiveList.push(data);\n            if (archiveRequestList.length > 0)\n            {\n                getArchiveValues();\n            }\n            else\n            {\n                plotArchive();\n            }\n        }\n        function plotArchive()\n        {\n            $('#waitForArchiveMessage').hide();\n            $('#archive1Button').attr(\"disabled\", false); \n            $('#archive2Button').attr(\"disabled\", false); \n            $('#archive3Button').attr(\"disabled\", false); \n            $('#archive4Button').attr(\"disabled\", false); \n            $('#archive5Button').attr(\"disabled\", false); \n            $('#archive6Button').attr(\"disabled\", false); \n            var layout =\n            {\n                showlegend  : true,\n                legend      : { x: 0, y: 1.15},\n                height      : '500',\n                width       : '',\n                xaxis       :\n                {\n                    title: 'Hours since ' + new Date(archiveList[0].device.stopDate).toLocaleString(),\n                },\n                yaxis:\n                {\n                    title           : 'Pitch Amplitude (um)',\n                    titlefont       : {color: plotConfig.trace1Color},\n                    tickfont        : {color: plotConfig.trace1Color},\n                    gridcolor       : plotConfig.trace1GridColor,\n                    zerolinecolor   : plotConfig.trace1GridColor,\n                    linecolor       : plotConfig.trace1GridColor\n\n                },\n                margin: \n                    {\n                        t: 30, //top margin\n    //                    l: 0, //left margin\n    //                    r: 0, //right margin\n    //                    b: 20 //bottom margin\n                    },\n            };\n            var trace1 = \n            {\n                x: [],\n                y: [],\n                name: 'Pitch Amplitude (um)',\n                yaxis: 'y1',\n                type: 'scatter',\n                mode: 'lines',\n                line: {color: plotConfig.trace1Color}\n        \n            };\n            for (var ii = 0; ii < archiveList[0].trace.length; ++ii)\n            {\n                var x = (archiveList[0].trace[ii].timeStamp - archiveList[0].device.stopDate) / 3600000.0;\n                trace1.x[ii] = x;\n                trace1.y[ii] = archiveList[0].trace[ii].value ;\n            }\n\n            Plotly.newPlot('archiveChart', [trace1], layout);\n        }\n",
+        "template": "// Archive JavaScript\n        function getArchive(hours,button)\n        { \n            $('#waitForArchiveMessage').show();\n            for (var ii = 1; ii < 7; ++ii)\n            {\n                $('#archive' + ii.toString() + 'Button').attr(\"disabled\", true); \n                $('#archive' + ii.toString() + 'Button').css('color', 'var(--color5)'); \n                $('#archive' + ii.toString() + 'Button').css('background-color', 'var(--color1)'); \n            };\n            $('#archive' + button.toString() + 'Button').css('color', 'var(--color1)'); \n            $('#archive' + button.toString() + 'Button').css('background-color', 'var(--color5)'); \n\n            archiveRequestList = [];\n            archiveList = [];\n            var stopDate = new Date().getTime();\n            var startDate = stopDate - hours * 3600000;\n            archiveRequestList[0] = \n            {\n                deviceType : restfulDevice.deviceType, \n                name       : restfulDevice.name, \n                prop       : 'readings', \n                attr       : 'maxAmp',\n                startDate  : startDate, \n                stopDate   : stopDate,\n                socket     : restfulDevice.deviceType\n            };\n            getArchiveValues();\n        }\n        function getArchiveValues()\n        {\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getArchive',\n                    userID      : userID,\n                    device      : archiveRequestList[0],\n                 });\n            archiveRequestList.shift();\n            return;\n        }\n        function putArchiveValues(data)\n        {\n            archiveList.push(data);\n            if (archiveRequestList.length > 0)\n            {\n                getArchiveValues();\n            }\n            else\n            {\n                plotArchive();\n            }\n        }\n        function plotArchive()\n        {\n            $('#waitForArchiveMessage').hide();\n            $('#archive1Button').attr(\"disabled\", false); \n            $('#archive2Button').attr(\"disabled\", false); \n            $('#archive3Button').attr(\"disabled\", false); \n            $('#archive4Button').attr(\"disabled\", false); \n            $('#archive5Button').attr(\"disabled\", false); \n            $('#archive6Button').attr(\"disabled\", false); \n            var layout =\n            {\n                showlegend  : true,\n                legend      : { x: 0, y: 1.15},\n                height      : '500',\n                width       : '',\n                xaxis       :\n                {\n                    title: 'Hours since ' + new Date(archiveList[0].device.stopDate).toLocaleString(),\n                },\n                yaxis:\n                {\n                    title           : 'Pitch Amplitude (um)',\n                    titlefont       : {color: plotConfig.trace1Color},\n                    tickfont        : {color: plotConfig.trace1Color},\n                    gridcolor       : plotConfig.trace1GridColor,\n                    zerolinecolor   : plotConfig.trace1GridColor,\n                    linecolor       : plotConfig.trace1GridColor\n\n                },\n                margin: \n                    {\n                        t: 30, //top margin\n    //                    l: 0, //left margin\n    //                    r: 0, //right margin\n    //                    b: 20 //bottom margin\n                    },\n            };\n            var trace1 = \n            {\n                x: [],\n                y: [],\n                name: 'Pitch Amplitude (um)',\n                yaxis: 'y1',\n                type: 'scatter',\n                mode: 'lines',\n                line: {color: plotConfig.trace1Color}\n        \n            };\n            for (var ii = 0; ii < archiveList[0].trace.length; ++ii)\n            {\n                var x = (archiveList[0].trace[ii].timeStamp - archiveList[0].device.stopDate) / 3600000.0;\n                trace1.x[ii] = x;\n                trace1.y[ii] = archiveList[0].trace[ii].value ;\n            }\n\n            Plotly.newPlot('archiveChart', [trace1], layout);\n        }\n",
         "output": "str",
         "x": 170,
         "y": 420,
@@ -3423,7 +3406,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "// Edit Temp JavaScript\n       $( function() \n        {\n            $( \"#editDeviceDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    640,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Set\",\n                            click: function() {setDevice(); $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" ); permitGetDeviceValues = true;},\n                            showText: false\n                        }\n                    ]\n                });\n        } );\n        function editDevice(attrName, property, attrTitle)\n        {\n//            permitGetDeviceValues = false;\n            editDeviceProperty = property;\n            if (editDeviceProperty == 'readings' )\n            {\n                $( \"#editDeviceValueRow\" ).hide();\n            }\n            else\n            {\n                $( \"#editDeviceValueRow\" ).show();\n            }\n            $( \"#editDeviceDialog\" ).dialog( \"option\", \"title\", \"Edit\"); \n            editedAttribute = attrName;\n            $( \"#editDeviceDialogAttribute\").html(attrTitle);\n\n            var attr = getAttrObject(editDeviceProperty, attrName);\n            \n            $( \"#editDeviceValue\").val(attr.value);\n            $( \"#loloAlarm\").val(attr.alarm.limits.lolo);\n            $( \"#lowAlarm\").val(attr.alarm.limits.low);\n            $( \"#highAlarm\").val(attr.alarm.limits.high);\n            $( \"#hihiAlarm\").val(attr.alarm.limits.hihi);\n            $( \"#notifyName\").val(attr.alarm.notify.name);\n            $( \"#notifyNumber\").val(attr.alarm.notify.number);\n\n            $( \"#editDeviceDialog\" ).dialog( \"open\" );\n        }\n        function setDevice()\n        {\n            var attr = getAttrObject(editDeviceProperty, editedAttribute);\n            editedAttribute = '';\n            if (isNaN($('#loloAlarm').val()) \n                || isNaN($('#lowAlarm').val()) \n                || isNaN($('#highAlarm').val()) \n                || isNaN($('#hihiAlarm').val())\n                || isNaN($('#editDeviceValue').val()))\n            {\n//                permitGetDeviceValues = true;\n                acknowledgeDialog('Error', 'Entry not a number!', attr.attr);\n                return;\n            }\n\n            attr.value = Number($( \"#editDeviceValue\").val());\n            attr.alarm.limits.lolo = Number($( \"#loloAlarm\").val());\n            attr.alarm.limits.low = Number($( \"#lowAlarm\").val());\n            attr.alarm.limits.high = Number($( \"#highAlarm\").val());\n            attr.alarm.limits.hihi = Number($( \"#hihiAlarm\").val());\n            attr.alarm.notify.number =  $( \"#notifyNumber\").val();\n            attr.alarm.notify.name = $( \"#notifyName\").val();\n            var mqttMessage = \n            {\n                topic   : mqtt + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n//            permitGetDeviceValues = true;\n        }\n",
+        "template": "// Edit Temp JavaScript\n       $( function() \n        {\n            $( \"#editDeviceDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    640,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Set\",\n                            click: function() {setDevice(); $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" ); permitGetDeviceValues = true;},\n                            showText: false\n                        }\n                    ]\n                });\n        } );\n        function editDevice(attrName, property, attrTitle)\n        {\n            if (mqttDevice == null) return;\n//            permitGetDeviceValues = false;\n            editDeviceProperty = property;\n            if (editDeviceProperty == 'readings' )\n            {\n                $( \"#editDeviceValueRow\" ).hide();\n            }\n            else\n            {\n                $( \"#editDeviceValueRow\" ).show();\n            }\n            $( \"#editDeviceDialog\" ).dialog( \"option\", \"title\", \"Edit\"); \n            editedAttribute = attrName;\n            $( \"#editDeviceDialogAttribute\").html(attrTitle);\n\n            var attr = getAttrObject(editDeviceProperty, attrName);\n            \n            $( \"#editDeviceValue\").val(attr.value);\n            $( \"#loloAlarm\").val(attr.alarm.limits.lolo);\n            $( \"#lowAlarm\").val(attr.alarm.limits.low);\n            $( \"#highAlarm\").val(attr.alarm.limits.high);\n            $( \"#hihiAlarm\").val(attr.alarm.limits.hihi);\n            $( \"#notifyName\").val(attr.alarm.notify.name);\n            $( \"#notifyNumber\").val(attr.alarm.notify.number);\n\n            $( \"#editDeviceDialog\" ).dialog( \"open\" );\n        }\n        function setDevice()\n        {\n            var attr = getAttrObject(editDeviceProperty, editedAttribute);\n            editedAttribute = '';\n            if (isNaN($('#loloAlarm').val()) \n                || isNaN($('#lowAlarm').val()) \n                || isNaN($('#highAlarm').val()) \n                || isNaN($('#hihiAlarm').val())\n                || isNaN($('#editDeviceValue').val()))\n            {\n//                permitGetDeviceValues = true;\n                acknowledgeDialog('Error', 'Entry not a number!', attr.attr);\n                return;\n            }\n\n            attr.value = Number($( \"#editDeviceValue\").val());\n            attr.alarm.limits.lolo = Number($( \"#loloAlarm\").val());\n            attr.alarm.limits.low = Number($( \"#lowAlarm\").val());\n            attr.alarm.limits.high = Number($( \"#highAlarm\").val());\n            attr.alarm.limits.hihi = Number($( \"#hihiAlarm\").val());\n            attr.alarm.notify.number =  $( \"#notifyNumber\").val();\n            attr.alarm.notify.name = $( \"#notifyName\").val();\n            var mqttMessage = \n            {\n                topic   : mqttDevice.project + '/' +  mqttDevice.deviceType + '/' +  mqttDevice.name + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n//            permitGetDeviceValues = true;\n        }\n",
         "output": "str",
         "x": 200,
         "y": 500,
@@ -3606,7 +3589,7 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "        var ws;\n        var userID = -1;\n        var useWebSocketsFlag = true;\n        var projectName = '{{{payload.projectname}}}';\n        var heartBeatImage = false;\n        var wsUri = '';\n\n        function useWebSockets(webSocketsFlag)\n        {\n            useWebSocketsFlag = webSocketsFlag;\n        }\n        function wsConnectC()\n        {\n            if (!useWebSocketsFlag)\n            {\n                return;\n            }\n            if (wsUri.length < 1)\n            {\n                var uri = window.location.href.split('://');\n                var wslead = 'ws://';\n                if (uri[0] == 'https') wslead = 'wss://';\n                if (uri[1].indexOf('/') < (uri[1].length - 1))\n                {\n                    wsUri = wslead + uri[1] + '/websocket';\n                }\n                else\n                {\n                    wsUri = wslead + uri[1] + 'websocket';\n                }\n            }\n            ws = new WebSocket(wsUri);\n            ws.onmessage = function(event)\n            {\n                onWebSocketMessage(JSON.parse(event.data));\n        \n            };\n            ws.onopen = function()\n            {\n                console.log(\"Websocket connected\");\n                $('#webSocketStatus').html('Open');\n                $('#reOpenWebSocketButton').hide();\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n                onWebSocketOpen();\n            };\n            ws.onclose = function()\n            {\n                console.log(\"Websocket closed\");\n                $('#webSocketStatus').html('Closed');\n                $('#reOpenWebSocketButton').show();\n                $('#webSocketStatusCard').show();\n                $('#webSocketStatusRow').css('padding-bottom','25px');\n                onWebSocketClose();\n            };\n        }\n        function sendWebSocketMessageObject(message)\n        {\n            ws.send(JSON.stringify(message));\n        }\n\n        function getRandomInt(max)\n        {\n          return Math.floor(Math.random() * Math.floor(max));\n        }\n        $( document ).ready(function()\n        {\n            loginDialog(\"close\");\n//            userID  = getRandomInt(32768);\n            userID  = {{{payload.userID}}};\n            if (!useWebSocketsFlag)\n            {\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n            }\n            wsConnectC();\n            onDocumentReady();\n        });\n        $( function() \n        {\n            $( \"#acknowledgeDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() { $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n            $( \"#messageDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:[]\n                });\n        } );\n        function optionDialog(headerText, title, text, buttonTexts, buttonFunctions)\n        {\n            var buttonDefinitions = [];\n            for (var ii = 0; ii < buttonTexts.length; ++ii)\n            {\n                buttonDefinitions[ii] = \n                    {\n                        text: buttonTexts[ii],\n                        click: buttonFunctions[ii],\n                        showText: false\n                    };\n            }\n            $( \"#optionDialog\" ).dialog( \"option\", \"title\", headerText );   \n            $( \"#optionDialog\" ).dialog( \"option\", \"buttons\", buttonDefinitions);\n            $( \"#optionDialogTitle\" ).html(title);\n            $( \"#optionDialogText\" ).html(text);\n            $( \"#optionDialog\" ).dialog( \"open\" );\n        }\n        $( function() \n        {\n            $( \"#optionDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n        } );\n        function acknowledgeDialog(headerText, title, text)\n        {\n            $( \"#acknowledgeDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#acknowledgeDialogTitle\" ).html(title);\n            $( \"#acknowledgeDialogText\" ).html(text);\n            $( \"#acknowledgeDialog\" ).dialog( \"open\" );\n        }\n        function messageDialog(headerText, title, text)\n        {\n            $( \"#messageDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#messageDialogTitle\" ).html(title);\n            $( \"#messageDialogText\" ).html(text);\n            $( \"#messageDialog\" ).dialog( \"open\" );\n        }\n        var jwtToken = '';\n        var loginCallback = null;\n        var loginCallbackInfo = null;\n        function checkLogin(callback, callbackInfo)\n        {\n            if (jwtToken.length > 0) return callback(callbackInfo);\n            loginDialog(\"open\", callback, callbackInfo);\n        }\n        function loadJwtToken(data)\n        {\n            if (data.token == null)\n            {\n                acknowledgeDialog('Error', 'Login', 'Denied');\n            }\n            else\n            {\n                jwtToken = data.token;\n                loginCallback(loginCallbackInfo);\n            }\n        }\n        function loginDialog(action, callback, callbackInfo) \n        {\n            $( \"#loginDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Login\",\n                            click: function() \n                            {\n                                ws.send(JSON.stringify(\n                                {\n                                    topic       : 'getJwtToken',\n                                    payload     : \n                                    {\n//                                        loginUser       : $('#loginUser').val(),\n                                        loginPassword   : $('#loginPassword').val()\n                                    },\n                                    'userID'    : userID,\n                                }));\n                                loginCallback = callback;\n                                loginCallbackInfo = callbackInfo;\n                                $( this ).dialog( \"close\" );\n                            },\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        }\n                    ]\n                });\n            $( \"#loginDialog\" ).dialog(action);\n        }\n        function sendSettingToMqtt(mqttMessage)\n        {\n            var socketMessage = \n            {\n                topic       : 'sendSettingToMqtt',\n                mqttMessage : mqttMessage,\n                token       : jwtToken,\n                userID      : userID\n            };\n            sendWebSocketMessageObject({topic : 'sendSettingToMqtt', mqttMessage : mqttMessage, token : jwtToken, userID : userID});\n        }\n        function heartbeat()\n        {\n            heartBeatImage = !heartBeatImage;\n            var heartBeatImageSrc = '/img/heartRed.png';\n            if (heartBeatImage) heartBeatImageSrc = '/img/heartPink.png';\n            $('#heartBeatID').attr('src',heartBeatImageSrc);\n        }\n",
+        "template": "        var ws;\n        var userID = -1;\n        var useWebSocketsFlag = true;\n        var projectName = '{{{payload.projectname}}}';\n        var heartBeatImage = false;\n        var wsUri = '';\n\n        function useWebSockets(webSocketsFlag)\n        {\n            useWebSocketsFlag = webSocketsFlag;\n        }\n        function wsConnectC()\n        {\n            if (!useWebSocketsFlag)\n            {\n                return;\n            }\n            if (wsUri.length < 1)\n            {\n                var uri = window.location.href.split('://');\n                var wslead = 'ws://';\n                if (uri[0] == 'https') wslead = 'wss://';\n                var questionLocation = uri[1].indexOf('?');\n                if (questionLocation >= 0)\n                {\n                    uri[1] = uri[1].substring(0,questionLocation);\n//                    console.log(uri[1]);\n                }\n                if (uri[1].indexOf('/') < (uri[1].length - 1))\n                {\n                    wsUri = wslead + uri[1] + '/websocket';\n                }\n                else\n                {\n                    wsUri = wslead + uri[1] + 'websocket';\n                }\n            }\n            ws = new WebSocket(wsUri);\n            ws.onmessage = function(event)\n            {\n                onWebSocketMessage(JSON.parse(event.data));\n        \n            };\n            ws.onopen = function()\n            {\n                console.log(\"Websocket connected\");\n                $('#webSocketStatus').html('Open');\n                $('#reOpenWebSocketButton').hide();\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n                onWebSocketOpen();\n            };\n            ws.onclose = function()\n            {\n                console.log(\"Websocket closed\");\n                $('#webSocketStatus').html('Closed');\n                $('#reOpenWebSocketButton').show();\n                $('#webSocketStatusCard').show();\n                $('#webSocketStatusRow').css('padding-bottom','25px');\n                onWebSocketClose();\n            };\n        }\n        function sendWebSocketMessageObject(message)\n        {\n            ws.send(JSON.stringify(message));\n        }\n\n        function getRandomInt(max)\n        {\n          return Math.floor(Math.random() * Math.floor(max));\n        }\n        $( document ).ready(function()\n        {\n            loginDialog(\"close\");\n//            userID  = getRandomInt(32768);\n            userID  = {{{payload.userID}}};\n            if (!useWebSocketsFlag)\n            {\n                $('#webSocketStatusRow').css('padding-bottom','0px');\n                $('#webSocketStatusCard').hide();\n            }\n            wsConnectC();\n            onDocumentReady();\n        });\n        $( function() \n        {\n            $( \"#acknowledgeDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() { $( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n            $( \"#messageDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:[]\n                });\n        } );\n        function optionDialog(headerText, title, text, buttonTexts, buttonFunctions)\n        {\n            var buttonDefinitions = [];\n            for (var ii = 0; ii < buttonTexts.length; ++ii)\n            {\n                buttonDefinitions[ii] = \n                    {\n                        text: buttonTexts[ii],\n                        click: buttonFunctions[ii],\n                        showText: false\n                    };\n            }\n            $( \"#optionDialog\" ).dialog( \"option\", \"title\", headerText );   \n            $( \"#optionDialog\" ).dialog( \"option\", \"buttons\", buttonDefinitions);\n            $( \"#optionDialogTitle\" ).html(title);\n            $( \"#optionDialogText\" ).html(text);\n            $( \"#optionDialog\" ).dialog( \"open\" );\n        }\n        $( function() \n        {\n            $( \"#optionDialog\" ).dialog(\n                {\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Ok\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        },\n                   ]\n                });\n        } );\n        function acknowledgeDialog(headerText, title, text)\n        {\n            $( \"#acknowledgeDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#acknowledgeDialogTitle\" ).html(title);\n            $( \"#acknowledgeDialogText\" ).html(text);\n            $( \"#acknowledgeDialog\" ).dialog( \"open\" );\n        }\n        function messageDialog(headerText, title, text)\n        {\n            $( \"#messageDialog\" ).dialog( \"option\", \"title\", headerText );    \n            $( \"#messageDialogTitle\" ).html(title);\n            $( \"#messageDialogText\" ).html(text);\n            $( \"#messageDialog\" ).dialog( \"open\" );\n        }\n        var jwtToken = '';\n        var loginCallback = null;\n        var loginCallbackInfo = null;\n        function checkLogin(callback, callbackInfo)\n        {\n            if (jwtToken.length > 0) return callback(callbackInfo);\n            loginDialog(\"open\", callback, callbackInfo);\n        }\n        function loadJwtToken(data)\n        {\n            if (data.token == null)\n            {\n                acknowledgeDialog('Error', 'Login', 'Denied');\n            }\n            else\n            {\n                jwtToken = data.token;\n                loginCallback(loginCallbackInfo);\n            }\n        }\n        function loginDialog(action, callback, callbackInfo) \n        {\n            $( \"#loginDialog\" ).dialog(\n                {\n//                    closeOnEscape: false,\n//                    open: function(event, ui) {$(\".ui-dialog-titlebar-close\", ui.dialog | ui).hide();},\n                    width:    500,\n                    autoOpen: false,\n                    buttons:\n                    [\n                        {\n                            text: \"Login\",\n                            click: function() \n                            {\n                                ws.send(JSON.stringify(\n                                {\n                                    topic       : 'getJwtToken',\n                                    payload     : \n                                    {\n//                                        loginUser       : $('#loginUser').val(),\n                                        loginPassword   : $('#loginPassword').val()\n                                    },\n                                    'userID'    : userID,\n                                }));\n                                loginCallback = callback;\n                                loginCallbackInfo = callbackInfo;\n                                $( this ).dialog( \"close\" );\n                            },\n                            showText: false\n                        },\n                        {\n                            text: \"Cancel\",\n                            click: function() {$( this ).dialog( \"close\" );},\n                            showText: false\n                        }\n                    ]\n                });\n            $( \"#loginDialog\" ).dialog(action);\n        }\n        function sendSettingToMqtt(mqttMessage)\n        {\n            var socketMessage = \n            {\n                topic       : 'sendSettingToMqtt',\n                mqttMessage : mqttMessage,\n                token       : jwtToken,\n                userID      : userID\n            };\n            sendWebSocketMessageObject({topic : 'sendSettingToMqtt', mqttMessage : mqttMessage, token : jwtToken, userID : userID});\n        }\n        function heartbeat()\n        {\n            heartBeatImage = !heartBeatImage;\n            var heartBeatImageSrc = '/img/heartRed.png';\n            if (heartBeatImage) heartBeatImageSrc = '/img/heartPink.png';\n            $('#heartBeatID').attr('src',heartBeatImageSrc);\n        }\n",
         "output": "str",
         "x": 430,
         "y": 40,
@@ -4307,7 +4290,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Create shiverSim Database entry",
-        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'shiverSim',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'shiverSim-01',payload:device};\n\n\n",
+        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'shiverSim',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'shiverSim-01',payload:device};\n\n\n",
         "outputs": 1,
         "noerr": 0,
         "x": 360,
@@ -4343,7 +4326,7 @@
         "type": "function",
         "z": "e17f7487.2a78e8",
         "name": "Update shiverSim Database entry with MQTT",
-        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'shiverSim',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } },\n        { attr : 'measurementID',    type : 'string',    value : 'M1'},\n        { attr : 'locationID',       type : 'string',    value : 'L1'}\n    ]\n};\nreturn {topic:'BrainCool/shiverSim/001/setting', payload:device};",
+        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'shiverSim',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,    high : 71,       hihi : 80    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,   high : 0,        hihi : 30    }, notify:{name:'', number:'', time:0} } }\n    ],\n    settings    :\n    [ \n        { attr : 'motor-direction',  type : 'scalar',    value : 1,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-on',         type : 'scalar',    value : 0,    unit : 'unit',  alarm : {value : 0, limits: {lolo : -1,      low : -1,     high : 2,      hihi : 2   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'motor-speed',      type : 'scalar',    value : 160,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 99,      low : 99,     high : 221,    hihi : 222 }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'BrainCool/shiverSim/001/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 390,
@@ -4385,7 +4368,7 @@
         "syntax": "mustache",
         "template": "    <div width=\"100%\">\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.control}}}\n            </div>\n        </div>\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.wifimon}}}\n            </div>\n        </div>\n    </div>\n",
         "output": "str",
-        "x": 1270,
+        "x": 1630,
         "y": 660,
         "wires": [
             [
@@ -4404,7 +4387,7 @@
         "syntax": "mustache",
         "template": "{{{payload.script.global}}}\n",
         "output": "str",
-        "x": 810,
+        "x": 1170,
         "y": 660,
         "wires": [
             [
@@ -4416,35 +4399,16 @@
         "id": "fe8f260e.b76e48",
         "type": "http in",
         "z": "8475ab9.3d26058",
-        "name": "/shiver-sim-01",
-        "url": "/shiver-sim-01",
+        "name": "/shiverSim",
+        "url": "/shiverSim",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 110,
+        "x": 100,
         "y": 660,
         "wires": [
             [
-                "7fef6ef1.b515e"
-            ]
-        ]
-    },
-    {
-        "id": "7fef6ef1.b515e",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Set Device Leader",
-        "field": "payload.script.deviceLeader",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "'shiver-sim-01'",
-        "output": "str",
-        "x": 290,
-        "y": 660,
-        "wires": [
-            [
-                "41fa8d81.f31114"
+                "4277ca07.739f14"
             ]
         ]
     },
@@ -4457,9 +4421,9 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "Shiver Simulator",
+        "template": "Shiver Box {{{payload.script.name}}}",
         "output": "str",
-        "x": 450,
+        "x": 810,
         "y": 660,
         "wires": [
             [
@@ -4476,9 +4440,9 @@
         "fieldType": "msg",
         "format": "javascript",
         "syntax": "mustache",
-        "template": "// Global Javascript\n        var deviceLeader= {{{payload.script.deviceLeader}}};\n        useWebSockets(true);\n        var motorSpeedSliderMoved = false;\n        function onDocumentReady()\n        {\n            $( function() \n            {\n                $( \"#motorSpeedSlider\" ).slider(\n                    {\n                        stop    :   function( event, ui ) \n                                    {\n                                        $('#motorSpeed').hide();\n                                        var motorSpeedValue = Math.round(2.0 * ui.value) + 100;\n                                        var motorSpeedSetting = getAttrObject( 'settings', 'motor-speed');\n                                        motorSpeedSetting.value = motorSpeedValue;\n                                        var mqttMessage = \n                                        {\n                                            topic   : mqtt + '/setting',\n                                            payload :  device\n                                        };\n                                        checkLogin(sendSettingToMqtt, mqttMessage);\n                            \n                                        setTimeout(function()\n                                        {\n                                            motorSpeedSliderMoved = false; \n                                            $('#motorSpeed').show();\n                                        }, 1500);\n                                        \n                                    },\n                        start   :   function( event, ui ){motorSpeedSliderMoved = true},\n                    });\n            } );\n            $(\"#motorSpeedSlider\").children(\"div\").css(\"background\",\"red\");\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'readings':\n                    heartbeat();\n                    device = msg.payload;\n                    mqtt = msg.mqtt;\n                    $('#linkQualityId').text(getAttrObject('readings', 'linkQuality').value);\n                    $('#signalLevelId').text(getAttrObject('readings', 'signalLevel').value);\n                    if (!motorSpeedSliderMoved)\n                    {   \n                        var motorSpeed = getAttrObject('settings', 'motor-speed').value;\n                        $('#motorSpeed').text(Math.round(motorSpeed * 0.1638 - 6) + ' Hz');\n                        $('#motorSpeedSlider' ).slider( \"value\", Math.round((motorSpeed - 100) / 2.0) );\n                    }\n                    var motorOn = getAttrObject('settings', 'motor-on').value;\n                    if (motorOn == 0)\n                    {\n                        $('#motorOffButton').css('color', 'var(--color1)'); \n                        $('#motorOffButton').css('background-color', 'var(--color5)'); \n                        $('#motorOnButton').css('color', 'var(--color5)'); \n                        $('#motorOnButton').css('background-color', 'var(--color1)'); \n                    }\n                    else\n                    {\n                        $('#motorOffButton').css('color', 'var(--color5)'); \n                        $('#motorOffButton').css('background-color', 'var(--color1)'); \n                        $('#motorOnButton').css('color', 'var(--color1)'); \n                        $('#motorOnButton').css('background-color', 'var(--color5)'); \n                    }\n                    var motorDirection = getAttrObject('settings', 'motor-direction').value;\n                    if (motorDirection == 0)\n                    {\n                        $('#motorDirectionCCWButton').css('color', 'var(--color1)'); \n                        $('#motorDirectionCCWButton').css('background-color', 'var(--color5)'); \n                        $('#motorDirectionCWButton').css('color', 'var(--color5)'); \n                        $('#motorDirectionCWButton').css('background-color', 'var(--color1)'); \n                    }\n                    else\n                    {\n                        $('#motorDirectionCCWButton').css('color', 'var(--color5)'); \n                        $('#motorDirectionCCWButton').css('background-color', 'var(--color1)'); \n                        $('#motorDirectionCWButton').css('color', 'var(--color1)'); \n                        $('#motorDirectionCWButton').css('background-color', 'var(--color5)'); \n                    }\n                    \n                    break;\n                case 'getJwtToken':\n                    if (msg.userID == userID) loadJwtToken(msg);\n                    break;\n                case 'settingAcknowledge':\n                    if (msg.userID == userID)\n                    {\n                        if (msg.payload != 'Success!') acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n        function setMotorOn(motorOn)\n        {\n            var motorOnSetting = getAttrObject( 'settings', 'motor-on');\n            motorOnSetting.value = motorOn;\n            var mqttMessage = \n            {\n                topic   : mqtt + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n        function setMotorDirection(motorDirection)\n        {\n            var motorDirectionSetting = getAttrObject( 'settings', 'motor-direction');\n            motorDirectionSetting.value = motorDirection;\n            var mqttMessage = \n            {\n                topic   : mqtt + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n",
+        "template": "// Global Javascript\n        var restfulDevice = \n        {\n            deviceType  : '{{{payload.script.deviceType}}}',\n            name        : '{{{payload.script.name}}}'\n        };\n        var mqttDevice = null;\n        var device = null;\n        useWebSockets(true);\n        var motorSpeedSliderMoved = false;\n        function onDocumentReady()\n        {\n            $( function() \n            {\n                $( \"#motorSpeedSlider\" ).slider(\n                    {\n                        stop    :   function( event, ui ) \n                                    {\n                                        if (mqttDevice == null) return;\n                                        $('#motorSpeed').hide();\n                                        var motorSpeedValue = Math.round(2.0 * ui.value) + 100;\n                                        var motorSpeedSetting = getAttrObject( 'settings', 'motor-speed');\n                                        motorSpeedSetting.value = motorSpeedValue;\n                                        \n                                        var mqttMessage = \n                                        {\n                                            topic   : mqttDevice.project + '/' +  mqttDevice.deviceType + '/' +  mqttDevice.name + '/setting',\n                                            payload :  device\n                                        };\n                                        checkLogin(sendSettingToMqtt, mqttMessage);\n                            \n                                        setTimeout(function()\n                                        {\n                                            motorSpeedSliderMoved = false; \n                                            $('#motorSpeed').show();\n                                        }, 1500);\n                                        \n                                    },\n                        start   :   function( event, ui ){motorSpeedSliderMoved = true},\n                    });\n            } );\n            $(\"#motorSpeedSlider\").children(\"div\").css(\"background\",\"red\");\n        }\n        function onWebSocketOpen()\n        {\n        }\n        function onWebSocketClose()\n        {\n            \n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'readings':\n                    if (msg.mqttDevice.name == restfulDevice.name)\n                    {\n                        heartbeat();\n                        device = msg.payload;\n                        mqttDevice = msg.mqttDevice;\n                        $('#linkQualityId').text(getAttrObject('readings', 'linkQuality').value);\n                        $('#signalLevelId').text(getAttrObject('readings', 'signalLevel').value);\n                        if (!motorSpeedSliderMoved)\n                        {   \n                            var motorSpeed = getAttrObject('settings', 'motor-speed').value;\n                            $('#motorSpeed').text(Math.round(motorSpeed * 0.1638 - 6) + ' Hz');\n                            $('#motorSpeedSlider' ).slider( \"value\", Math.round((motorSpeed - 100) / 2.0) );\n                        }\n                        var motorOn = getAttrObject('settings', 'motor-on').value;\n                        if (motorOn == 0)\n                        {\n                            $('#motorOffButton').css('color', 'var(--color1)'); \n                            $('#motorOffButton').css('background-color', 'var(--color5)'); \n                            $('#motorOnButton').css('color', 'var(--color5)'); \n                            $('#motorOnButton').css('background-color', 'var(--color1)'); \n                        }\n                        else\n                        {\n                            $('#motorOffButton').css('color', 'var(--color5)'); \n                            $('#motorOffButton').css('background-color', 'var(--color1)'); \n                            $('#motorOnButton').css('color', 'var(--color1)'); \n                            $('#motorOnButton').css('background-color', 'var(--color5)'); \n                        }\n                        var motorDirection = getAttrObject('settings', 'motor-direction').value;\n                        if (motorDirection == 0)\n                        {\n                            $('#motorDirectionCCWButton').css('color', 'var(--color1)'); \n                            $('#motorDirectionCCWButton').css('background-color', 'var(--color5)'); \n                            $('#motorDirectionCWButton').css('color', 'var(--color5)'); \n                            $('#motorDirectionCWButton').css('background-color', 'var(--color1)'); \n                        }\n                        else\n                        {\n                            $('#motorDirectionCCWButton').css('color', 'var(--color5)'); \n                            $('#motorDirectionCCWButton').css('background-color', 'var(--color1)'); \n                            $('#motorDirectionCWButton').css('color', 'var(--color1)'); \n                            $('#motorDirectionCWButton').css('background-color', 'var(--color5)'); \n                        }\n                    }\n                    break;\n                case 'getJwtToken':\n                    if (msg.userID == userID) loadJwtToken(msg);\n                    break;\n                case 'settingAcknowledge':\n                    if (msg.userID == userID)\n                    {\n                        if (msg.payload != 'Success!') acknowledgeDialog('Acknowledge', 'Setting', msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n        function setMotorOn(motorOn)\n        {\n            if (mqttDevice == null) return;\n            var motorOnSetting = getAttrObject( 'settings', 'motor-on');\n            motorOnSetting.value = motorOn;\n            var mqttMessage = \n            {\n                topic   : mqttDevice.project + '/' +  mqttDevice.deviceType + '/' +  mqttDevice.name + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n        function setMotorDirection(motorDirection)\n        {\n            if (mqttDevice == null) return;\n            var motorDirectionSetting = getAttrObject( 'settings', 'motor-direction');\n            motorDirectionSetting.value = motorDirection;\n            var mqttMessage = \n            {\n                topic   : mqttDevice.project + '/' +  mqttDevice.deviceType + '/' +  mqttDevice.name + '/setting',\n                payload :  device\n            };\n            checkLogin(sendSettingToMqtt, mqttMessage);\n        }\n",
         "output": "str",
-        "x": 630,
+        "x": 990,
         "y": 660,
         "wires": [
             [
@@ -4491,7 +4455,7 @@
         "type": "subflow:8341090a.df9758",
         "z": "8475ab9.3d26058",
         "name": "",
-        "x": 1410,
+        "x": 1770,
         "y": 660,
         "wires": []
     },
@@ -4506,7 +4470,7 @@
         "syntax": "mustache",
         "template": "<!-- Dashboard HTML -->\n                <div class='card'>\n                    <p class='card-title'>WiFi Connection</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'  style='padding-top: 0px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Device Update</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <img src='/img/heartRed.png' id='heartBeatID' width='100px' height='100px'/>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Signal Level (dBm)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='signalLevelId' >-100</span>\n                                    </td>\n                                </tr>\n                                <tr>\n                                    <td width='60%' >\n                                        <span class='card-text' >Link Quality (/70)</span>\n                                    </td>\n                                    <td width='20%' align='center'></td>\n                                    <td width='20%' align='center'>\n                                        <span class='card-text' id='linkQualityId' >-1</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 1130,
+        "x": 1490,
         "y": 660,
         "wires": [
             [
@@ -4547,7 +4511,7 @@
         "id": "5715075f.6c2398",
         "type": "websocket out",
         "z": "8475ab9.3d26058",
-        "name": "shiver-sim/websocket",
+        "name": "shiverSim/websocket",
         "server": "9d73700b.2888b",
         "client": "",
         "x": 1240,
@@ -4558,10 +4522,10 @@
         "id": "17ef3390.ec1e7c",
         "type": "websocket in",
         "z": "8475ab9.3d26058",
-        "name": "",
+        "name": "shiverSim/websocket",
         "server": "9d73700b.2888b",
         "client": "",
-        "x": 180,
+        "x": 170,
         "y": 1140,
         "wires": [
             [
@@ -4580,7 +4544,7 @@
         "syntax": "mustache",
         "template": "<!-- Control HTML -->\n                <div class='card'>\n                    <p class='card-title'>Control</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='30%'>\n                                        <span class='big-text'>Motor State</span>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorOffButton\" onclick=\"setMotorOn(0)\">Off</button>\n                                    </td>\n                                    <td width='20%' align='center'>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorOnButton\" onclick=\"setMotorOn(1)\">On</button>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='30%'>\n                                        <span class='big-text'>Motor Direction</span>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorDirectionCCWButton\" onclick=\"setMotorDirection(0)\">&#8634;</button>\n                                    </td>\n                                    <td width='20%' align='center'>\n                                    </td>\n                                    <td width='25%'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"motorDirectionCWButton\" onclick=\"setMotorDirection(1)\">&#8635;</button>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' style='padding-top: 35px;'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='75%'>\n                                        <span class='big-text'>Motor Speed</span>\n                                    </td>\n                                    <td width='25%'  align='right'>\n                                        <span class='big-text bold-text' id='motorSpeed'>0</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row'>\n                            <table width='100%'>\n                                <tr>\n                                    <td width='10%'></td>\n                                    <td width='80%' align='center'><div id=\"motorSpeedSlider\"></div></td>\n                                    <td width='10%'></td>\n                                </tr>\n                            </table>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 970,
+        "x": 1330,
         "y": 660,
         "wires": [
             [
@@ -4599,8 +4563,8 @@
         "syntax": "mustache",
         "template": "<!-- Control HTML -->\n                <div class='card'>\n                    <p class='card-title'>Vibration Amplitude</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row'>\n                            <div class='col-md-12'>\n                                <div  id='timeDomainStripChart'></div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
         "output": "str",
-        "x": 710,
-        "y": 360,
+        "x": 690,
+        "y": 380,
         "wires": [
             [
                 "497d1e62.680d4"
@@ -4637,8 +4601,8 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 620,
-        "y": 740,
+        "x": 870,
+        "y": 840,
         "wires": []
     },
     {
@@ -4794,6 +4758,109 @@
             [
                 "c10d43eb.a111b",
                 "aa9e819c.38f8f"
+            ]
+        ]
+    },
+    {
+        "id": "aea924a9.6a9e68",
+        "type": "http in",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "url": "/device",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 800,
+        "wires": [
+            [
+                "7db15dac.050a44"
+            ]
+        ]
+    },
+    {
+        "id": "fe60c45b.b5b258",
+        "type": "mongodb3 in",
+        "z": "90f83725.6dae08",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "devices",
+        "operation": "findOne",
+        "x": 490,
+        "y": 800,
+        "wires": [
+            [
+                "5610900e.5ca0b"
+            ]
+        ]
+    },
+    {
+        "id": "5610900e.5ca0b",
+        "type": "http response",
+        "z": "90f83725.6dae08",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "7db15dac.050a44",
+        "type": "function",
+        "z": "90f83725.6dae08",
+        "name": "Prep query",
+        "func": "var queryMsg = \n[\n    {\n        $and    :\n        [\n            {\n                deviceType  :   msg.payload.deviceType\n            },\n            {\n                name        :   msg.payload.name\n            }\n        ]\n    },\n    {\n        projection: \n        {\n            _id :   0\n        }\n    }\n];\nmsg.payload = queryMsg;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 800,
+        "wires": [
+            [
+                "fe60c45b.b5b258"
+            ]
+        ]
+    },
+    {
+        "id": "281ae8e3.adc998",
+        "type": "comment",
+        "z": "90f83725.6dae08",
+        "name": "http://braincool-controlbox-01.local/device?deviceType=chillDetector&name=003",
+        "info": "",
+        "x": 340,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "4277ca07.739f14",
+        "type": "function",
+        "z": "8475ab9.3d26058",
+        "name": "Get Name",
+        "func": "var deviceType = 'shiverSim';\nvar name = msg.payload.name;\nmsg.payload = {};\nmsg.payload['script'] = {};\nmsg.payload['script']['name'] = name;\nmsg.payload['script']['deviceType'] = 'shiverSim';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 660,
+        "wires": [
+            [
+                "41fa8d81.f31114"
+            ]
+        ]
+    },
+    {
+        "id": "71b75beb.7d99b4",
+        "type": "function",
+        "z": "8475ab9.3d26058",
+        "name": "Get Name",
+        "func": "var deviceType = 'chillDetector';\nvar name = msg.payload.name;\nmsg.payload = {};\nmsg.payload['script'] = {};\nmsg.payload['script']['name'] = name;\nmsg.payload['script']['deviceType'] = 'chillDetector';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 120,
+        "wires": [
+            [
+                "61f6a690.76b898"
             ]
         ]
     }
