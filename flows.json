@@ -485,6 +485,13 @@
         "wholemsg": "false"
     },
     {
+        "id": "b4665aaa.046948",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/chillDetectorArchive/websocket",
+        "wholemsg": "false"
+    },
+    {
         "id": "d8aea031.7f89d",
         "type": "http in",
         "z": "dc20c6e0.0feb98",
@@ -2651,7 +2658,7 @@
         "syntax": "mustache",
         "template": "// GaugeWidget\n        function setGaugeWidget(gaugeConfig)\n        {\n            var degrees = 180.0 * (gaugeConfig.hihi - gaugeConfig.value) / (gaugeConfig.hihi - gaugeConfig.lolo);\n            if (degrees < 0.0 )   degrees = 0.0;\n            if (degrees > 180.0 ) degrees = 180.0;\n            // Trig to calc meter point\n            var radius = 0.50;\n            var radians = degrees * Math.PI / 180;\n            var x = radius * Math.cos(radians);\n            var y = radius * Math.sin(radians);\n            var path1 = (degrees < 45 || degrees > 135) ? 'M -0.0 -0.025 L 0.0 0.025 L ' : 'M -0.025 -0.0 L 0.025 0.0 L ';\n            // Path: may have to change to create a better triangle\n            var mainPath = path1,\n                pathX = String(x),\n                space = ' ',\n                pathY = String(y),\n                pathEnd = ' Z';\n            var rotation = (180.0 * (gaugeConfig.high - gaugeConfig.lolo) / (gaugeConfig.hihi - gaugeConfig.lolo)) - 90.0;\n            var path = mainPath.concat(pathX,space,pathY,pathEnd);\n        \n            var valueColor = gaugeConfig.backgroundColor; \n            \n            if ( (gaugeConfig.lolo <= gaugeConfig.value) && (gaugeConfig.value < gaugeConfig.low) )\n            {\n                valueColor = gaugeConfig.lowColor;\n            }\n            if ( (gaugeConfig.low  <= gaugeConfig.value) && (gaugeConfig.value < gaugeConfig.high) )\n            {\n                valueColor = gaugeConfig.mediumColor;\n            }\n            if ( (gaugeConfig.high <= gaugeConfig.value) && (gaugeConfig.value < gaugeConfig.hihi) )\n            {\n              valueColor = gaugeConfig.highColor;\n            }\n            if ( gaugeConfig.hihi <= gaugeConfig.value)\n            {\n                valueColor = gaugeConfig.highColor;\n            }\n        \n        \n            var data = \n                [\n                    { \n                        type: 'scatter',\n                        x: [0], y:[0],\n                        marker: {size: 14, color:valueColor},\n                        showlegend: false,\n                        name: gaugeConfig.label,\n                        text: gaugeConfig.value.toString(),\n                        hoverinfo: 'text+name',\n        \n                        \n                    },\n                    { \n                        values: \n                            [\n                                gaugeConfig.hihi - gaugeConfig.high, \n                                gaugeConfig.high - gaugeConfig.low, \n                                gaugeConfig.low  - gaugeConfig.lolo, \n                                gaugeConfig.hihi - gaugeConfig.lolo \n                            ],\n                        rotation: rotation,\n                        text: \n                            [\n                                gaugeConfig.high.toString() + '-' + gaugeConfig.hihi.toString(), \n                                gaugeConfig.low.toString()  + '-' + gaugeConfig.high.toString(), \n                                gaugeConfig.lolo.toString() + '-' + gaugeConfig.low.toString(), \n                                ''\n                            ],\n                        textinfo: 'text',\n                        textposition:'inside',\n                        textfont: {color: gaugeConfig.labelColor},\n                        marker: \n                            {\n                                colors:\n                                    [\n                                        gaugeConfig.highColor,\n                                        gaugeConfig.mediumColor,\n                                        gaugeConfig.lowColor, \n                                        gaugeConfig.backgroundColor\n                                    ]\n                            },\n                        hoverinfo: 'label',\n                        hole: 0.5,\n                        type: 'pie',\n                        showlegend: false,\n                        sort: false\n                    }\n                ];\n            var layout = \n                {\n                    shapes:\n                        [\n                            {\n                                type: 'path',\n                                path: path,\n                                fillcolor: valueColor,\n                                line: {color: valueColor }\n                            }\n                        ],\n                    height: gaugeConfig.size,\n                    width: gaugeConfig.size,\n                    title: \n                        {\n                            text:gaugeConfig.label + ': ' + gaugeConfig.value.toString() + gaugeConfig.unit,\n                            font: {color: valueColor},\n                         },\n                    xaxis: \n                        {\n                            zeroline:false, \n                            showticklabels:false,\n                            showgrid: false, \n                            range: [-1, 1],\n                        },\n                    yaxis: \n                        {\n                            zeroline:false, \n                            showticklabels:false,\n                            showgrid: false, \n                            range: [-1, 1]\n                        },\n                    margin: \n                        {\n                            t: 40, //top margin\n                            l: 0, //left margin\n                            r: 0, //right margin\n                            b: 20 //bottom margin\n                        },\n                    plot_bgcolor:gaugeConfig.backgroundColor,\n                    paper_bgcolor:gaugeConfig.backgroundColor\n            \n                };\n            $('#' + gaugeConfig.htmlId).attr('style','max-height: calc(' + (gaugeConfig.size / 2).toString() + 'px + 20px) !important; overflow:hidden;');\n            Plotly.newPlot(gaugeConfig.htmlId, data, layout, {'displayModeBar': false});\n        }",
         "output": "str",
-        "x": 660,
+        "x": 580,
         "y": 120,
         "wires": [
             [
@@ -2670,7 +2677,7 @@
         "syntax": "mustache",
         "template": "// StripChart Widget\n        class StripChart\n        {\n           constructor() \n            {\n                this.plotStartTime = new Date().getTime();\n                this.plotLength = 600;\n                this.htmlId = 'ampPowStripChart';\n                this.layout =\n                {\n                    showlegend  : true,\n                    legend      : { x: 0, y: 1.15},\n                    height      : '500',\n                    width       : '',\n                    xaxis       :\n                    {\n                        title: 'Seconds since ' + new Date(this.plotStartTime).toLocaleString(),\n                    },\n                    yaxis:\n                    {\n                        title           : plotConfig.trace1Title,\n                        titlefont       : {color: plotConfig.trace1Color},\n                        tickfont        : {color: plotConfig.trace1Color},\n                        gridcolor       : plotConfig.trace1GridColor,\n                        zerolinecolor   : plotConfig.trace1GridColor,\n                        linecolor       : plotConfig.trace1GridColor,\n                        range           : [0,10]\n        \n                    },\n                    margin: \n                        {\n                            t: 30, //top margin\n        //                    l: 0, //left margin\n        //                    r: 0, //right margin\n        //                    b: 20 //bottom margin\n                        },\n                };\n                this.trace1 = \n                {\n                    x: [],\n                    y: [],\n                    name: plotConfig.trace1Title,\n                    yaxis: 'y1',\n                    type: 'scatter',\n                    mode: 'lines',\n                    line: {color: plotConfig.trace1Color}\n            \n                };\n            }\n            refreshPlot()\n            {\n                this.plotStartTime = new Date().getTime();\n                this.trace1.x = [];\n                this.trace1.y = [];\n            }\n            addTracePoints(trace1Pt)\n            {\n                this.layout.yaxis.range = [20.0 * Math.log10(1.0 / maxAmpScale),0];\n                var now = (new Date().getTime() - this.plotStartTime) / 1000;\n                if (now < 2 ) return;\n                var plotBeginning = now - this.plotLength;\n                var removeDone = false;\n                while(!removeDone)\n                {\n                    if (this.trace1.x[0] < plotBeginning)\n                    {\n                        this.trace1.x.shift();\n                        this.trace1.y.shift();\n                    }\n                    else\n                    {\n                        removeDone = true;\n                    }\n                }\n                if (trace1Pt < 1.0) trace1Pt = 1.0;\n                trace1Pt = 20.0 * Math.log10(trace1Pt / maxAmpScale);\n                this.trace1.x.push(now);\n                this.trace1.y.push(trace1Pt);\n                Plotly.newPlot(this.htmlId, [this.trace1], this.layout);\n            }\n        }\n",
         "output": "str",
-        "x": 670,
+        "x": 590,
         "y": 240,
         "wires": [
             [
@@ -2706,7 +2713,7 @@
         "syntax": "mustache",
         "template": "Chill Detector {{{payload.script.name}}}",
         "output": "str",
-        "x": 510,
+        "x": 430,
         "y": 120,
         "wires": [
             [
@@ -2831,7 +2838,7 @@
         "syntax": "mustache",
         "template": "// Bar Widget\n        function setVertBarWidget(barConfig)\n        {\n            var lowValue = 0;\n            var mediumValue = 0;\n            var highValue = 0;\n        \n            var lowColor = barConfig.backgroundColor;\n            var mediumColor = barConfig.backgroundColor;\n            var highColor = barConfig.backgroundColor;\n            var valueColor = barConfig.backgroundColor; \n            \n            if ( barConfig.value <= barConfig.lolo)\n            {\n                lowValue = barConfig.lolo;\n                lowColor = barConfig.lowColor;\n                valueColor = lowColor;\n            }\n            if ( (barConfig.lolo <= barConfig.value) && (barConfig.value < barConfig.low) )\n            {\n                lowValue = barConfig.value;\n                lowColor = barConfig.lowColor;\n                valueColor = lowColor;\n            }\n            if ( (barConfig.low  <= barConfig.value) && (barConfig.value < barConfig.high) )\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.value - barConfig.low; \n                lowColor = barConfig.mediumColor;\n                mediumColor = barConfig.mediumColor;\n                valueColor = mediumColor;\n        \n            }\n            if ( (barConfig.high <= barConfig.value) && (barConfig.value < barConfig.hihi) )\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.high - barConfig.low;\n                highValue = barConfig.value - barConfig.high;\n                lowColor = barConfig.highColor;\n                mediumColor = barConfig.highColor;\n                highColor = barConfig.highColor;\n                valueColor = highColor;\n            }\n            if ( barConfig.hihi <= barConfig.value)\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.high - barConfig.low; \n                highValue = barConfig.hihi - barConfig.high; \n                lowColor = barConfig.highColor;\n                mediumColor = barConfig.highColor;\n                highColor = barConfig.highColor;\n                valueColor = highColor;\n            }\n            \n            var lowBar = \n            {\n                x: ['', barConfig.label],\n                y: [ barConfig.low, lowValue],\n                type: 'bar',\n                showlegend: false,\n                marker:{color: [barConfig.lowColor, lowColor]},\n                width: [0.1, 1.0],\n            };\n            var mediumBar = \n            {\n                x: ['', barConfig.label],\n                y: [barConfig.high - barConfig.low, mediumValue],\n                type: 'bar',\n                showlegend: false,\n                marker:{color: [barConfig.mediumColor, mediumColor]},\n                width: [0.1, 1.0],\n            };\n            var highBar = \n            {\n                x: ['', barConfig.label],\n                y: [barConfig.hihi - barConfig.high, highValue],\n                type: 'bar',\n                showlegend: false,\n                marker:{color: [barConfig.highColor, highColor]},\n                width: [0.1, 1.0],\n            };\n            \n            var data = [lowBar, mediumBar, highBar];\n            \n            var layout = \n                {\n                    barmode: 'stack',\n                    plot_bgcolor:barConfig.backgroundColor,\n                    paper_bgcolor:barConfig.backgroundColor,\n                    margin: \n                        {\n                            t: 80, //top margin\n                            l: 80, //left margin\n                            r: 20, //right margin\n                            b: 60 //bottom margin\n                        },\n                    height: barConfig.height,\n                    width: barConfig.width,\n                    title: \n                        {\n                            text: barConfig.value.toString() + barConfig.unit,\n                            font: {color: valueColor, size:barConfig.textsize},\n                        },\n                    xaxis: \n                        {\n                            tickfont: {color:valueColor, size:barConfig.textsize}\n                        },\n                    yaxis: \n                        {\n                            range: [barConfig.lolo, barConfig.hihi],\n                            tickfont: {color:barConfig.labelColor, size:barConfig.textsize}\n                        },\n                };\n            \n            Plotly.newPlot(barConfig.htmlId, data, layout, {'displayModeBar': false});\n        }",
         "output": "str",
-        "x": 660,
+        "x": 580,
         "y": 160,
         "wires": [
             [
@@ -2850,7 +2857,7 @@
         "syntax": "mustache",
         "template": "// Horz Bar Widget\n        function setHorzBarWidget(barConfig)\n        {\n            var lowValue = 0;\n            var mediumValue = 0;\n            var highValue = 0;\n        \n            var lowColor = barConfig.backgroundColor;\n            var mediumColor = barConfig.backgroundColor;\n            var highColor = barConfig.backgroundColor;\n            var valueColor = barConfig.backgroundColor; \n            \n            if ( barConfig.value <= barConfig.lolo)\n            {\n                lowValue = barConfig.lolo;\n                lowColor = barConfig.lowColor;\n                valueColor = lowColor;\n            }\n            if ( (barConfig.lolo <= barConfig.value) && (barConfig.value < barConfig.low) )\n            {\n                lowValue = barConfig.value;\n                lowColor = barConfig.lowColor;\n                valueColor = lowColor;\n            }\n            if ( (barConfig.low  <= barConfig.value) && (barConfig.value < barConfig.high) )\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.value - barConfig.low; \n                lowColor = barConfig.mediumColor;\n                mediumColor = barConfig.mediumColor;\n                valueColor = mediumColor;\n        \n            }\n            if ( (barConfig.high <= barConfig.value) && (barConfig.value < barConfig.hihi) )\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.high - barConfig.low;\n                highValue = barConfig.value - barConfig.high;\n                lowColor = barConfig.highColor;\n                mediumColor = barConfig.highColor;\n                highColor = barConfig.highColor;\n                valueColor = highColor;\n            }\n            if ( barConfig.hihi <= barConfig.value)\n            {\n                lowValue = barConfig.low;\n                mediumValue = barConfig.high - barConfig.low; \n                highValue = barConfig.hihi - barConfig.high; \n                lowColor = barConfig.highColor;\n                mediumColor = barConfig.highColor;\n                highColor = barConfig.highColor;\n                valueColor = highColor;\n            }\n            \n            var lowBar = \n            {\n                y: ['', '-'],\n                x: [ barConfig.low, lowValue],\n                type: 'bar',\n                orientation: 'h',\n                showlegend: false,\n                marker:{color: [barConfig.lowColor, lowColor]},\n              width: [0.1, 1.0],\n            };\n            var mediumBar = \n            {\n                y: ['', '-'],\n                x: [barConfig.high - barConfig.low, mediumValue],\n                type: 'bar',\n                orientation: 'h',\n                showlegend: false,\n                marker:{color: [barConfig.mediumColor, mediumColor]},\n              width: [0.1, 1.0],\n            };\n            var highBar = \n            {\n                y: ['', '-'],\n                x: [barConfig.hihi - barConfig.high, highValue],\n                orientation: 'h',\n                type: 'bar',\n                showlegend: false,\n                marker:{color: [barConfig.highColor, highColor]},\n              width: [0.1, 1.0],\n            };\n            var layout = \n                {\n                    barmode: 'stack',\n                    plot_bgcolor:barConfig.backgroundColor,\n                    paper_bgcolor:barConfig.backgroundColor,\n                    margin: \n                        {\n                            t: 70, //top margin\n                            l: 20, //left margin\n                            r: 20, //right margin\n                            b: 70 //bottom margin\n                        },\n \n                    height: barConfig.height,\n                    title: \n                        {\n                            text: barConfig.title,\n                            font: {color: valueColor, size:barConfig.textsize},\n                        },\n                    yaxis: \n                        {\n                            tickfont: {color:valueColor, size:barConfig.textsize}\n                        },\n                    xaxis: \n                        {\n                            range: [barConfig.lolo, barConfig.hihi],\n                            tickfont: {color:barConfig.labelColor, size:barConfig.textsize},\n                            gridcolor       : barConfig.gridColor\n                        },\n                };\n           Plotly.newPlot(barConfig.htmlId, [lowBar, mediumBar, highBar], layout, {'displayModeBar': false});\n        }\n        \n        \n        \n        \n        \n    \n",
         "output": "str",
-        "x": 660,
+        "x": 580,
         "y": 200,
         "wires": [
             [
@@ -2981,11 +2988,6 @@
         "rules": [
             {
                 "t": "eq",
-                "v": "getArchive",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
                 "v": "sendSettingToMqtt",
                 "vt": "str"
             },
@@ -2997,67 +2999,15 @@
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 3,
+        "outputs": 2,
         "x": 530,
         "y": 1080,
         "wires": [
-            [
-                "5b2d117c.66e92"
-            ],
             [
                 "d7ff72cc.e5057"
             ],
             [
                 "66a788b4.e432a8"
-            ]
-        ]
-    },
-    {
-        "id": "5b2d117c.66e92",
-        "type": "function",
-        "z": "8475ab9.3d26058",
-        "name": "Setup Archive Query",
-        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id                         :   0, \n        deviceType                  :   1,  \n        name                        :   1,  \n        timeStamp                   :   1, \n        [msg.payload.device.prop]   : \n        {\n            $elemMatch  : \n            {   \n                attr    : msg.payload.device.attr \n            }\n        } \n    } \n};\nvar queryFilter = \n{\n    $and :\n    [\n        {\n            deviceType  : msg.payload.device.deviceType\n        },\n        {\n            name        : msg.payload.device.name\n        },\n        {\n            timeStamp :\n            {\n                $gte: msg.payload.device.startDate,\n                $lte: msg.payload.device.stopDate\n            }\n        }\n    ] \n    \n}\nvar newMsg = \n{\n    topic           : 'getArchiveValues',\n    userID          : msg.payload.userID,\n    payload         : [queryFilter, projectionFilter],\n    device          : msg.payload.device,\n};\nreturn newMsg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 700,
-        "y": 1060,
-        "wires": [
-            [
-                "26a9594.92d34a6"
-            ]
-        ]
-    },
-    {
-        "id": "26a9594.92d34a6",
-        "type": "mongodb3 in",
-        "z": "8475ab9.3d26058",
-        "service": "_ext_",
-        "configNode": "9cd5ff5e.caf86",
-        "name": "",
-        "collection": "archiver",
-        "operation": "find.toArray",
-        "x": 730,
-        "y": 1000,
-        "wires": [
-            [
-                "b3cb3dd5.655ff"
-            ]
-        ]
-    },
-    {
-        "id": "b3cb3dd5.655ff",
-        "type": "function",
-        "z": "8475ab9.3d26058",
-        "name": "Sort Archive Data",
-        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\n\nfunction sortByKey(arr, key) \n{\n    return arr.sort( function(a, b) \n        {\n            var x = a[key]; \n            var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        } );\n}\n\nvar numRecords = objectLength(msg.payload);\nif (numRecords < 1)\n{\n    return {\n        topic : msg.device.name,\n        payload:{\n            topic           : 'getArchiveValues',\n            payload         : {device: msg.device, trace:null},\n            userID          : msg.userID,\n        }\n    };\n}\nvar records = [];\nfor (var ii = 0; ii < numRecords; ++ii) records[ii] = msg.payload[ii]; \nsortByKey(records, 'timeStamp');\nvar trace = [];\nvar icount = 0;\nfor (var ii = 0; ii < numRecords; ++ii)\n{\n    if (records[ii].hasOwnProperty('readings') || records[ii].hasOwnProperty('settings'))\n    {\n        trace[icount] = {timeStamp: records[ii].timeStamp, value: records[ii][msg.device.prop][0].value};\n        ++icount;\n    }\n}\n\nreturn {\n    topic : msg.device.socket,\n    payload:{\n        topic           : 'getArchiveValues',\n        payload         : {device: msg.device, trace: trace},\n        userID          : msg.userID,\n    }\n};\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 690,
-        "y": 940,
-        "wires": [
-            [
-                "eb7d891e.a86ac8"
             ]
         ]
     },
@@ -3070,35 +3020,10 @@
         "outputs": 1,
         "noerr": 0,
         "x": 710,
-        "y": 1100,
+        "y": 1080,
         "wires": [
             [
                 "1f59a828.f68858"
-            ]
-        ]
-    },
-    {
-        "id": "eb7d891e.a86ac8",
-        "type": "switch",
-        "z": "8475ab9.3d26058",
-        "name": "",
-        "property": "topic",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "chillDetector",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 850,
-        "y": 940,
-        "wires": [
-            [
-                "c7477c59.bb2cf"
             ]
         ]
     },
@@ -3179,18 +3104,6 @@
         ],
         "x": 915,
         "y": 760,
-        "wires": []
-    },
-    {
-        "id": "c7477c59.bb2cf",
-        "type": "link out",
-        "z": "8475ab9.3d26058",
-        "name": "App Archiver Data 1",
-        "links": [
-            "c7035bb0.5180c8"
-        ],
-        "x": 935,
-        "y": 940,
         "wires": []
     },
     {
@@ -3290,7 +3203,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=001\" >Chill Detector 001</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=002\" >Chill Detector 002</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=003\" >Chill Detector 003</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiverSim?name=001\" >Shiver Simulator 001</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">BrainCool Controlbox 01</a> \n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=001\" >Chill Detector 001</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetectorArchive?name=001\" >Chill Detector Archive 001</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=002\" >Chill Detector 002</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetectorArchive?name=002\" >Chill Detector Archive 002</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=003\" >Chill Detector 003</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetectorArchive?name=003\" >Chill Detector Archive 003</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiverSim?name=001\" >Shiver Simulator 001</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">BrainCool Controlbox 01</a> \n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 510,
         "y": 40,
@@ -5153,6 +5066,253 @@
         "name": "",
         "x": 710,
         "y": 440,
+        "wires": []
+    },
+    {
+        "id": "df58c53e.2935a8",
+        "type": "http in",
+        "z": "8475ab9.3d26058",
+        "name": "/chillDetectorArchive",
+        "url": "/chillDetectorArchive",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 850,
+        "y": 120,
+        "wires": [
+            [
+                "ebe7c48e.97b1e8"
+            ]
+        ]
+    },
+    {
+        "id": "73fe9b25.101d14",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Title 1",
+        "field": "payload.title",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "Chill Detector Archive {{{payload.script.name}}}",
+        "output": "str",
+        "x": 1170,
+        "y": 120,
+        "wires": [
+            [
+                "3244ec65.97d1c4"
+            ]
+        ]
+    },
+    {
+        "id": "ebe7c48e.97b1e8",
+        "type": "function",
+        "z": "8475ab9.3d26058",
+        "name": "Get Name",
+        "func": "var deviceType = 'chillDetector';\nvar name = msg.payload.name;\nmsg.payload = {};\nmsg.payload['script'] = {};\nmsg.payload['script']['name'] = name;\nmsg.payload['script']['deviceType'] = 'chillDetector';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1030,
+        "y": 120,
+        "wires": [
+            [
+                "73fe9b25.101d14"
+            ]
+        ]
+    },
+    {
+        "id": "3244ec65.97d1c4",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Global Javascript",
+        "field": "payload.script.global",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// Global Javascript\n        var restfulDevice = \n        {\n            deviceType  : '{{{payload.script.deviceType}}}',\n            name        : '{{{payload.script.name}}}'\n        };\n        var device = null;\n\n\n        var archiveRequestList = [];\n        var archiveList = [];\n\n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            $('#waitForArchiveMessage').hide();\n\n        }\n        function onWebSocketOpen()\n        {\n            getArchive(2.0,4);\n        }\n        function onWebSocketClose()\n        {\n            wsConnectC();\n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'getArchiveValues':\n                    if (msg.userID == userID)\n                    {\n                        putArchiveValues(msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n",
+        "output": "str",
+        "x": 930,
+        "y": 160,
+        "wires": [
+            [
+                "3f2d5fda.d9106"
+            ]
+        ]
+    },
+    {
+        "id": "3f2d5fda.d9106",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "script.archive",
+        "field": "payload.script.archive",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "// Archive JavaScript\n        function getArchive(hours,button)\n        { \n            $('#waitForArchiveMessage').show();\n            for (var ii = 1; ii < 7; ++ii)\n            {\n                $('#archive' + ii.toString() + 'Button').attr(\"disabled\", true); \n                $('#archive' + ii.toString() + 'Button').css('color', 'var(--color5)'); \n                $('#archive' + ii.toString() + 'Button').css('background-color', 'var(--color1)'); \n            };\n            $('#archive' + button.toString() + 'Button').css('color', 'var(--color1)'); \n            $('#archive' + button.toString() + 'Button').css('background-color', 'var(--color5)'); \n\n            archiveRequestList = [];\n            archiveList = [];\n            var stopDate = new Date().getTime();\n            var startDate = stopDate - hours * 3600000;\n            archiveRequestList[0] = \n            {\n                deviceType : restfulDevice.deviceType, \n                name       : restfulDevice.name, \n                prop       : 'readings', \n                attr       : 'maxAmp',\n                startDate  : startDate, \n                stopDate   : stopDate,\n                socket     : restfulDevice.deviceType\n            };\n            getArchiveValues();\n        }\n        function getArchiveValues()\n        {\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getArchive',\n                    userID      : userID,\n                    device      : archiveRequestList[0],\n                 });\n            archiveRequestList.shift();\n            return;\n        }\n        function putArchiveValues(data)\n        {\n            archiveList.push(data);\n            if (archiveRequestList.length > 0)\n            {\n                getArchiveValues();\n            }\n            else\n            {\n                plotArchive();\n            }\n        }\n\n        function plotArchive()\n        {\n            $('#waitForArchiveMessage').hide();\n            $('#archive1Button').attr(\"disabled\", false); \n            $('#archive2Button').attr(\"disabled\", false); \n            $('#archive3Button').attr(\"disabled\", false); \n            $('#archive4Button').attr(\"disabled\", false); \n            $('#archive5Button').attr(\"disabled\", false); \n            $('#archive6Button').attr(\"disabled\", false); \n            var layout =\n            {\n                showlegend  : true,\n                legend      : { x: 0, y: 1.15},\n                height      : '500',\n                width       : '',\n                xaxis       :\n                {\n                    title: 'Hours since ' + new Date(archiveList[0].device.stopDate).toLocaleString(),\n                },\n                yaxis:\n                {\n                    title           : 'Pitch Amplitude (um)',\n                    titlefont       : {color: '#557a95'},\n                    tickfont        : {color: '#557a95'},\n                    gridcolor       : '#beceda',\n                    zerolinecolor   : '#beceda',\n                    linecolor       : '#beceda'\n\n                },\n                margin: \n                    {\n                        t: 30, //top margin\n    //                    l: 0, //left margin\n    //                    r: 0, //right margin\n    //                    b: 20 //bottom margin\n                    },\n            };\n            var trace1 = \n            {\n                x: [],\n                y: [],\n                name: 'Pitch Amplitude (um)',\n                yaxis: 'y1',\n                type: 'scatter',\n                mode: 'lines',\n                line: {color: '#557a95'}\n        \n            };\n            for (var ii = 0; ii < archiveList[0].trace.length; ++ii)\n            {\n                var x = (archiveList[0].trace[ii].timeStamp - archiveList[0].device.stopDate) / 3600000.0;\n                trace1.x[ii] = x;\n                trace1.y[ii] = archiveList[0].trace[ii].value ;\n            }\n\n            Plotly.newPlot('archiveChart', [trace1], layout);\n        }\n",
+        "output": "str",
+        "x": 910,
+        "y": 200,
+        "wires": [
+            [
+                "73b3235a.83fb8c"
+            ]
+        ]
+    },
+    {
+        "id": "73b3235a.83fb8c",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "JavaScript",
+        "field": "payload.javascript",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "{{{payload.script.archive}}}\n{{{payload.script.global}}}\n",
+        "output": "str",
+        "x": 910,
+        "y": 240,
+        "wires": [
+            [
+                "c9b7bce3.d249b"
+            ]
+        ]
+    },
+    {
+        "id": "c9b7bce3.d249b",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "html.archive",
+        "field": "payload.html.archive",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!-- Archive HTML -->\n                <div class='card'>\n                    <p class='card-title'>Archive</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive1Button\" onclick=\"getArchive(0.25,1)\" >0.25</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive2Button\" onclick=\"getArchive(0.50,2)\" >0.5</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive3Button\" onclick=\"getArchive(1.00,3)\" >1</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive4Button\" onclick=\"getArchive(2.0,4)\" >2</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive5Button\" onclick=\"getArchive(4.0,5)\" >4</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive6Button\" onclick=\"getArchive(8.0,6)\" >8</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <span class='big-text' >Hours</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' id=\"waitForArchiveMessage\">\n                            <div class='col-md-12'>\n                                <h1 style='color:white;'>Retrieving Archive Data...</h1>\n                            </div>\n                        </div>\n                        <div class='row vert-pad'>\n                            <div class='col-md-12'>\n                                <div id=\"archiveChart\" width=\"100%\" ></div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
+        "output": "str",
+        "x": 910,
+        "y": 280,
+        "wires": [
+            [
+                "28791bf9.298184"
+            ]
+        ]
+    },
+    {
+        "id": "32766860.e3b698",
+        "type": "subflow:8341090a.df9758",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "x": 1190,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5c81eb10.9a2514",
+        "type": "function",
+        "z": "8475ab9.3d26058",
+        "name": "Sort Archive Data",
+        "func": "function objectLength( object ) {\n    var length = 0;\n    for( var key in object ) {\n        if( object.hasOwnProperty(key) ) {\n            ++length;\n        }\n    }\n    return length;\n}\n\nfunction sortByKey(arr, key) \n{\n    return arr.sort( function(a, b) \n        {\n            var x = a[key]; \n            var y = b[key];\n            return ((x < y) ? -1 : ((x > y) ? 1 : 0));\n        } );\n}\n\nvar numRecords = objectLength(msg.payload);\nif (numRecords < 1)\n{\n    return {\n        topic : msg.device.name,\n        payload:{\n            topic           : 'getArchiveValues',\n            payload         : {device: msg.device, trace:null},\n            userID          : msg.userID,\n        }\n    };\n}\nvar records = [];\nfor (var ii = 0; ii < numRecords; ++ii) records[ii] = msg.payload[ii]; \nsortByKey(records, 'timeStamp');\nvar trace = [];\nvar icount = 0;\nfor (var ii = 0; ii < numRecords; ++ii)\n{\n    if (records[ii].hasOwnProperty('readings') || records[ii].hasOwnProperty('settings'))\n    {\n        trace[icount] = {timeStamp: records[ii].timeStamp, value: records[ii][msg.device.prop][0].value};\n        ++icount;\n    }\n}\n\nreturn {\n    topic : msg.device.socket,\n    payload:{\n        topic           : 'getArchiveValues',\n        payload         : {device: msg.device, trace: trace},\n        userID          : msg.userID,\n    }\n};\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 1300,
+        "wires": [
+            [
+                "d25cbbe6.ed41a8"
+            ]
+        ]
+    },
+    {
+        "id": "b86b5fb5.ca53b",
+        "type": "mongodb3 in",
+        "z": "8475ab9.3d26058",
+        "service": "_ext_",
+        "configNode": "9cd5ff5e.caf86",
+        "name": "",
+        "collection": "archiver",
+        "operation": "find.toArray",
+        "x": 590,
+        "y": 1360,
+        "wires": [
+            [
+                "5c81eb10.9a2514"
+            ]
+        ]
+    },
+    {
+        "id": "61b4244a.0fef2c",
+        "type": "function",
+        "z": "8475ab9.3d26058",
+        "name": "Setup Archive Query",
+        "func": "var projectionFilter =  \n{\n    projection:\n    {\n        _id                         :   0, \n        deviceType                  :   1,  \n        name                        :   1,  \n        timeStamp                   :   1, \n        [msg.payload.device.prop]   : \n        {\n            $elemMatch  : \n            {   \n                attr    : msg.payload.device.attr \n            }\n        } \n    } \n};\nvar queryFilter = \n{\n    $and :\n    [\n        {\n            deviceType  : msg.payload.device.deviceType\n        },\n        {\n            name        : msg.payload.device.name\n        },\n        {\n            timeStamp :\n            {\n                $gte: msg.payload.device.startDate,\n                $lte: msg.payload.device.stopDate\n            }\n        }\n    ] \n    \n}\nvar newMsg = \n{\n    topic           : 'getArchiveValues',\n    userID          : msg.payload.userID,\n    payload         : [queryFilter, projectionFilter],\n    device          : msg.payload.device,\n};\nreturn newMsg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 560,
+        "y": 1420,
+        "wires": [
+            [
+                "b86b5fb5.ca53b"
+            ]
+        ]
+    },
+    {
+        "id": "28791bf9.298184",
+        "type": "template",
+        "z": "8475ab9.3d26058",
+        "name": "Body",
+        "field": "payload.body",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "    <div width=\"100%\">\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.archive}}}\n            </div>\n        </div>\n    </div>\n",
+        "output": "str",
+        "x": 1050,
+        "y": 280,
+        "wires": [
+            [
+                "32766860.e3b698"
+            ]
+        ]
+    },
+    {
+        "id": "a0761c8.cdcbae",
+        "type": "websocket in",
+        "z": "8475ab9.3d26058",
+        "name": "/chillDetectorArchive/websocket",
+        "server": "b4665aaa.046948",
+        "client": "",
+        "x": 190,
+        "y": 1420,
+        "wires": [
+            [
+                "c4aa590f.2851d8"
+            ]
+        ]
+    },
+    {
+        "id": "c4aa590f.2851d8",
+        "type": "json",
+        "z": "8475ab9.3d26058",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 390,
+        "y": 1420,
+        "wires": [
+            [
+                "61b4244a.0fef2c"
+            ]
+        ]
+    },
+    {
+        "id": "d25cbbe6.ed41a8",
+        "type": "websocket out",
+        "z": "8475ab9.3d26058",
+        "name": "/chillDetectorArchive/websocket",
+        "server": "b4665aaa.046948",
+        "client": "",
+        "x": 970,
+        "y": 1300,
         "wires": []
     }
 ]
