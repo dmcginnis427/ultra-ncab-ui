@@ -453,7 +453,7 @@
         "id": "e6c7842e.bc4f98",
         "type": "websocket-listener",
         "z": "",
-        "path": "/chillDetector/websocket",
+        "path": "/ultra-ncab/websocket",
         "wholemsg": "false"
     },
     {
@@ -1266,8 +1266,8 @@
         "id": "acb98a7f.ed2778",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Create chillDetector Database entry",
-        "func": "var device = \n{\n    name        : '003',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
+        "name": "Create ultra-ncab Database entry",
+        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'ultra-ncab',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'demoEntry',payload:device};",
         "outputs": 1,
         "noerr": 0,
         "x": 360,
@@ -1569,11 +1569,11 @@
         "id": "b6eb6c47.1e51",
         "type": "function",
         "z": "e17f7487.2a78e8",
-        "name": "Update chillDetector Database entry with MQTT",
-        "func": "var device = \n{\n    name        : '002',\n    deviceType  : 'chillDetector',\n    arcPeriod   : 20000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'BrainCool/chillDetector/002/setting', payload:device};",
+        "name": "Update ultra-ncab Database entry with MQTT",
+        "func": "var device = \n{\n    name        : '001',\n    deviceType  : 'ultra-ncab',\n    arcPeriod   : 60000,\n    timeStamp   : 0,\n    lastArchive : 0,\n    readings    : \n    [ \n        { attr : 'maxAmp',      type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10.0,   high : 800.0,      hihi : 1000.0  }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxAmpMode',  type : 'scalar',    value : 0,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,    low : 0.5,    high : 85.0,       hihi : 88.0    }, notify:{name:'', number:'', time:0} } },\n        { attr : 'avgPower',    type : 'scalar',    value : 0,  unit : 'um',    alarm : {value : 0, limits: {lolo : 0.0,    low : 10,     high : 1000,       hihi : 100     }, notify:{name:'', number:'', time:0} } },\n        { attr : 'linkQuality', type : 'scalar',    value : 0,  unit : '/70',   alarm : {value : 0, limits: {lolo :  30,    low : 40,     high : 71,         hihi : 80      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'signalLevel', type : 'scalar',    value : 0,  unit : 'dBm',   alarm : {value : 0, limits: {lolo : -70,    low : -60,    high : 0,          hihi : 30      }, notify:{name:'', number:'', time:0} } },\n        { attr : 'spectrum',    type : 'vector',    value : [[], []]   },\n        { attr : 'timeTrace',   type : 'vector',    value : [[], []]   }\n    ],\n    settings    :\n    [ \n        { attr : 'minDisplayMode',   type : 'scalar',    value : 0.5, unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'maxDisplayMode',   type : 'scalar',    value : 80,  unit : 'Hz',    alarm : {value : 0, limits: {lolo : 0.3,      low : 0.6,     high : 85,      hihi : 88   }, notify:{name:'', number:'', time:0} } },\n        { attr : 'averages',         type : 'scalar',    value : 10,  unit : 'unit',  alarm : {value : 0, limits: {lolo : 1,        low : 1,       high : 20,      hihi : 100  }, notify:{name:'', number:'', time:0} } }\n    ]\n};\nreturn {topic:'blinky-lite/ultra-ncab/001/setting', payload:device};",
         "outputs": 1,
         "noerr": 0,
-        "x": 400,
+        "x": 390,
         "y": 1040,
         "wires": [
             [
@@ -1879,7 +1879,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- navBar -->\n    <div class=\"jumbotron\" width=\"100%\">\n        <table width=\"100%\">\n            <tr>\n                <td style=\"text-align:left; vertical-align:middle;\" width=\"20%\">\n                    <a href='/'><img src=\"/img/home.png\" height=\"75px\"/></a>\n                </td>\n                <td width=\"60%\" style=\"text-align:center; vertical-align:middle;\">\n                    <h1 class=\"jumbotron-title big-text bold-text\">{{{payload.title}}}</h1>\n                </td>\n                <td style=\"text-align:right; vertical-align:middle;\"  width=\"20%\">\n                    <a href='https://www.braincool.se/en/home-2/' target='_blank'>\n                        <img src=\"/img/brainCoolLogo.png\" height=\"40px\"/>\n                    </a>                \n                </td>\n            </tr>\n        </table>\n    </div>\n",
+        "template": "<!-- navBar -->\n    <div class=\"jumbotron\" width=\"100%\">\n        <table width=\"100%\">\n            <tr>\n                <td style=\"text-align:left; vertical-align:middle;\" width=\"20%\">\n                    <a href='/'><img src=\"/img/home.png\" height=\"75px\"/></a>\n                </td>\n                <td width=\"60%\" style=\"text-align:center; vertical-align:middle;\">\n                    <h1 class=\"jumbotron-title big-text bold-text\">{{{payload.title}}}</h1>\n                </td>\n                <td style=\"text-align:right; vertical-align:middle;\"  width=\"20%\">\n                    <a href='https://www.blinky-lite.io/' target='_blank'>\n                        <img src=\"/img/BlinkyLogo.gif\" height=\"75px\"/>\n                    </a>                \n                </td>\n            </tr>\n        </table>\n    </div>\n",
         "output": "str",
         "x": 200,
         "y": 80,
@@ -2689,12 +2689,12 @@
         "id": "29aa5410.d24f1c",
         "type": "http in",
         "z": "8475ab9.3d26058",
-        "name": "/chillDetector",
-        "url": "/chillDetector",
+        "name": "/ultra-ncab",
+        "url": "/ultra-ncab",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
+        "x": 120,
         "y": 120,
         "wires": [
             [
@@ -2711,7 +2711,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "Chill Detector {{{payload.script.name}}}",
+        "template": "Ultra Ncab {{{payload.script.name}}}",
         "output": "str",
         "x": 430,
         "y": 120,
@@ -2725,10 +2725,10 @@
         "id": "aa54395e.1b6888",
         "type": "websocket out",
         "z": "8475ab9.3d26058",
-        "name": "chillDetector/websocket",
+        "name": "ultra-ncab/websocket",
         "server": "e6c7842e.bc4f98",
         "client": "",
-        "x": 1230,
+        "x": 1220,
         "y": 760,
         "wires": []
     },
@@ -2885,7 +2885,7 @@
         "id": "9047f741.783b08",
         "type": "websocket in",
         "z": "8475ab9.3d26058",
-        "name": "chillDetector/websocket",
+        "name": "ultra-ncab/websocket",
         "server": "e6c7842e.bc4f98",
         "client": "",
         "x": 160,
@@ -2939,7 +2939,7 @@
         "rules": [
             {
                 "t": "eq",
-                "v": "chillDetector",
+                "v": "ultra-ncab",
                 "vt": "str"
             },
             {
@@ -3203,7 +3203,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=001\" >Chill Detector 001</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetectorArchive?name=001\" >Chill Detector Archive 001</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=002\" >Chill Detector 002</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetectorArchive?name=002\" >Chill Detector Archive 002</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetector?name=003\" >Chill Detector 003</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/chillDetectorArchive?name=003\" >Chill Detector Archive 003</a>\n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiverSim?name=001\" >Shiver Simulator 001</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">BrainCool Controlbox 01</a> \n            </div>\n        </div>\n    </div>",
+        "template": "<!-- Body HTML -->\n    <div class='container' width=\"100%\">\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/ultra-ncab?name=001\" >Ultra Ncab 001</a>\n            </div>\n        </div>\n       <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/shiverSim?name=001\" >Shiver Simulator 001</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <a class=\"btn jumbotron-button btn-block big-text bold-text\" width='80%' href=\"/core\" id=\"blinky-lite-core\">Blinky-Lite Controlbox 01</a> \n            </div>\n        </div>\n        <div class='row vert-pad' >\n            <div class='col-md-12' align='center' >\n                <iframe src=\"https://shiftr.io/Blinky-Lite/ultra-ncab/embed?zoom=1\" width=\"700\" height=\"500\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\n                <p>Ultra Ncab MQTT Broker</p>\n            </div>\n        </div>\n    </div>",
         "output": "str",
         "x": 510,
         "y": 40,
@@ -3222,7 +3222,7 @@
         "fieldType": "msg",
         "format": "html",
         "syntax": "mustache",
-        "template": "Chill Detector",
+        "template": "Ultra Ncab",
         "output": "str",
         "x": 390,
         "y": 40,
@@ -5069,143 +5069,6 @@
         "wires": []
     },
     {
-        "id": "df58c53e.2935a8",
-        "type": "http in",
-        "z": "8475ab9.3d26058",
-        "name": "/chillDetectorArchive",
-        "url": "/chillDetectorArchive",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 850,
-        "y": 120,
-        "wires": [
-            [
-                "ebe7c48e.97b1e8"
-            ]
-        ]
-    },
-    {
-        "id": "73fe9b25.101d14",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Title 1",
-        "field": "payload.title",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "Chill Detector Archive {{{payload.script.name}}}",
-        "output": "str",
-        "x": 1170,
-        "y": 120,
-        "wires": [
-            [
-                "3244ec65.97d1c4"
-            ]
-        ]
-    },
-    {
-        "id": "ebe7c48e.97b1e8",
-        "type": "function",
-        "z": "8475ab9.3d26058",
-        "name": "Get Name",
-        "func": "var deviceType = 'chillDetector';\nvar name = msg.payload.name;\nmsg.payload = {};\nmsg.payload['script'] = {};\nmsg.payload['script']['name'] = name;\nmsg.payload['script']['deviceType'] = 'chillDetector';\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1030,
-        "y": 120,
-        "wires": [
-            [
-                "73fe9b25.101d14"
-            ]
-        ]
-    },
-    {
-        "id": "3244ec65.97d1c4",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Global Javascript",
-        "field": "payload.script.global",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "// Global Javascript\n        var restfulDevice = \n        {\n            deviceType  : '{{{payload.script.deviceType}}}',\n            name        : '{{{payload.script.name}}}'\n        };\n        var device = null;\n\n\n        var archiveRequestList = [];\n        var archiveList = [];\n\n        useWebSockets(true);\n        function onDocumentReady()\n        {\n            $('#waitForArchiveMessage').hide();\n\n        }\n        function onWebSocketOpen()\n        {\n            getArchive(2.0,4);\n        }\n        function onWebSocketClose()\n        {\n            wsConnectC();\n        }\n        function onWebSocketMessage(msg)\n        {\n            switch(msg.topic)\n            {\n                case 'getArchiveValues':\n                    if (msg.userID == userID)\n                    {\n                        putArchiveValues(msg.payload);\n                    }\n                    break;\n                default:\n                // code block\n            }\n        }\n\n        function getAttrObject(propsName, attrName)\n        {\n            var props = device[propsName];\n            var attr = props.find(attr => attr.attr === attrName);\n            return attr;\n        }\n",
-        "output": "str",
-        "x": 930,
-        "y": 160,
-        "wires": [
-            [
-                "3f2d5fda.d9106"
-            ]
-        ]
-    },
-    {
-        "id": "3f2d5fda.d9106",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "script.archive",
-        "field": "payload.script.archive",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "// Archive JavaScript\n        function getArchive(hours,button)\n        { \n            $('#waitForArchiveMessage').show();\n            for (var ii = 1; ii < 7; ++ii)\n            {\n                $('#archive' + ii.toString() + 'Button').attr(\"disabled\", true); \n                $('#archive' + ii.toString() + 'Button').css('color', 'var(--color5)'); \n                $('#archive' + ii.toString() + 'Button').css('background-color', 'var(--color1)'); \n            };\n            $('#archive' + button.toString() + 'Button').css('color', 'var(--color1)'); \n            $('#archive' + button.toString() + 'Button').css('background-color', 'var(--color5)'); \n\n            archiveRequestList = [];\n            archiveList = [];\n            var stopDate = new Date().getTime();\n            var startDate = stopDate - hours * 3600000;\n            archiveRequestList[0] = \n            {\n                deviceType : restfulDevice.deviceType, \n                name       : restfulDevice.name, \n                prop       : 'readings', \n                attr       : 'maxAmp',\n                startDate  : startDate, \n                stopDate   : stopDate,\n                socket     : restfulDevice.deviceType\n            };\n            getArchiveValues();\n        }\n        function getArchiveValues()\n        {\n            sendWebSocketMessageObject(\n                {\n                    topic       : 'getArchive',\n                    userID      : userID,\n                    device      : archiveRequestList[0],\n                 });\n            archiveRequestList.shift();\n            return;\n        }\n        function putArchiveValues(data)\n        {\n            archiveList.push(data);\n            if (archiveRequestList.length > 0)\n            {\n                getArchiveValues();\n            }\n            else\n            {\n                plotArchive();\n            }\n        }\n\n        function plotArchive()\n        {\n            $('#waitForArchiveMessage').hide();\n            $('#archive1Button').attr(\"disabled\", false); \n            $('#archive2Button').attr(\"disabled\", false); \n            $('#archive3Button').attr(\"disabled\", false); \n            $('#archive4Button').attr(\"disabled\", false); \n            $('#archive5Button').attr(\"disabled\", false); \n            $('#archive6Button').attr(\"disabled\", false); \n            var layout =\n            {\n                showlegend  : true,\n                legend      : { x: 0, y: 1.15},\n                height      : '500',\n                width       : '',\n                xaxis       :\n                {\n                    title: 'Hours since ' + new Date(archiveList[0].device.stopDate).toLocaleString(),\n                },\n                yaxis:\n                {\n                    title           : 'Pitch Amplitude (um)',\n                    titlefont       : {color: '#557a95'},\n                    tickfont        : {color: '#557a95'},\n                    gridcolor       : '#beceda',\n                    zerolinecolor   : '#beceda',\n                    linecolor       : '#beceda'\n\n                },\n                margin: \n                    {\n                        t: 30, //top margin\n    //                    l: 0, //left margin\n    //                    r: 0, //right margin\n    //                    b: 20 //bottom margin\n                    },\n            };\n            var trace1 = \n            {\n                x: [],\n                y: [],\n                name: 'Pitch Amplitude (um)',\n                yaxis: 'y1',\n                type: 'scatter',\n                mode: 'lines',\n                line: {color: '#557a95'}\n        \n            };\n            for (var ii = 0; ii < archiveList[0].trace.length; ++ii)\n            {\n                var x = (archiveList[0].trace[ii].timeStamp - archiveList[0].device.stopDate) / 3600000.0;\n                trace1.x[ii] = x;\n                trace1.y[ii] = archiveList[0].trace[ii].value ;\n            }\n\n            Plotly.newPlot('archiveChart', [trace1], layout);\n        }\n",
-        "output": "str",
-        "x": 910,
-        "y": 200,
-        "wires": [
-            [
-                "73b3235a.83fb8c"
-            ]
-        ]
-    },
-    {
-        "id": "73b3235a.83fb8c",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "JavaScript",
-        "field": "payload.javascript",
-        "fieldType": "msg",
-        "format": "javascript",
-        "syntax": "mustache",
-        "template": "{{{payload.script.archive}}}\n{{{payload.script.global}}}\n",
-        "output": "str",
-        "x": 910,
-        "y": 240,
-        "wires": [
-            [
-                "c9b7bce3.d249b"
-            ]
-        ]
-    },
-    {
-        "id": "c9b7bce3.d249b",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "html.archive",
-        "field": "payload.html.archive",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "<!-- Archive HTML -->\n                <div class='card'>\n                    <p class='card-title'>Archive</p>\n                    <div class='card-body' align=\"center\">\n                        <div class='row' >\n                            <table width='100%'>\n                                <tr>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive1Button\" onclick=\"getArchive(0.25,1)\" >0.25</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive2Button\" onclick=\"getArchive(0.50,2)\" >0.5</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive3Button\" onclick=\"getArchive(1.00,3)\" >1</button>\n                                    </td>\n                                    <td width='10%'  align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive4Button\" onclick=\"getArchive(2.0,4)\" >2</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive5Button\" onclick=\"getArchive(4.0,5)\" >4</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <button class='btn btn-block big-text' style='background-color:var(--color1);color:var(--color5)' id=\"archive6Button\" onclick=\"getArchive(8.0,6)\" >8</button>\n                                    </td>\n                                    <td width='10%' align='center'>\n                                        <span class='big-text' >Hours</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div class='row' id=\"waitForArchiveMessage\">\n                            <div class='col-md-12'>\n                                <h1 style='color:white;'>Retrieving Archive Data...</h1>\n                            </div>\n                        </div>\n                        <div class='row vert-pad'>\n                            <div class='col-md-12'>\n                                <div id=\"archiveChart\" width=\"100%\" ></div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n",
-        "output": "str",
-        "x": 910,
-        "y": 280,
-        "wires": [
-            [
-                "28791bf9.298184"
-            ]
-        ]
-    },
-    {
-        "id": "32766860.e3b698",
-        "type": "subflow:8341090a.df9758",
-        "z": "8475ab9.3d26058",
-        "name": "",
-        "x": 1190,
-        "y": 280,
-        "wires": []
-    },
-    {
         "id": "5c81eb10.9a2514",
         "type": "function",
         "z": "8475ab9.3d26058",
@@ -5251,25 +5114,6 @@
         "wires": [
             [
                 "b86b5fb5.ca53b"
-            ]
-        ]
-    },
-    {
-        "id": "28791bf9.298184",
-        "type": "template",
-        "z": "8475ab9.3d26058",
-        "name": "Body",
-        "field": "payload.body",
-        "fieldType": "msg",
-        "format": "html",
-        "syntax": "mustache",
-        "template": "    <div width=\"100%\">\n        <div class='row' style='padding-bottom: 25px;'>\n            <div class='col-md-12'>\n{{{payload.html.archive}}}\n            </div>\n        </div>\n    </div>\n",
-        "output": "str",
-        "x": 1050,
-        "y": 280,
-        "wires": [
-            [
-                "32766860.e3b698"
             ]
         ]
     },
